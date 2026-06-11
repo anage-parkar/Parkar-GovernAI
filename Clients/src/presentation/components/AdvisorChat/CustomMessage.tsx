@@ -23,7 +23,7 @@ const formatTimestamp = (date: Date): string => {
   });
 };
 
-// Create markdown styles with theme. Tables follow the VerifyWise list
+// Create markdown styles with theme. Tables follow the Parkar GovernAI list
 // conventions (thin borders, subtle header fill, 13/12px type) so an
 // inline GFM table from the LLM reads like a native VW table rather
 // than raw browser defaults.

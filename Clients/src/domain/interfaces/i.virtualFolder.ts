@@ -123,7 +123,7 @@ export type FolderIcon = (typeof FOLDER_ICONS)[number];
  * Predefined folder colors (matching design system)
  */
 export const FOLDER_COLORS = [
-  "#13715B", // Green (primary)
+  "#1B3A6B", // Green (primary)
   "#3B82F6", // Blue
   "#EF4444", // Red
   "#F59E0B", // Amber

@@ -326,7 +326,7 @@ export default function SettingsPage() {
               </Typography>
               <Typography
                 component="a"
-                href="https://github.com/settings/tokens/new?description=VerifyWise%20Scanner&scopes=repo"
+                href="https://github.com/settings/tokens/new?description=Parkar GovernAI%20Scanner&scopes=repo"
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
@@ -354,8 +354,8 @@ export default function SettingsPage() {
                   gap: 1,
                   p: "8px",
                   borderRadius: "4px",
-                  backgroundColor: "rgba(19, 113, 91, 0.08)",
-                  border: "1px solid rgba(19, 113, 91, 0.2)",
+                  backgroundColor: "rgba(27, 58, 107, 0.08)",
+                  border: "1px solid rgba(27, 58, 107, 0.2)",
                 }}
               >
                 <Box sx={{ flex: 1 }}>
@@ -400,7 +400,7 @@ export default function SettingsPage() {
 
             <Field
               label="Token name (optional)"
-              placeholder="e.g., VerifyWise Scanner Token"
+              placeholder="e.g., Parkar GovernAI Scanner Token"
               value={tokenNameInput}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setTokenNameInput(e.target.value)

@@ -404,7 +404,7 @@ const LLMKeys = () => {
               LLM Keys
             </Typography>
             <Typography sx={{ fontSize: 13, color: "#666666", mt: 0.5, mb: 3 }}>
-              Manage your LLM keys for access to VerifyWise Advisor.
+              Manage your LLM keys for access to Parkar GovernAI Advisor.
             </Typography>
           </Box>
           {keys.length > 0 && (
@@ -456,7 +456,7 @@ const LLMKeys = () => {
               No LLM keys yet
             </Typography>
             <Typography sx={{ fontSize: 13, color: "#666666", mb: 3 }}>
-              Add your first LLM API key to enable access to your VerifyWise Advisor.
+              Add your first LLM API key to enable access to your Parkar GovernAI Advisor.
             </Typography>
             <CustomizableButton
               text="Add API key"
@@ -488,7 +488,7 @@ const LLMKeys = () => {
                     transition: "all 0.3s ease-in-out",
                     cursor: "default",
                     boxShadow:
-                      hoveredKeyId === key.id ? "0 2px 8px rgba(19, 113, 91, 0.08)" : "none",
+                      hoveredKeyId === key.id ? "0 2px 8px rgba(27, 58, 107, 0.08)" : "none",
                     opacity: deletingKeyId === key.id ? 0 : 1,
                     transform: deletingKeyId === key.id ? "translateY(-20px)" : "translateY(0)",
                   }}
@@ -598,7 +598,7 @@ const LLMKeys = () => {
         title={isCreateModalOpen ? "Add API key" : "Edit API key"}
         description={
           isCreateModalOpen
-            ? "Connect your LLM provider to enable VerifyWise Advisor."
+            ? "Connect your LLM provider to enable Parkar GovernAI Advisor."
             : "Update your API key details below."
         }
         onSubmit={isCreateModalOpen ? handleCreateKey : handleEditKey}

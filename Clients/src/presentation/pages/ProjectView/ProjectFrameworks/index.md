@@ -33,7 +33,7 @@ This component doesn't accept any props as it manages its own state internally.
 The component uses Material-UI (MUI) for styling and follows a consistent design system:
 
 - Colors:
-  - Primary: #13715B (Green)
+  - Primary: #1B3A6B (Green)
   - Background: #F5F6F6 (Light Gray)
   - Border: #BFC9C5
   - Text: #232B3A

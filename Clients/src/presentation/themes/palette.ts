@@ -1,5 +1,5 @@
 /**
- * VerifyWise Unified Color Palette
+ * Parkar GovernAI Unified Color Palette
  *
  * Single source of truth for ALL colors across every module:
  * Governance, LLM Evals, AI Detection, Shadow AI, Model Inventory.
@@ -22,7 +22,7 @@
 // ---------------------------------------------------------------------------
 
 export const status = {
-  success: { bg: "#E6F4EA", text: "#138A5E", border: "#C8E6D0" },
+  success: { bg: "#E6F4EA", text: "#138A5E", border: "#C2CFE5" },
   error: { bg: "#FFD6D6", text: "#D32F2F", border: "#F5B8B8" },
   warning: { bg: "#FFF8E1", text: "#795548", border: "#F5E6B8" },
   info: { bg: "#E3F2FD", text: "#1565C0", border: "#BBDEFB" },
@@ -38,7 +38,7 @@ export const risk = {
   critical: { bg: "#FFD6D6", text: "#D32F2F", border: "#F5B8B8" },
   high: { bg: "#FFE5D0", text: "#E64A19", border: "#F5CDB0" },
   medium: { bg: "#FFF8E1", text: "#795548", border: "#F5E6B8" },
-  low: { bg: "#E6F4EA", text: "#138A5E", border: "#C8E6D0" },
+  low: { bg: "#E6F4EA", text: "#138A5E", border: "#C2CFE5" },
   veryLow: { bg: "#E0F7FA", text: "#00695C", border: "#B2EBF2" },
 } as const;
 
@@ -60,7 +60,7 @@ export const severity = {
 // ---------------------------------------------------------------------------
 
 export const accent = {
-  primary: { bg: "#E6F0EC", text: "#13715B", border: "#C2DDD3" },
+  primary: { bg: "#E7ECF5", text: "#1B3A6B", border: "#C2CFE5" },
   indigo: { bg: "#E8EAF6", text: "#3949AB", border: "#C5CAE9" },
   purple: { bg: "#EDE7F6", text: "#5E35B1", border: "#D1C4E9" },
   orange: { bg: "#FFF3E0", text: "#E65100", border: "#FFE0B2" },
@@ -77,7 +77,7 @@ export const accent = {
 // ---------------------------------------------------------------------------
 
 export const chart = [
-  "#5C8A7D", // muted teal-green (primary family)
+  "#5C70A0", // muted teal-green (primary family)
   "#7986CB", // muted indigo
   "#A1887F", // muted brown
   "#9575CD", // muted purple
@@ -111,10 +111,10 @@ export const background = {
   main: "#FFFFFF",
   alt: "#FCFCFD",
   modal: "#FCFCFD",
-  fill: "#E6F0EC",
+  fill: "#E7ECF5",
   accent: "#f9fafb",
   hover: "#F3F4F6",
-  selected: "#E6F0EC",
+  selected: "#E7ECF5",
   surface: "#f5f5f5",
   gradientStop: "#f8fafc",
 } as const;
@@ -133,10 +133,10 @@ export const border = {
 // ---------------------------------------------------------------------------
 
 export const brand = {
-  primary: "#13715B",
-  primaryHover: "#0F5A47",
-  primaryLight: "#E6F0EC",
-  primaryDark: "#10614d",
+  primary: "#1B3A6B",
+  primaryHover: "#152E54",
+  primaryLight: "#E7ECF5",
+  primaryDark: "#112647",
 } as const;
 
 // ---------------------------------------------------------------------------

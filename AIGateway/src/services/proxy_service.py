@@ -254,7 +254,7 @@ async def log_spend(
                     VALUES
                         (:org_id, :endpoint_id, :provider, :model,
                          :prompt_tokens, :completion_tokens, :total_tokens,
-                         :cost_usd, :latency_ms, :status_code, :metadata::jsonb, :vk_id)
+                         :cost_usd, :latency_ms, :status_code, CAST(:metadata AS jsonb), :vk_id)
                 """),
                 {
                     "org_id": organization_id,

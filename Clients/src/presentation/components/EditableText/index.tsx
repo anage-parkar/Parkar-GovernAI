@@ -144,7 +144,7 @@ export default function EditableText({
             "color": palette.text.disabled,
             "&:hover": {
               color: palette.brand.primary,
-              backgroundColor: "rgba(19, 113, 91, 0.1)",
+              backgroundColor: "rgba(27, 58, 107, 0.1)",
             },
           }}
         >

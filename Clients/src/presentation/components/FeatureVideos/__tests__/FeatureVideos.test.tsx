@@ -6,9 +6,9 @@ import type { FramePlayerState } from "../player/useFramePlayer";
 
 describe("TitleScene", () => {
   it("renders without crashing", () => {
-    renderWithProviders(<TitleScene frame={0} title="Welcome" subtitle="To VerifyWise" />);
+    renderWithProviders(<TitleScene frame={0} title="Welcome" subtitle="To Parkar GovernAI" />);
     expect(screen.getByText("Welcome")).toBeInTheDocument();
-    expect(screen.getByText("To VerifyWise")).toBeInTheDocument();
+    expect(screen.getByText("To Parkar GovernAI")).toBeInTheDocument();
   });
 
   it("renders with a later frame value", () => {

@@ -388,7 +388,7 @@ const Login: React.FC = () => {
                   flex: 1,
                 }}
               >
-                Welcome to VerifyWise! To get started, log in with your superadmin credentials to
+                Welcome to Parkar GovernAI! To get started, log in with your superadmin credentials to
                 create an organization and invite users.
               </Typography>
               <IconButton

@@ -640,9 +640,9 @@ export default function ProjectExperiments({
                     border: "1px solid #BBF7D0",
                   }}
                 >
-                  <Clock size={16} color="#13715B" />
+                  <Clock size={16} color="#1B3A6B" />
                   <Box>
-                    <Typography sx={{ fontSize: "13px", fontWeight: 500, color: "#13715B" }}>
+                    <Typography sx={{ fontSize: "13px", fontWeight: 500, color: "#1B3A6B" }}>
                       Estimated time: {getEstimatedTimeRange(rerunConfirm.promptCount)}
                     </Typography>
                     <Typography sx={{ fontSize: "11px", color: "#16A34A" }}>
@@ -742,7 +742,7 @@ export default function ProjectExperiments({
                   "& .MuiSelect-select": { py: 0.5, px: 1.5 },
                   "& .MuiOutlinedInput-notchedOutline": { borderColor: "#E5E7EB" },
                   "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#D1D5DB" },
-                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "#13715B" },
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "#1B3A6B" },
                 }}
               >
                 {TIME_RANGE_OPTIONS.map((opt) => (
@@ -830,8 +830,8 @@ export default function ProjectExperiments({
           text="New experiment"
           icon={<Play size={16} />}
           sx={{
-            backgroundColor: "#13715B",
-            border: "1px solid #13715B",
+            backgroundColor: "#1B3A6B",
+            border: "1px solid #1B3A6B",
             gap: 2,
           }}
           onClick={() => setNewEvalModalOpen(true)}

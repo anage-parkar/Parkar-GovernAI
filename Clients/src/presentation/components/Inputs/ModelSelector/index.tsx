@@ -1,5 +1,5 @@
 /**
- * ModelSelector - A VerifyWise component for selecting AI model provider and model
+ * ModelSelector - A Parkar GovernAI component for selecting AI model provider and model
  *
  * Features:
  * - Split-view dropdown with providers on left, models on right

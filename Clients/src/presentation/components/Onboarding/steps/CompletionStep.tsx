@@ -86,7 +86,7 @@ const CompletionStep: React.FC<OnboardingStepProps> = ({ onNext }) => {
             lineHeight: 1.6,
           }}
         >
-          You are ready to work with VerifyWise and manage your AI governance process
+          You are ready to work with Parkar GovernAI and manage your AI governance process
         </Typography>
       </Stack>
 

@@ -178,7 +178,7 @@ const FileStructureSection: React.FC = () => {
             maxWidth: 600,
           }}
         >
-          Reference guide for the VerifyWise codebase structure. Know where to find components and
+          Reference guide for the Parkar GovernAI codebase structure. Know where to find components and
           where to add new ones.
         </Typography>
       </Box>

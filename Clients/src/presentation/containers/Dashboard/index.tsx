@@ -367,7 +367,7 @@ const Dashboard: FC<DashboardProps> = ({ reloadTrigger }) => {
                 isOpen={openDemoDataModal}
                 onClose={() => setOpenDemoDataModal(false)}
                 title="Create demo data"
-                description="Generate sample data to explore VerifyWise features"
+                description="Generate sample data to explore Parkar GovernAI features"
                 submitButtonText="Create demo data"
                 onSubmit={handleCreateDemoData}
                 isSubmitting={showToastNotification}

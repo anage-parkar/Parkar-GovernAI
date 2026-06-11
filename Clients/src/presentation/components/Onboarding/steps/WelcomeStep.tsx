@@ -44,7 +44,7 @@ const WelcomeStep: React.FC<OnboardingStepProps> = () => {
             color: `${background.main}`,
           }}
         >
-          Welcome to VerifyWise
+          Welcome to Parkar GovernAI
         </Typography>
       </Box>
 
@@ -61,7 +61,7 @@ const WelcomeStep: React.FC<OnboardingStepProps> = () => {
             lineHeight: 1.6,
           }}
         >
-          VerifyWise is your AI governance and compliance platform. In 3 minutes, we'll help you get
+          Parkar GovernAI is your AI governance and compliance platform. In 3 minutes, we'll help you get
           started with managing AI risks, compliance frameworks, and building trust.
         </Typography>
         <Typography

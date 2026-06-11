@@ -221,7 +221,7 @@ const RegisterUser: React.FC = () => {
           </Typography>
           {isInvitationValid === true ? (
             <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
-              Create VerifyWise user account
+              Create Parkar GovernAI user account
             </Typography>
           ) : (
             <Typography

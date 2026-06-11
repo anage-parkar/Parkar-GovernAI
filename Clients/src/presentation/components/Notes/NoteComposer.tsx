@@ -73,7 +73,7 @@ const NoteComposer: React.FC<NoteComposerProps> = ({
         "transition": `border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out`,
         "&:focus-within": {
           borderColor: theme.palette.primary.main,
-          boxShadow: `0 0 0 3px rgba(19, 113, 91, 0.1)`,
+          boxShadow: `0 0 0 3px rgba(27, 58, 107, 0.1)`,
         },
       }}
     >

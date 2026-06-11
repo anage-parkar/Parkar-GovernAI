@@ -4,7 +4,7 @@ import { Copy } from "lucide-react";
 import CodeBlock from "../components/CodeBlock";
 
 const zIndexSnippets = {
-  scale: `// Z-Index scale used in VerifyWise
+  scale: `// Z-Index scale used in Parkar GovernAI
 const zIndex = {
   background: -1,      // Background decorations
   base: 0,             // Default stacking
@@ -142,7 +142,7 @@ const ZIndexSection: React.FC = () => {
       {/* Z-Index Scale */}
       <SpecSection title="Layering scale">
         <Typography sx={{ fontSize: 13, color: theme.palette.text.tertiary, mb: "24px" }}>
-          VerifyWise uses a simplified z-index scale. Higher values appear above lower values.
+          Parkar GovernAI uses a simplified z-index scale. Higher values appear above lower values.
         </Typography>
 
         <Box sx={{ display: "flex", gap: "40px", flexWrap: "wrap" }}>
@@ -429,7 +429,7 @@ const ZIndexSection: React.FC = () => {
                 Note
               </Typography>
               <Typography sx={{ fontSize: 11, color: theme.palette.text.secondary }}>
-                VerifyWise uses z-index: 9999 for toasts to ensure they appear above all MUI
+                Parkar GovernAI uses z-index: 9999 for toasts to ensure they appear above all MUI
                 components including tooltips (1500).
               </Typography>
             </Box>

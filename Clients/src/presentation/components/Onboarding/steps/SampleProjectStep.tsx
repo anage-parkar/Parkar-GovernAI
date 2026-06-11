@@ -95,7 +95,7 @@ const SampleProjectStep: React.FC<OnboardingStepProps> = ({
             lineHeight: 1.6,
           }}
         >
-          Let's create a sample project to explore VerifyWise features hands-on.
+          Let's create a sample project to explore Parkar GovernAI features hands-on.
         </Typography>
 
         {/* Demo Project Banner */}

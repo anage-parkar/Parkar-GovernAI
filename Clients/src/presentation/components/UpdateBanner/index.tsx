@@ -36,7 +36,7 @@ export default function UpdateBanner() {
           color: theme.palette.primary.main,
         }}
       >
-        A new version of VerifyWise is available
+        A new version of Parkar GovernAI is available
       </Typography>
       <Button
         variant="contained"

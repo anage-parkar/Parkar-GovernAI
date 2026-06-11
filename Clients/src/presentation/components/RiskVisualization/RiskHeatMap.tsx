@@ -130,7 +130,7 @@ const RiskHeatMap: React.FC<IRiskHeatMapProps> = ({ risks, onRiskSelect, selecte
             "width": { xs: 60, sm: 80 },
             "height": { xs: 45, sm: 60 },
             "backgroundColor": cell.color,
-            "border": `2px solid ${isSelected ? "#13715B" : "transparent"}`,
+            "border": `2px solid ${isSelected ? "#1B3A6B" : "transparent"}`,
             "borderRadius": 1,
             "display": "flex",
             "flexDirection": "column",

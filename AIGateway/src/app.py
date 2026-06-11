@@ -44,7 +44,7 @@ if settings.ai_gateway_internal_key.lower() in _PLACEHOLDER_VALUES:
     sys.exit(1)
 
 app = FastAPI(
-    title="VerifyWise AI Gateway",
+    title="Parkar GovernAI Gateway",
     version="1.0.0",
     redirect_slashes=False,
 )

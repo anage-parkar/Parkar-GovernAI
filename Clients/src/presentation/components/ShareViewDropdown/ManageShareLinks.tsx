@@ -153,7 +153,7 @@ const ManageShareLinks: React.FC<ManageShareLinksProps> = ({
               "p": 0.5,
               "color": `${brand.primary}`,
               "&:hover": {
-                backgroundColor: "rgba(19, 113, 91, 0.1)",
+                backgroundColor: "rgba(27, 58, 107, 0.1)",
               },
             }}
           >
@@ -232,7 +232,7 @@ const ManageShareLinks: React.FC<ManageShareLinksProps> = ({
                       "p": 0.5,
                       "color": `${brand.primary}`,
                       "&:hover": {
-                        backgroundColor: "rgba(19, 113, 91, 0.1)",
+                        backgroundColor: "rgba(27, 58, 107, 0.1)",
                       },
                     }}
                   >
@@ -248,7 +248,7 @@ const ManageShareLinks: React.FC<ManageShareLinksProps> = ({
                       "p": 0.5,
                       "color": `${brand.primary}`,
                       "&:hover": {
-                        backgroundColor: "rgba(19, 113, 91, 0.1)",
+                        backgroundColor: "rgba(27, 58, 107, 0.1)",
                       },
                     }}
                   >

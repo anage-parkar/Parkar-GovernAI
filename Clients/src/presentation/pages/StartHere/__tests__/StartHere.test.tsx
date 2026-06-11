@@ -87,9 +87,9 @@ describe("StartHere", () => {
     expect(elements.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("shows the Explore VerifyWise section", () => {
+  it("shows the Explore Parkar GovernAI section", () => {
     renderWithProviders(<StartHere />);
-    expect(screen.getByText("Explore VerifyWise")).toBeInTheDocument();
+    expect(screen.getByText("Explore Parkar GovernAI")).toBeInTheDocument();
   });
 
   it("shows the Shortcuts section", () => {

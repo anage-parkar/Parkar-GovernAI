@@ -158,7 +158,7 @@ export const EnhancedTooltip: FC<EnhancedTooltipProps> = ({ children, title, con
               width: 100,
               height: 100,
               borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(19, 113, 91, 0.2) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(27, 58, 107, 0.2) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />

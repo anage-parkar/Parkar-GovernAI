@@ -320,7 +320,7 @@ const NewTraining: FC<NewTrainingProps> = ({
             error={errors.provider}
             isRequired
             sx={fieldStyle}
-            placeholder="e.g., VerifyWise, External Vendor, Internal Team"
+            placeholder="e.g., Parkar GovernAI, External Vendor, Internal Team"
           />
         </Box>
         <Box sx={{ width: "350px" }}>

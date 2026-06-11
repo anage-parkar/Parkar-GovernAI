@@ -6,7 +6,7 @@
 }
 
 .breadcrumb-link:hover {
-  color: #13715b;
+  color: #1B3A6B;
 }
 
 /* ToC link hover */
@@ -15,7 +15,7 @@
 }
 
 .toc-link:hover {
-  color: #13715b;
+  color: #1B3A6B;
   text-decoration: underline !important;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .nav-button:hover .nav-text {
-  color: #13715b;
+  color: #1B3A6B;
 }
 
 /* Article body typography */
@@ -70,7 +70,7 @@
 }
 
 .article-body a {
-  color: #13715b;
+  color: #1B3A6B;
   text-decoration: none;
   font-weight: 500;
 }
@@ -104,7 +104,7 @@
 }
 
 .article-body blockquote {
-  border-left: 3px solid #13715b;
+  border-left: 3px solid #1B3A6B;
   background-color: #f9fafb;
   padding: 12px 16px;
   border-radius: 0 4px 4px 0;

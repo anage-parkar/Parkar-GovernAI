@@ -75,8 +75,8 @@ const MappingCard = ({ mapping, frameworkNames }: IMappingCardProps) => {
                 fontSize: 11,
                 height: 22,
                 textTransform: "capitalize",
-                backgroundColor: "#E6F0EC",
-                color: "#13715B",
+                backgroundColor: "#E7ECF5",
+                color: "#1B3A6B",
               }}
             />
           )}
@@ -203,8 +203,8 @@ const MappingCard = ({ mapping, frameworkNames }: IMappingCardProps) => {
                         fontSize: 12,
                         height: 24,
                         textTransform: "capitalize",
-                        backgroundColor: "#E6F0EC",
-                        color: "#13715B",
+                        backgroundColor: "#E7ECF5",
+                        color: "#1B3A6B",
                       }}
                     />
                   </Box>

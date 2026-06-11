@@ -5,7 +5,7 @@ import CodeBlock from "../components/CodeBlock";
 
 const accessibilitySnippets = {
   altText: `// Always provide alt text for images
-<img src={logo} alt="VerifyWise logo" />
+<img src={logo} alt="Parkar GovernAI logo" />
 
 // Empty alt for decorative images
 <img src={decoration} alt="" role="presentation" />
@@ -187,7 +187,7 @@ const AccessibilitySection: React.FC = () => {
           }}
         >
           Guidelines for building accessible interfaces. Follow WCAG 2.1 AA standards to ensure
-          VerifyWise is usable by everyone.
+          Parkar GovernAI is usable by everyone.
         </Typography>
       </Box>
 
@@ -340,7 +340,7 @@ const AccessibilitySection: React.FC = () => {
                 letterSpacing: "0.5px",
               }}
             >
-              VerifyWise color contrast
+              Parkar GovernAI color contrast
             </Typography>
             <SpecTable
               onCopy={handleCopy}

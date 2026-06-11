@@ -316,7 +316,7 @@ const SharedView: React.FC = () => {
                       "color": "brand.primary",
                       "border": "1px solid brand.primary",
                       "&:hover": {
-                        backgroundColor: "rgba(19, 113, 91, 0.1)",
+                        backgroundColor: "rgba(27, 58, 107, 0.1)",
                       },
                     }}
                   >
@@ -444,7 +444,7 @@ const SharedView: React.FC = () => {
               rel="noopener noreferrer"
               style={{ color: "brand.primary", textDecoration: "none", fontWeight: 600 }}
             >
-              VerifyWise
+              Parkar GovernAI
             </a>
           </Typography>
         </Box>

@@ -1,6 +1,6 @@
 # Register User Page
 
-This page allows users to register for a VerifyWise account by filling out a form with their name, surname, password, and confirming their password. The form submission triggers a registration process, which validates the input data and creates a new user account if the data is valid.
+This page allows users to register for a Parkar GovernAI account by filling out a form with their name, surname, password, and confirming their password. The form submission triggers a registration process, which validates the input data and creates a new user account if the data is valid.
 
 ## Features
 

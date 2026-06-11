@@ -234,7 +234,7 @@ function ArchDiagram() {
             mb: "2px",
           }}
         >
-          VerifyWise AI gateway
+          Parkar GovernAI AI gateway
         </Typography>
         <Typography sx={{ fontSize: 10, color: palette.text.disabled, mb: "4px" }}>
           Unified proxy with governance controls
@@ -243,12 +243,12 @@ function ArchDiagram() {
         <FeatureRow
           icon={<Fingerprint size={12} strokeWidth={1.8} />}
           label="PII detection"
-          colorScheme={{ bg: "#ecfdf3", color: "#13715B" }}
+          colorScheme={{ bg: "#ecfdf3", color: "#1B3A6B" }}
         />
         <FeatureRow
           icon={<ShieldCheck size={12} strokeWidth={1.8} />}
           label="Content filter"
-          colorScheme={{ bg: "#ecfdf3", color: "#13715B" }}
+          colorScheme={{ bg: "#ecfdf3", color: "#1B3A6B" }}
         />
         <SectionLabel>Traffic controls</SectionLabel>
         <FeatureRow

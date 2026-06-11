@@ -114,7 +114,7 @@ const ShadowsSection: React.FC = () => {
             maxWidth: 600,
           }}
         >
-          VerifyWise uses a minimal shadow approach. Most components use borders for definition,
+          Parkar GovernAI uses a minimal shadow approach. Most components use borders for definition,
           with shadows reserved for floating elements.
         </Typography>
       </Box>
@@ -414,7 +414,7 @@ const ShadowsSection: React.FC = () => {
             "Use theme.boxShadow for floating elements (dropdowns, modals)",
             'Cards should use border only - boxShadow: "none"',
             "Add shadow on hover for interactive cards if needed",
-            "Keep shadows subtle - VerifyWise uses a flat design",
+            "Keep shadows subtle - Parkar GovernAI uses a flat design",
             "MuiButton has disableElevation by default",
           ].map((item, index) => (
             <Box

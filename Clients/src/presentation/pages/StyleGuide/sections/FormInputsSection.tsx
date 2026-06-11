@@ -233,7 +233,7 @@ const FormInputsSection: React.FC = () => {
           />
           <SpecCard
             title="Focus ring"
-            value="0 0 0 3px rgba(19,113,91,0.1)"
+            value="0 0 0 3px rgba(27, 58, 107,0.1)"
             note="Box shadow on focus"
             onCopy={handleCopy}
           />
@@ -657,7 +657,7 @@ const FormInputsSection: React.FC = () => {
             title="Focus"
             borderColor={brand.primary}
             borderWidth={2}
-            boxShadow="0 0 0 3px rgba(19,113,91,0.1)"
+            boxShadow="0 0 0 3px rgba(27, 58, 107,0.1)"
             description="Input is focused"
             onCopy={handleCopy}
           />

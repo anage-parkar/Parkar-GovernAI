@@ -133,7 +133,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         "pr": "24px",
         "py": "8px",
         "cursor": notification.action_url ? "pointer" : "default",
-        "backgroundColor": isRead ? "transparent" : "rgba(19, 113, 91, 0.04)",
+        "backgroundColor": isRead ? "transparent" : "rgba(27, 58, 107, 0.04)",
         "borderLeft": isRead ? "3px solid transparent" : `3px solid ${color}`,
         "transition": "all 0.15s ease",
         "position": "relative",
@@ -416,7 +416,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ sx }) => {
                     "width": "28px",
                     "height": "28px",
                     "&:hover": {
-                      backgroundColor: "rgba(19, 113, 91, 0.08)",
+                      backgroundColor: "rgba(27, 58, 107, 0.08)",
                       color: "brand.primary",
                     },
                   }}
@@ -547,7 +547,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ sx }) => {
                       "transition": "all 0.15s ease",
                       "opacity": isLoadingMore ? 0.6 : 1,
                       "&:hover": {
-                        backgroundColor: "rgba(19, 113, 91, 0.04)",
+                        backgroundColor: "rgba(27, 58, 107, 0.04)",
                         borderColor: "brand.primary",
                       },
                     }}

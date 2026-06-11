@@ -216,7 +216,7 @@ export default function MCPAuditLogPage() {
                       allowDecimals={false}
                     />
                     <Tooltip contentStyle={chartTooltipStyle} />
-                    <Bar dataKey="count" name="Calls" fill="#5C8A7D" radius={[3, 3, 0, 0]} />
+                    <Bar dataKey="count" name="Calls" fill="#5C70A0" radius={[3, 3, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </Box>

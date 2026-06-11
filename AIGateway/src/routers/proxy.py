@@ -54,6 +54,9 @@ class ProxyChatRequest(BaseModel):
     temperature: Optional[float] = Field(None, ge=0, le=2)
     max_tokens: Optional[int] = Field(None, ge=1, le=128000)
     top_p: Optional[float] = Field(None, ge=0, le=1)
+    # Tool / function calling passthrough (needed for agents using MCP tools).
+    tools: Optional[list] = None
+    tool_choice: Optional[object] = None
 
 
 class ProxyEmbeddingRequest(BaseModel):
@@ -75,12 +78,28 @@ async def _extract_virtual_key(request: Request) -> dict:
         raise HTTPException(status_code=401, detail=str(e))
 
 
+def _apply_request_tags(vk: dict, request: Request) -> None:
+    """Merge optional per-request governance tags (x-vw-metadata: JSON object)
+    onto the virtual key so they are recorded in the spend log metadata and
+    surface in the spend-by-tag dashboard (e.g. {"app": "aioniq", "env": "dev"})."""
+    raw = request.headers.get("x-vw-metadata")
+    if not raw:
+        return
+    try:
+        parsed = json.loads(raw)
+    except Exception:
+        return
+    if isinstance(parsed, dict):
+        vk["_extra_metadata"] = {str(k): str(v) for k, v in parsed.items()}
+
+
 # ─── Chat Completions ────────────────────────────────────────────────────────
 
 @router.post("/v1/chat/completions")
 async def proxy_chat(request: Request, body: ProxyChatRequest):
     """OpenAI-compatible chat completions endpoint with virtual key auth."""
     vk = await _extract_virtual_key(request)
+    _apply_request_tags(vk, request)
     org_id = vk["organization_id"]
     endpoint_slug = body.model  # "model" field is the endpoint slug
 
@@ -167,6 +186,10 @@ async def proxy_chat(request: Request, body: ProxyChatRequest):
         kwargs["max_tokens"] = body.max_tokens or endpoint["max_tokens"]
     if body.top_p is not None:
         kwargs["top_p"] = body.top_p
+    if body.tools is not None:
+        kwargs["tools"] = body.tools
+    if body.tool_choice is not None:
+        kwargs["tool_choice"] = body.tool_choice
 
     start_time = time.time()
 
@@ -214,7 +237,7 @@ async def _handle_completion(
             total_tokens=usage.get("total_tokens", 0),
             cost_usd=cost,
             latency_ms=latency_ms,
-            metadata={"virtual_key_id": str(vk["id"])},
+            metadata={"virtual_key_id": str(vk["id"]), **vk.get("_extra_metadata", {})},
         )
         await reconcile_budget(org_id, estimated_cost, cost)
 
@@ -310,7 +333,7 @@ async def _handle_stream(
                 prompt_tokens=total_prompt, completion_tokens=total_completion,
                 total_tokens=total_prompt + total_completion,
                 cost_usd=total_cost, latency_ms=latency_ms,
-                metadata={"virtual_key_id": str(vk["id"])},
+                metadata={"virtual_key_id": str(vk["id"]), **vk.get("_extra_metadata", {})},
             )
             await reconcile_budget(org_id, estimated_cost, total_cost)
 
@@ -323,6 +346,7 @@ async def _handle_stream(
 async def proxy_embeddings(request: Request, body: ProxyEmbeddingRequest):
     """OpenAI-compatible embeddings endpoint with virtual key auth."""
     vk = await _extract_virtual_key(request)
+    _apply_request_tags(vk, request)
     org_id = vk["organization_id"]
     endpoint_slug = body.model
 
@@ -379,7 +403,7 @@ async def proxy_embeddings(request: Request, body: ProxyEmbeddingRequest):
             prompt_tokens=usage.get("prompt_tokens", 0), completion_tokens=0,
             total_tokens=usage.get("total_tokens", 0),
             cost_usd=cost, latency_ms=latency_ms,
-            metadata={"virtual_key_id": str(vk["id"])},
+            metadata={"virtual_key_id": str(vk["id"]), **vk.get("_extra_metadata", {})},
         )
         await reconcile_budget(org_id, estimated_cost, cost)
 
@@ -404,6 +428,7 @@ async def proxy_embeddings(request: Request, body: ProxyEmbeddingRequest):
 async def list_models_for_key(request: Request):
     """List available endpoint slugs for the authenticated virtual key."""
     vk = await _extract_virtual_key(request)
+    _apply_request_tags(vk, request)
     from src.database.db import get_db
     from sqlalchemy import text as sql_text
 

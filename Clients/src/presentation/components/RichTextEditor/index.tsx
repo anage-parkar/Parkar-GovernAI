@@ -583,7 +583,7 @@ const RichTextEditor: React.FC<IRichTextEditorProps> = ({
             font-size: 13px;
           }
           .vw-tiptap-content .ProseMirror a {
-            color: #13715B;
+            color: #1B3A6B;
             text-decoration: underline;
           }
         `}

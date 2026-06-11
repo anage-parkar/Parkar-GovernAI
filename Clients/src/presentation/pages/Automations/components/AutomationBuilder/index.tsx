@@ -230,7 +230,7 @@ const AutomationBuilder: React.FC<AutomationBuilderProps> = ({
 
         {/* Title */}
         <Typography sx={{ fontSize: "15px", fontWeight: 600, mb: 1 }}>
-          Let VerifyWise do work for you
+          Let Parkar GovernAI do work for you
         </Typography>
 
         {/* Subtitle */}

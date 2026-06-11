@@ -1,7 +1,7 @@
 import type { EntityType } from "../EntityNode";
 import { brand } from "../../../themes/palette";
 
-// Entity type colors following VerifyWise design system
+// Entity type colors following Parkar GovernAI design system
 export const entityColors: Record<EntityType, string> = {
   useCase: `${brand.primary}`, // Primary green
   model: "#2196F3", // Blue

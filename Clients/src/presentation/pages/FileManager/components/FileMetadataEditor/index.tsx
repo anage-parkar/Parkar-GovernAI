@@ -2,7 +2,7 @@
  * @fileoverview FileMetadataEditor Component
  *
  * A modal dialog for editing file metadata (tags, status, version, expiry date, description).
- * Uses VerifyWise components for consistent styling.
+ * Uses Parkar GovernAI components for consistent styling.
  *
  * @module presentation/pages/FileManager/components/FileMetadataEditor
  */

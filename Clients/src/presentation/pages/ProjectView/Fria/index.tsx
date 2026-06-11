@@ -183,7 +183,7 @@ const FriaAssessment = ({ projectId }: FriaProps) => {
           </Typography>
         )}
         {!isSaving && lastSaveStatus === "saved" && (
-          <Typography sx={{ fontSize: 12, color: "#13715B", mr: "8px" }}>Saved</Typography>
+          <Typography sx={{ fontSize: 12, color: "#1B3A6B", mr: "8px" }}>Saved</Typography>
         )}
         {!isSaving && lastSaveStatus === "error" && (
           <Typography sx={{ fontSize: 12, color: "error.main", mr: "8px" }}>Save failed</Typography>

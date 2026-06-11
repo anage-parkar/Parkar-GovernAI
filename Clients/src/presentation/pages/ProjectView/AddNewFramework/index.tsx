@@ -266,7 +266,7 @@ const AddFrameworkModal: React.FC<AddFrameworkModalProps> = ({
                         "minWidth": 100,
                         "fontWeight": 600,
                         "textTransform": "none",
-                        "backgroundColor": "#13715B",
+                        "backgroundColor": "#1B3A6B",
                         "color": "#fff",
                         "&:hover": { backgroundColor: "#0e5c47" },
                       }}

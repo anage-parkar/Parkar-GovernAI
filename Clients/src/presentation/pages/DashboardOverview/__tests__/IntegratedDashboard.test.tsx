@@ -142,7 +142,7 @@ vi.mock("../../../components/ActivityItem", () => ({
 }));
 
 vi.mock("../constants", () => ({
-  COLORS: { primary: "#13715B" },
+  COLORS: { primary: "#1B3A6B" },
   navIconButtonSx: {},
   getRiskLevelData: (d: any) => [{ name: "High", value: d.high, color: "red" }],
   getVendorRiskData: (d: any) => [{ name: "High", value: d.high, color: "red" }],

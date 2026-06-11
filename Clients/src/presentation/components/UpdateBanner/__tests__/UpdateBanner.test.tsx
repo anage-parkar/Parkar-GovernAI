@@ -5,7 +5,7 @@ import UpdateBanner from "../index";
 describe("UpdateBanner", () => {
   it("renders the update message", () => {
     renderWithProviders(<UpdateBanner />);
-    expect(screen.getByText("A new version of VerifyWise is available")).toBeInTheDocument();
+    expect(screen.getByText("A new version of Parkar GovernAI is available")).toBeInTheDocument();
   });
 
   it("renders the Update now button", () => {

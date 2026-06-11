@@ -35,7 +35,7 @@ export function IntroScene({ frame }: { frame: number }) {
           transform: `translateY(${titleY}px)`,
         }}
       >
-        Welcome to VerifyWise
+        Welcome to Parkar GovernAI
       </div>
 
       <div

@@ -17,7 +17,7 @@ export const buttonMixins = {
     "borderRadius": theme.shape.borderRadius,
     "boxShadow": "none",
     "&:hover": {
-      backgroundColor: theme.palette.primary.dark || "#10614d",
+      backgroundColor: theme.palette.primary.dark || "#112647",
       boxShadow: "none",
     },
     "&:focus": {

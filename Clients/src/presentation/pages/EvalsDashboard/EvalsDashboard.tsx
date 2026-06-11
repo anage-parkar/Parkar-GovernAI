@@ -1662,7 +1662,7 @@ export default function EvalsDashboard() {
                     <Typography
                       sx={{ fontSize: 13, color: palette.accent.indigo.text, lineHeight: 1.5 }}
                     >
-                      To use Ollama or other local models, deploy VerifyWise on your own
+                      To use Ollama or other local models, deploy Parkar GovernAI on your own
                       infrastructure. Local providers require direct access to your machine's
                       network which isn't possible on the hosted demo.
                     </Typography>

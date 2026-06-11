@@ -69,7 +69,7 @@ export const styles = {
         color: "brand.primary",
       },
       "&:hover": {
-        backgroundColor: "rgba(19, 113, 91, 0.04)",
+        backgroundColor: "rgba(27, 58, 107, 0.04)",
       },
     },
   },

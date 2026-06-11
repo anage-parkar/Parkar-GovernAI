@@ -690,7 +690,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ content, onNavigate }
             width: 20,
             height: 20,
             borderRadius: "50%",
-            backgroundColor: "rgba(19, 113, 91, 0.1)",
+            backgroundColor: "rgba(27, 58, 107, 0.1)",
             color: colors.brand.primary,
             fontSize: typography.fontSize.sm,
             fontWeight: typography.fontWeight.semibold,

@@ -1,5 +1,5 @@
 /**
- * Shared chart enhancement utilities for VerifyWise dashboards.
+ * Shared chart enhancement utilities for Parkar GovernAI dashboards.
  *
  * 8 reusable enhancements:
  * 1. ChartCard — consistent card with gradient background + header separator
@@ -266,7 +266,7 @@ export const getProviderColor = (provider: string, index: number = 0): string =>
   return (
     PROVIDER_COLORS[p] ||
     [
-      "#13715B",
+      "#1B3A6B",
       "#3B82F6",
       "#F59E0B",
       "#EF4444",

@@ -67,7 +67,7 @@ export const frameworkStyles = {
     "fontFamily": theme.typography.fontFamily,
     "fontSize": theme.typography.fontSize,
     "&:hover": {
-      backgroundColor: theme.palette.primary.dark || "#10614d",
+      backgroundColor: theme.palette.primary.dark || "#112647",
     },
   }),
 };
@@ -292,7 +292,7 @@ export const buttonStyles = {
       "borderRadius": theme.shape.borderRadius,
       "boxShadow": "none",
       "&:hover": {
-        backgroundColor: theme.palette.primary.dark || "#10614d",
+        backgroundColor: theme.palette.primary.dark || "#112647",
         boxShadow: "none",
       },
       "&:focus": {

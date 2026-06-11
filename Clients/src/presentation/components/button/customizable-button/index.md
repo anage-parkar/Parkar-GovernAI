@@ -19,7 +19,7 @@ A highly customizable, accessible, and feature-rich button component built on Ma
 
 ## Overview
 
-The CustomizableButton component is designed to provide a consistent, accessible, and feature-rich button experience across the VerifyWise application. It builds upon Material-UI's Button component while adding custom styling, loading states, and enhanced accessibility features.
+The CustomizableButton component is designed to provide a consistent, accessible, and feature-rich button experience across the Parkar GovernAI application. It builds upon Material-UI's Button component while adding custom styling, loading states, and enhanced accessibility features.
 
 ### Key Benefits
 
@@ -309,7 +309,7 @@ The component integrates with the application's theme system through the `v1Sing
 
 ### Available Theme Colors
 
-- `primary`: Main brand color (#13715B)
+- `primary`: Main brand color (#1B3A6B)
 - `secondary`: Secondary brand color
 - `success`: Success state color
 - `warning`: Warning state color
@@ -325,11 +325,11 @@ const buttons = {
     contained: {
       "height": 34,
       "fontSize": "13px",
-      "backgroundColor": "#13715B",
+      "backgroundColor": "#1B3A6B",
       "boxShadow": "none",
       "textTransform": "Inherit",
       "borderRadius": "4px",
-      "border": "1px solid #13715B",
+      "border": "1px solid #1B3A6B",
       "&:hover": {
         backgroundColor: "#0f604d",
         border: "1px solid #0f604d",
@@ -443,8 +443,8 @@ function Dashboard() {
         variant="contained"
         text="Create demo project"
         sx={{
-          backgroundColor: "#13715B",
-          border: "1px solid #13715B",
+          backgroundColor: "#1B3A6B",
+          border: "1px solid #1B3A6B",
           gap: 2,
         }}
         icon={<CloudDownloadIcon />}
@@ -456,8 +456,8 @@ function Dashboard() {
         variant="contained"
         text="New project"
         sx={{
-          backgroundColor: "#13715B",
-          border: "1px solid #13715B",
+          backgroundColor: "#1B3A6B",
+          border: "1px solid #1B3A6B",
           gap: 2,
         }}
         icon={<AddIcon />}
@@ -700,4 +700,4 @@ When contributing to the CustomizableButton component:
 
 ## License
 
-This component is part of the VerifyWise project and follows the project's licensing terms.
+This component is part of the Parkar GovernAI project and follows the project's licensing terms.

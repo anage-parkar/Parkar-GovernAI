@@ -6,7 +6,7 @@ export const ONBOARDING_DURATION = "3 minutes";
 export const ONBOARDING_STEPS: OnboardingStepConfig[] = [
   {
     id: 1,
-    title: "Welcome to VerifyWise",
+    title: "Welcome to Parkar GovernAI",
     description:
       "Your AI governance and compliance platform. In 3 minutes, we'll help you get started with managing AI risks, compliance frameworks, and building trust.",
     componentName: "WelcomeStep",
@@ -66,7 +66,7 @@ export const ONBOARDING_STEPS: OnboardingStepConfig[] = [
   {
     id: 10,
     title: "Congratulations",
-    description: "You are ready to work with VerifyWise",
+    description: "You are ready to work with Parkar GovernAI",
     componentName: "CompletionStep",
     illustration: IllustrationType.GRADIENT_CIRCLES,
     showForAdmin: true,

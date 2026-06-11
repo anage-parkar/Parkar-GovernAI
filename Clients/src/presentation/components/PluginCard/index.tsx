@@ -325,7 +325,7 @@ const PluginCard: React.FC<PluginCardProps> = ({
                   "opacity": isHovered ? 1 : 0.7,
                   "transition": "opacity 0.3s ease",
                   "&:hover": {
-                    backgroundColor: "rgba(19, 113, 91, 0.1)",
+                    backgroundColor: "rgba(27, 58, 107, 0.1)",
                   },
                 }}
               >

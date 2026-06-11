@@ -11,7 +11,7 @@ export const CATEGORIES: PluginCategory[] = [
   {
     id: "all",
     name: "All plugins",
-    description: "Browse all available plugins to extend VerifyWise functionality.",
+    description: "Browse all available plugins to extend Parkar GovernAI functionality.",
     icon: Layers,
   },
   {

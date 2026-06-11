@@ -774,8 +774,8 @@ export default function PromptEditorPage() {
                   "cursor": "pointer",
                   "fontSize": 12,
                   "fontWeight": testTab === tab ? 600 : 400,
-                  "color": testTab === tab ? "#13715B" : "text.secondary",
-                  "borderBottom": testTab === tab ? "2px solid #13715B" : "2px solid transparent",
+                  "color": testTab === tab ? "#1B3A6B" : "text.secondary",
+                  "borderBottom": testTab === tab ? "2px solid #1B3A6B" : "2px solid transparent",
                   "&:hover": { bgcolor: "action.hover" },
                 }}
               >
@@ -948,12 +948,12 @@ export default function PromptEditorPage() {
                   onClick={handleSendTest}
                   disabled={isSending || !selectedEndpoint}
                   sx={{
-                    "bgcolor": "#13715B",
+                    "bgcolor": "#1B3A6B",
                     "color": "#fff",
                     "width": 34,
                     "height": 34,
                     "alignSelf": "flex-end",
-                    "&:hover": { bgcolor: "#0F5A47" },
+                    "&:hover": { bgcolor: "#152E54" },
                     "&:disabled": { bgcolor: "#E4E7EC", color: "#98A2B3" },
                   }}
                 >
@@ -1017,7 +1017,7 @@ export default function PromptEditorPage() {
               max={2}
               step={0.1}
               valueLabelDisplay="auto"
-              sx={{ color: "#13715B" }}
+              sx={{ color: "#1B3A6B" }}
             />
           </Box>
           <Box>
@@ -1162,7 +1162,7 @@ export default function PromptEditorPage() {
                     "borderRadius": "4px",
                     "border":
                       v.version === currentVersion
-                        ? "1px solid #13715B"
+                        ? "1px solid #1B3A6B"
                         : `1px solid ${palette.border.light}`,
                     "bgcolor": v.version === currentVersion ? "#F6FEF9" : "background.paper",
                     "&:hover": {

@@ -50,7 +50,7 @@ const buttonSizes = {
 
 // Standardized color palette
 const colors = {
-  primary: "#13715B",
+  primary: "#1B3A6B",
   primaryHover: "#0f604d",
   secondary: "#6B7280",
   secondaryHover: "#4B5563",

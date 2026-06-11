@@ -56,11 +56,8 @@ async def get_all_virtual_keys(org_id: int) -> list[dict]:
 async def create_virtual_key(org_id: int, data: dict) -> Optional[dict]:
     key_data = generate_virtual_key()
 
-    allowed_endpoint_ids = data.get("allowed_endpoint_ids")
-    if allowed_endpoint_ids and len(allowed_endpoint_ids) > 0:
-        array_literal = "{" + ",".join(str(i) for i in allowed_endpoint_ids) + "}"
-    else:
-        array_literal = "{}"
+    # asyncpg binds array columns from Python lists (not Postgres '{...}' literals).
+    allowed_endpoint_ids = [int(i) for i in (data.get("allowed_endpoint_ids") or [])]
 
     metadata_value = data.get("metadata")
     metadata_json = json.dumps(metadata_value) if metadata_value is not None else None
@@ -71,15 +68,10 @@ async def create_virtual_key(org_id: int, data: dict) -> Optional[dict]:
     rate_limit_rpm = data.get("rate_limit_rpm")
     name = data.get("name")
 
-    def _to_text_array(lst):
-        if lst and len(lst) > 0:
-            return "{" + ",".join(f'"{v}"' for v in lst) + "}"
-        return "{}"
-
-    allowed_models = _to_text_array(data.get("allowed_models"))
-    blocked_models = _to_text_array(data.get("blocked_models"))
-    allowed_providers = _to_text_array(data.get("allowed_providers"))
-    blocked_providers = _to_text_array(data.get("blocked_providers"))
+    allowed_models = list(data.get("allowed_models") or [])
+    blocked_models = list(data.get("blocked_models") or [])
+    allowed_providers = list(data.get("allowed_providers") or [])
+    blocked_providers = list(data.get("blocked_providers") or [])
 
     async with get_db() as db:
         result = await db.execute(
@@ -104,14 +96,14 @@ async def create_virtual_key(org_id: int, data: dict) -> Optional[dict]:
                     :key_hash,
                     :key_prefix,
                     :name,
-                    :allowed_endpoint_ids::int[],
-                    :allowed_models::text[],
-                    :blocked_models::text[],
-                    :allowed_providers::text[],
-                    :blocked_providers::text[],
+                    CAST(:allowed_endpoint_ids AS int[]),
+                    CAST(:allowed_models AS text[]),
+                    CAST(:blocked_models AS text[]),
+                    CAST(:allowed_providers AS text[]),
+                    CAST(:blocked_providers AS text[]),
                     :max_budget_usd,
                     :rate_limit_rpm,
-                    :metadata::jsonb,
+                    CAST(:metadata AS jsonb),
                     :expires_at,
                     :created_by
                 )
@@ -140,7 +132,7 @@ async def create_virtual_key(org_id: int, data: dict) -> Optional[dict]:
                 "key_hash": key_data["key_hash"],
                 "key_prefix": key_data["prefix"],
                 "name": name,
-                "allowed_endpoint_ids": array_literal,
+                "allowed_endpoint_ids": allowed_endpoint_ids,
                 "allowed_models": allowed_models,
                 "blocked_models": blocked_models,
                 "allowed_providers": allowed_providers,
@@ -171,23 +163,13 @@ async def update_virtual_key(org_id: int, key_id: int, data: dict) -> Optional[d
         params["name"] = data["name"]
 
     if "allowed_endpoint_ids" in data:
-        ids = data["allowed_endpoint_ids"]
-        if ids and len(ids) > 0:
-            array_literal = "{" + ",".join(str(i) for i in ids) + "}"
-        else:
-            array_literal = "{}"
-        set_clauses.append("allowed_endpoint_ids = :allowed_endpoint_ids::int[]")
-        params["allowed_endpoint_ids"] = array_literal
-
-    def _to_text_array(lst):
-        if lst and len(lst) > 0:
-            return "{" + ",".join(f'"{v}"' for v in lst) + "}"
-        return "{}"
+        set_clauses.append("allowed_endpoint_ids = CAST(:allowed_endpoint_ids AS int[])")
+        params["allowed_endpoint_ids"] = [int(i) for i in (data["allowed_endpoint_ids"] or [])]
 
     for field in ("allowed_models", "blocked_models", "allowed_providers", "blocked_providers"):
         if field in data:
-            set_clauses.append(f"{field} = :{field}::text[]")
-            params[field] = _to_text_array(data[field])
+            set_clauses.append(f"{field} = CAST(:{field} AS text[])")
+            params[field] = list(data[field] or [])
 
     if "max_budget_usd" in data:
         set_clauses.append("max_budget_usd = :max_budget_usd")
@@ -198,7 +180,7 @@ async def update_virtual_key(org_id: int, key_id: int, data: dict) -> Optional[d
         params["rate_limit_rpm"] = data["rate_limit_rpm"]
 
     if "metadata" in data:
-        set_clauses.append("metadata = :metadata::jsonb")
+        set_clauses.append("metadata = CAST(:metadata AS jsonb)")
         metadata_value = data["metadata"]
         params["metadata"] = json.dumps(metadata_value) if metadata_value is not None else None
 

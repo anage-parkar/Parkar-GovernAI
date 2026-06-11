@@ -198,7 +198,7 @@ const PolicyManager: React.FC<PolicyManagerProps> = ({
       await deletePolicy(id);
       setPolicies((prev) => prev.filter((policy) => policy.id !== id));
 
-      // Show success alert using VerifyWise standard pattern
+      // Show success alert using Parkar GovernAI standard pattern
       handleAlert({
         variant: "success",
         body: "Policy deleted successfully!",

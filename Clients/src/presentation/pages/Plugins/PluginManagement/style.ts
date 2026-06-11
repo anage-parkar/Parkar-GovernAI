@@ -53,7 +53,7 @@ export const testConnectionButton: SxProps<Theme> = {
   "fontWeight": 500,
   "&:hover": {
     borderColor: `${brand.primaryHover}`,
-    backgroundColor: "rgba(19, 113, 91, 0.04)",
+    backgroundColor: "rgba(27, 58, 107, 0.04)",
   },
   "&:disabled": {
     borderColor: `${borderPalette.dark}`,

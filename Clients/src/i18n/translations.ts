@@ -483,7 +483,7 @@ export const translations: Record<string, Record<string, string>> = {
     "AI regulation in the Middle East": "KI-Regulierung im Nahen Osten",
     "US AI regulations 2026": "KI-Regulierungen in den USA 2026",
     "EU AI Act omnibus: what changed": "EU-KI-Verordnung Omnibus: Was sich geändert hat",
-    "VerifyWise YouTube channel launched": "VerifyWise YouTube-Kanal gestartet",
+    "Parkar GovernAI YouTube channel launched": "Parkar GovernAI YouTube-Kanal gestartet",
     "Why LLM evaluations matter": "Warum LLM-Evaluierungen wichtig sind",
     "Clauses": "Klauseln",
     "Annexes": "Anhänge",
@@ -617,15 +617,15 @@ export const translations: Record<string, Record<string, string>> = {
       "Wählen Sie ein Projekt, um Compliance-Daten anzuzeigen",
 
     // Dashboard / home
-    "Welcome to VerifyWise": "Willkommen bei VerifyWise",
+    "Welcome to Parkar GovernAI": "Willkommen bei Parkar GovernAI",
     "Welcome": "Willkommen",
     "Getting started": "Erste Schritte",
     "Quick start guide": "Schnellstartanleitung",
     "Quick stats overview": "Schnellübersicht der Statistiken",
     "Quick add menu": "Schnellzugriffsmenü",
     "Navigating the dashboard": "Navigation im Dashboard",
-    "Installing VerifyWise": "VerifyWise installieren",
-    "Explore VerifyWise": "VerifyWise erkunden",
+    "Installing Parkar GovernAI": "Parkar GovernAI installieren",
+    "Explore Parkar GovernAI": "Parkar GovernAI erkunden",
     "User guide": "Benutzerhandbuch",
     "API documentation": "API-Dokumentation",
     "Blog": "Blog",
@@ -1041,8 +1041,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Modellkonfigurationen anzeigen und verwalten. Diese Einstellungen werden beim Ausführen eines Experiments automatisch gespeichert und für neue Experimente im selben Projekt automatisch geladen.",
     "When an automation triggers (on schedule, via webhook, or manually), its execution is recorded here with status and duration.":
       "Wenn eine Automatisierung ausgelöst wird (geplant, per Webhook oder manuell), wird ihre Ausführung hier mit Status und Dauer aufgezeichnet.",
-    "You're viewing a public demo of the VerifyWise AI governance platform. Feel free to explore using demo data, but please don't enter any personal or company information.":
-      "Sie sehen eine öffentliche Demo der VerifyWise-KI-Governance-Plattform. Erkunden Sie sie gerne mit Demodaten, geben Sie aber bitte keine personenbezogenen oder unternehmensbezogenen Daten ein.",
+    "You're viewing a public demo of the Parkar GovernAI AI governance platform. Feel free to explore using demo data, but please don't enter any personal or company information.":
+      "Sie sehen eine öffentliche Demo der Parkar GovernAI-KI-Governance-Plattform. Erkunden Sie sie gerne mit Demodaten, geben Sie aber bitte keine personenbezogenen oder unternehmensbezogenen Daten ein.",
     "Your provider API keys are encrypted using AES-256-CBC before being stored. They are only decrypted when proxying a request and are never exposed in logs.":
       "Ihre Anbieter-API-Schlüssel werden vor der Speicherung mit AES-256-CBC verschlüsselt. Sie werden nur beim Weiterleiten einer Anfrage entschlüsselt und erscheinen nie in Protokollen.",
     "Playground settings": "Playground-Einstellungen",
@@ -1241,8 +1241,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Forward": "Weiterleiten",
     "Generate audit reports": "Prüfberichte erstellen",
     "Generate Evaluation Report": "Bewertungsbericht erstellen",
-    "Generate sample data to explore VerifyWise features":
-      "Beispieldaten erstellen, um VerifyWise-Funktionen zu erkunden",
+    "Generate sample data to explore Parkar GovernAI features":
+      "Beispieldaten erstellen, um Parkar GovernAI-Funktionen zu erkunden",
     "Generate your first report": "Ersten Bericht erstellen",
     "Get new question": "Neue Frage abrufen",
     "Get support": "Support erhalten",
@@ -2045,7 +2045,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Vendor contact person": "Ansprechpartner beim Anbieter",
     "Vendor risk form": "Formular für Anbieterrisiko",
     "Vendor Risk Score Calculation": "Berechnung der Anbieter-Risikobewertung",
-    "VerifyWise AI gateway": "VerifyWise-KI-Gateway",
+    "Parkar GovernAI AI gateway": "Parkar GovernAI-KI-Gateway",
     "Version A": "Version A",
     "Version B": "Version B",
     "View mode toggle": "Ansichtsmodus umschalten",
@@ -2196,8 +2196,8 @@ export const translations: Record<string, Record<string, string>> = {
     "A use case is a real-world scenario describing how an AI system is applied within an organization. Currently you don":
       "Ein Anwendungsfall beschreibt ein reales Szenario, in dem ein KI-System in einer Organisation eingesetzt wird. Aktuell haben Sie",
     "About EvalCards": "Über EvalCards",
-    "Add a new member to give them access to the VerifyWise dashboard":
-      "Neues Mitglied hinzufügen, um ihm Zugriff auf das VerifyWise-Dashboard zu geben",
+    "Add a new member to give them access to the Parkar GovernAI dashboard":
+      "Neues Mitglied hinzufügen, um ihm Zugriff auf das Parkar GovernAI-Dashboard zu geben",
     "Add a new risk from IBM risk database": "Neues Risiko aus der IBM-Risikodatenbank hinzufügen",
     "Add a new risk from risk database": "Neues Risiko aus der Risikodatenbank hinzufügen",
     "Add a provider API key for your gateway endpoints":
@@ -2299,8 +2299,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Direkte API-Aufrufe an KI-Anbieter, die im Code erkannt wurden, einschließlich REST-Endpunkten und SDK-Methodenaufrufen.",
     "Discover AI tools being used without IT approval. Flag tools that may expose sensitive data or violate company policy.":
       "KI-Tools entdecken, die ohne IT-Genehmigung genutzt werden. Tools markieren, die sensible Daten offenlegen oder Unternehmensrichtlinien verletzen könnten.",
-    "Discover and manage plugins to extend VerifyWise functionality":
-      "Plugins entdecken und verwalten, um die VerifyWise-Funktionalität zu erweitern",
+    "Discover and manage plugins to extend Parkar GovernAI functionality":
+      "Plugins entdecken und verwalten, um die Parkar GovernAI-Funktionalität zu erweitern",
     "Discover tools": "Tools entdecken",
     "Document any known biases": "Bekannte Verzerrungen dokumentieren",
     "Done!": "Fertig!",
@@ -2880,7 +2880,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Vorgefertigte Scorer für gängige Prüfungen wie exakte Übereinstimmung oder Ähnlichkeit nutzen oder eigene Bewertungslogik für domänenspezifische Anforderungen schreiben.",
     "Use the search bar and level filters above to find specific log entries. Filter by severity to focus on warnings or errors.":
       "Nutzen Sie die Suchleiste und Ebenen-Filter oben, um bestimmte Protokolleinträge zu finden. Nach Schweregrad filtern, um sich auf Warnungen oder Fehler zu konzentrieren.",
-    "VerifyWise logo": "VerifyWise-Logo",
+    "Parkar GovernAI logo": "Parkar GovernAI-Logo",
     "Warning / Pending": "Warnung / Ausstehend",
     "Wide": "Breit",
 
@@ -2934,9 +2934,9 @@ export const translations: Record<string, Record<string, string>> = {
     "e.g., Production agent key": "z. B. Produktions-Agentenschlüssel",
     "e.g., Used by the backend orchestration agent":
       "z. B. Verwendet vom Backend-Orchestrierungs-Agenten",
-    "e.g., VerifyWise Scanner Token": "z. B. VerifyWise-Scanner-Token",
-    "e.g., VerifyWise, External Vendor, Internal Team":
-      "z. B. VerifyWise, Externer Anbieter, Internes Team",
+    "e.g., Parkar GovernAI Scanner Token": "z. B. Parkar GovernAI-Scanner-Token",
+    "e.g., Parkar GovernAI, External Vendor, Internal Team":
+      "z. B. Parkar GovernAI, Externer Anbieter, Internes Team",
     "e.g., Web scraping, API, Manual": "z. B. Web-Scraping, API, Manuell",
     "e.g., Zscaler proxy": "z. B. Zscaler-Proxy",
     "e.g., abc1234...": "z. B. abc1234...",
@@ -3145,7 +3145,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Suchen und wählen Sie oben Modelle aus, um ihre Funktionen nebeneinander zu vergleichen.",
 
     // Automations page
-    "Let VerifyWise do work for you": "Lassen Sie VerifyWise die Arbeit für Sie erledigen",
+    "Let Parkar GovernAI do work for you": "Lassen Sie Parkar GovernAI die Arbeit für Sie erledigen",
     "Automate your most common tasks.": "Automatisieren Sie Ihre häufigsten Aufgaben.",
     "Suggested automations": "Vorgeschlagene Automatisierungen",
     "Send vendor risk alert": "Benachrichtigung zu Anbieterrisiko senden",
@@ -3437,8 +3437,8 @@ export const translations: Record<string, Record<string, string>> = {
     "With many events logged over time, filters help you find what you need. Filter by date range, event type, or related entity to quickly locate specific governance activities. Export filtered events for reports or documentation.":
       "Bei vielen protokollierten Ereignissen helfen Filter, das Gesuchte zu finden. Filtern Sie nach Zeitraum, Ereignistyp oder verknüpfter Entität, um Governance-Aktivitäten schnell zu lokalisieren. Exportieren Sie gefilterte Ereignisse für Berichte oder Dokumentation.",
 
-    "Settings customize VerifyWise to your organization's needs.":
-      "Einstellungen passen VerifyWise an die Anforderungen Ihrer Organisation an.",
+    "Settings customize Parkar GovernAI to your organization's needs.":
+      "Einstellungen passen Parkar GovernAI an die Anforderungen Ihrer Organisation an.",
     "Configure user roles and system defaults to match your governance workflows. Taking time to properly configure settings upfront saves time and reduces confusion later. Review settings periodically as your organization grows.":
       "Konfigurieren Sie Benutzerrollen und Systemvorgaben passend zu Ihren Governance-Workflows. Eine sorgfältige Einrichtung vorab spart später Zeit und vermeidet Verwirrung. Prüfen Sie die Einstellungen periodisch beim Wachstum Ihrer Organisation.",
     "User roles control access to sensitive information.":
@@ -3566,8 +3566,8 @@ export const translations: Record<string, Record<string, string>> = {
 
     "Give every developer a governed AI endpoint in minutes.":
       "Geben Sie jedem Entwickler in Minuten einen regulierten KI-Endpunkt.",
-    "Create a virtual key, share it with a developer, and they swap their OpenAI base URL to the gateway. Every request flows through your guardrails, budget controls, and audit logs — without anyone needing a VerifyWise account.":
-      "Erstellen Sie einen virtuellen Schlüssel, geben Sie ihn an einen Entwickler weiter — dieser ändert die OpenAI-Basis-URL auf das Gateway. Jede Anfrage läuft durch Ihre Guardrails, Budgetkontrollen und Audit-Protokolle — ohne dass ein VerifyWise-Konto nötig ist.",
+    "Create a virtual key, share it with a developer, and they swap their OpenAI base URL to the gateway. Every request flows through your guardrails, budget controls, and audit logs — without anyone needing a Parkar GovernAI account.":
+      "Erstellen Sie einen virtuellen Schlüssel, geben Sie ihn an einen Entwickler weiter — dieser ändert die OpenAI-Basis-URL auf das Gateway. Jede Anfrage läuft durch Ihre Guardrails, Budgetkontrollen und Audit-Protokolle — ohne dass ein Parkar GovernAI-Konto nötig ist.",
     "Control costs per team, project, or environment.":
       "Kosten pro Team, Projekt oder Umgebung steuern.",
     "Each virtual key can carry its own monthly budget cap and rate limit. When a key exhausts its budget only that key is blocked — other keys and the Playground keep working. Budgets reset automatically on the 1st of each month.":
@@ -3869,7 +3869,7 @@ export const translations: Record<string, Record<string, string>> = {
     // i18n audit gap fill (auto-applied)
     "A concise name for your AI use case": "Ein prägnanter Name für Ihren KI-Anwendungsfall",
     "A new version is available": "Eine neue Version ist verfügbar",
-    "A new version of VerifyWise is available": "Eine neue Version von VerifyWise ist verfügbar",
+    "A new version of Parkar GovernAI is available": "Eine neue Version von Parkar GovernAI ist verfügbar",
     "AI Detection onboarding wizard": "Einrichtungsassistent für KI-Erkennung",
     "AI advisor can make mistakes. Please double-check responses.":
       "Der KI-Berater kann Fehler machen. Bitte Antworten gegenprüfen.",
@@ -4077,7 +4077,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Kopieren Sie diesen Schlüssel jetzt. Sie können ihn nicht mehr einsehen.",
     "Core definition test (EU AI Act)": "Kerndefinitionstest (EU-KI-Verordnung)",
     "Create Scorer": "Bewerter erstellen",
-    "Create VerifyWise user account": "VerifyWise-Benutzerkonto erstellen",
+    "Create Parkar GovernAI user account": "Parkar GovernAI-Benutzerkonto erstellen",
     "Create a custom risk manually": "Manuell ein benutzerdefiniertes Risiko erstellen",
     "Create a new API key for programmatic access to your account.":
       "Erstellen Sie einen neuen API-Schlüssel für programmgesteuerten Zugriff auf Ihr Konto.",
@@ -4316,8 +4316,8 @@ export const translations: Record<string, Record<string, string>> = {
     "LangChain agents, CrewAI, AutoGen, MCP servers, and other autonomous AI systems will appear here":
       "LangChain-Agenten, CrewAI, AutoGen, MCP-Server und andere autonome KI-Systeme erscheinen hier",
     "Last login": "Letzte Anmeldung",
-    "Let's create a sample project to explore VerifyWise features hands-on.":
-      "Lassen Sie uns ein Beispielprojekt erstellen, um VerifyWise-Funktionen praktisch zu erkunden.",
+    "Let's create a sample project to explore Parkar GovernAI features hands-on.":
+      "Lassen Sie uns ein Beispielprojekt erstellen, um Parkar GovernAI-Funktionen praktisch zu erkunden.",
     "Link risks from your risk database to track which risks are addressed by this annex category.":
       "Verknüpfen Sie Risiken aus Ihrer Risikodatenbank, um zu verfolgen, welche Risiken durch diese Anhangskategorie adressiert werden.",
     "Linked": "Verknüpft",
@@ -4365,8 +4365,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Manage linked policies": "Verknüpfte Richtlinien verwalten",
     "Manage organizations": "Organisationen verwalten",
     "Manage your AI use cases": "Verwalten Sie Ihre KI-Anwendungsfälle",
-    "Manage your LLM keys for access to VerifyWise Advisor.":
-      "Verwalten Sie Ihre LLM-Schlüssel für den Zugriff auf den VerifyWise-Berater.",
+    "Manage your LLM keys for access to Parkar GovernAI Advisor.":
+      "Verwalten Sie Ihre LLM-Schlüssel für den Zugriff auf den Parkar GovernAI-Berater.",
     "Management": "Verwaltung",
     "Map your projects to regulations like EU AI Act, ISO 42001, and ISO 27001 to ensure comprehensive compliance.":
       "Ordnen Sie Ihre Projekte Vorschriften wie EU-KI-Verordnung, ISO 42001 und ISO 27001 zu, um umfassende Compliance sicherzustellen.",
@@ -4596,7 +4596,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Post PR comments": "PR-Kommentare posten",
     "Post status checks": "Statusprüfungen posten",
     "Post-market monitoring": "Post-Market-Überwachung",
-    "Powered by VerifyWise": "Bereitgestellt von VerifyWise",
+    "Powered by Parkar GovernAI": "Bereitgestellt von Parkar GovernAI",
     "Prediction column": "Vorhersagespalte",
     "Preview not available for this file type": "Vorschau für diesen Dateityp nicht verfügbar",
     "Preview the onboarding modal for the AI Detection module.":
@@ -4923,8 +4923,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Vektordatenbanken (Pinecone, Chroma, Qdrant), Dokumentenlader und Einbettungsmodelle erscheinen hier",
     "Vendor scorecard (advanced)": "Anbieter-Scorecard (erweitert)",
     "Verify": "Verifizieren",
-    "VerifyWise is your AI governance and compliance platform. In 3 minutes, we'll help you get started with managing AI risks, compliance frameworks, and building trust.":
-      "VerifyWise ist Ihre KI-Governance- und Compliance-Plattform. In 3 Minuten helfen wir Ihnen beim Einstieg in die Verwaltung von KI-Risiken, Compliance-Rahmenwerken und Vertrauensaufbau.",
+    "Parkar GovernAI is your AI governance and compliance platform. In 3 minutes, we'll help you get started with managing AI risks, compliance frameworks, and building trust.":
+      "Parkar GovernAI ist Ihre KI-Governance- und Compliance-Plattform. In 3 Minuten helfen wir Ihnen beim Einstieg in die Verwaltung von KI-Risiken, Compliance-Rahmenwerken und Vertrauensaufbau.",
     "Versions": "Versionen",
     "Very high risks": "Sehr hohe Risiken",
     "Very low risks": "Sehr geringe Risiken",
@@ -4960,7 +4960,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Wenn aktiviert, müssen Tool-Aufrufe vor der Ausführung genehmigt werden.",
     "When to begin monitoring": "Wann mit der Überwachung beginnen",
     "Who to notify on escalation": "Wer bei Eskalation benachrichtigt werden soll",
-    "Why VerifyWise?": "Warum VerifyWise?",
+    "Why Parkar GovernAI?": "Warum Parkar GovernAI?",
     "Win Rate": "Gewinnrate",
     "Winner": "Gewinner",
     "Wins": "Siege",
@@ -4968,8 +4968,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Word (.docx)": "Word (.docx)",
     "Workflow:": "Ablauf:",
     "X-API-Key": "X-API-Key",
-    "You are ready to work with VerifyWise and manage your AI governance process":
-      "Sie sind bereit, mit VerifyWise zu arbeiten und Ihren KI-Governance-Prozess zu verwalten",
+    "You are ready to work with Parkar GovernAI and manage your AI governance process":
+      "Sie sind bereit, mit Parkar GovernAI zu arbeiten und Ihren KI-Governance-Prozess zu verwalten",
     "You can re-create this guardrail at any time.":
       "Sie können diesen Guardrail jederzeit neu erstellen.",
     "You can skip this step and invite team members later from the organization settings.":
@@ -5097,8 +5097,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Fügen Sie Ihrem Inventar neue KI-Modelle mit umfassenden Metadaten hinzu, einschließlich Anbieter, Version, Fähigkeiten, Sicherheitsbewertung und Nutzungsdetails.",
     "Add observability and monitoring capabilities to track system health and performance.":
       "Fügen Sie Observability- und Überwachungsfunktionen hinzu, um Systemzustand und Leistung zu verfolgen.",
-    "Add your first LLM API key to enable access to your VerifyWise Advisor.":
-      "Fügen Sie Ihren ersten LLM-API-Schlüssel hinzu, um den Zugriff auf den VerifyWise-Berater zu aktivieren.",
+    "Add your first LLM API key to enable access to your Parkar GovernAI Advisor.":
+      "Fügen Sie Ihren ersten LLM-API-Schlüssel hinzu, um den Zugriff auf den Parkar GovernAI-Berater zu aktivieren.",
     "Address immediately - critical for compliance":
       "Sofort behandeln – entscheidend für die Compliance",
     "Address soon - important for compliance": "Bald behandeln – wichtig für die Compliance",
@@ -5265,8 +5265,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Block request (fail-closed)": "Anfrage blockieren (Fail-Closed)",
     "Body governed by public law": "Einrichtung des öffentlichen Rechts",
     "Bot": "Bot",
-    "Browse all available plugins to extend VerifyWise functionality.":
-      "Durchsuchen Sie alle verfügbaren Plugins, um die Funktionalität von VerifyWise zu erweitern.",
+    "Browse all available plugins to extend Parkar GovernAI functionality.":
+      "Durchsuchen Sie alle verfügbaren Plugins, um die Funktionalität von Parkar GovernAI zu erweitern.",
     "Browse and install available plugins": "Verfügbare Plugins durchsuchen und installieren",
     "Build evaluation datasets with input/output pairs and golden answers for benchmarking.":
       "Erstellen Sie Bewertungs-Datensätze mit Eingabe/Ausgabe-Paaren und Goldantworten für Benchmarks.",
@@ -5343,7 +5343,7 @@ export const translations: Record<string, Record<string, string>> = {
     'Click "Add/remove risks" to link risks from your risk database':
       'Klicken Sie auf "Risiken hinzufügen/entfernen", um Risiken aus Ihrer Risikodatenbank zu verknüpfen',
     'Click "Create use case" below to proceed with setting up this AI use case in VerifyWise.':
-      'Klicken Sie unten auf "Anwendungsfall erstellen", um diesen KI-Anwendungsfall in VerifyWise einzurichten.',
+      'Klicken Sie unten auf "Anwendungsfall erstellen", um diesen KI-Anwendungsfall in Parkar GovernAI einzurichten.',
     "Click the card again or click Total to see all datasets.":
       "Klicken Sie erneut auf die Karte oder auf Gesamt, um alle Datensätze zu sehen.",
     "Click the card again or click Total to see all models.":
@@ -6393,8 +6393,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Regeln verwalten, die übereinstimmende Befunde bei zukünftigen Scans unterdrücken",
     "Manage team members and their roles": "Teammitglieder und ihre Rollen verwalten",
     "Manage vendor relationships": "Anbieterbeziehungen verwalten",
-    "Manage your API keys for programmatic access to VerifyWise features":
-      "Verwalten Sie Ihre API-Schlüssel für den programmatischen Zugriff auf VerifyWise-Funktionen",
+    "Manage your API keys for programmatic access to Parkar GovernAI features":
+      "Verwalten Sie Ihre API-Schlüssel für den programmatischen Zugriff auf Parkar GovernAI-Funktionen",
     "Manage your documents": "Verwalten Sie Ihre Dokumente",
     "Management System": "Managementsystem",
     "Management of third-party AI related risks":
@@ -6972,8 +6972,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Session Expired": "Sitzung abgelaufen",
     "Set review deadlines with automated due-soon reminders via email and Slack.":
       "Legen Sie Überprüfungsfristen mit automatischen Erinnerungen für demnächst fällige Termine per E-Mail und Slack fest.",
-    "Settings customize VerifyWise to your organization":
-      "Einstellungen passen VerifyWise an Ihre Organisation an",
+    "Settings customize Parkar GovernAI to your organization":
+      "Einstellungen passen Parkar GovernAI an Ihre Organisation an",
     "Shadow AI, agent discovery, and bias audits": "Schatten-KI, Agentenerkennung und Bias-Audits",
     "Share link copied to clipboard!": "Freigabelink in die Zwischenablage kopiert!",
     "Share link settings updated!": "Einstellungen des Freigabelinks aktualisiert!",
@@ -7232,8 +7232,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Unexpected error. Please try again.": "Unerwarteter Fehler. Bitte erneut versuchen.",
     "Unknown error": "Unbekannter Fehler",
     "Unknown error occurred": "Unbekannter Fehler aufgetreten",
-    "Unlock the full potential of VerifyWise AI governance with our premium features.":
-      "Schöpfen Sie das volle Potenzial der VerifyWise-KI-Governance mit unseren Premium-Funktionen aus.",
+    "Unlock the full potential of Parkar GovernAI AI governance with our premium features.":
+      "Schöpfen Sie das volle Potenzial der Parkar GovernAI-KI-Governance mit unseren Premium-Funktionen aus.",
     "Unsure": "Unsicher",
     "Untitled chat": "Unbenannter Chat",
     "Up-to-date documentation ensures accurate representation of system functionalities and compliance status.":
@@ -7514,7 +7514,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Wednesday": "Mittwoch",
     "Weekly": "Wöchentlich",
     "Weighing risk dimensions": "Risikodimensionen abwägen",
-    "Welcome to Verifywise": "Willkommen bei VerifyWise",
+    "Welcome to Verifywise": "Willkommen bei Parkar GovernAI",
     "Well-defined processes enable efficient and accurate responses to regulatory inquiries or audits.":
       "Klar definierte Prozesse ermöglichen effiziente und genaue Reaktionen auf regulatorische Anfragen oder Audits.",
     "What business goal does this serve?": "Welchem Geschäftsziel dient dies?",
@@ -7545,7 +7545,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Workers": "Arbeitnehmer",
     "Workflow": "Ablauf",
     "Yes/No": "Ja/Nein",
-    "You are ready to work with VerifyWise": "Sie sind bereit, mit VerifyWise zu arbeiten",
+    "You are ready to work with Parkar GovernAI": "Sie sind bereit, mit Parkar GovernAI zu arbeiten",
     "You can always revisit this onboarding from your profile menu.":
       "Sie können dieses Onboarding jederzeit aus Ihrem Profilmenü erneut aufrufen.",
     "Your AI governance and compliance platform. In 3 minutes, we":
@@ -8303,12 +8303,12 @@ export const translations: Record<string, Record<string, string>> = {
     "No use cases created yet": "Aucun cas d'usage créé pour le moment",
 
     // Dashboard / home
-    "Welcome to VerifyWise": "Bienvenue dans VerifyWise",
+    "Welcome to Parkar GovernAI": "Bienvenue dans Parkar GovernAI",
     "Welcome": "Bienvenue",
     "Getting started": "Pour commencer",
     "Quick start guide": "Guide de démarrage rapide",
     "Navigating the dashboard": "Naviguer dans le tableau de bord",
-    "Explore VerifyWise": "Explorer VerifyWise",
+    "Explore Parkar GovernAI": "Explorer Parkar GovernAI",
     "User guide": "Guide utilisateur",
     "API documentation": "Documentation API",
     "Blog": "Blog",
@@ -8417,7 +8417,7 @@ export const translations: Record<string, Record<string, string>> = {
     "All files": "Tous les fichiers",
 
     // Automations
-    "Let VerifyWise do work for you": "Laissez VerifyWise travailler pour vous",
+    "Let Parkar GovernAI do work for you": "Laissez Parkar GovernAI travailler pour vous",
     "Automate your most common tasks.": "Automatisez vos tâches les plus courantes.",
     "Suggested automations": "Automatisations suggérées",
     "Send vendor risk alert": "Envoyer une alerte de risque fournisseur",
@@ -8661,7 +8661,7 @@ export const translations: Record<string, Record<string, string>> = {
     "AI regulation in the Middle East": "Réglementation IA au Moyen-Orient",
     "US AI regulations 2026": "Réglementations IA aux États-Unis en 2026",
     "EU AI Act omnibus: what changed": "Règlement IA de l'UE — omnibus : ce qui a changé",
-    "VerifyWise YouTube channel launched": "Lancement de la chaîne YouTube VerifyWise",
+    "Parkar GovernAI YouTube channel launched": "Lancement de la chaîne YouTube Parkar GovernAI",
     "Why LLM evaluations matter": "Pourquoi les évaluations LLM sont importantes",
     "AI models mapped to this framework": "Modèles IA rattachés à ce référentiel",
     "Organizational Frameworks": "Référentiels organisationnels",
@@ -8758,7 +8758,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Sélectionnez un projet pour voir les données de conformité",
     "Quick stats overview": "Vue d'ensemble rapide des statistiques",
     "Quick add menu": "Menu d'ajout rapide",
-    "Installing VerifyWise": "Installer VerifyWise",
+    "Installing Parkar GovernAI": "Installer Parkar GovernAI",
     "Deadline view": "Vue des échéances",
     "Operations view": "Vue opérationnelle",
     "AI PROJECT": "PROJET IA",
@@ -9093,7 +9093,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Consultez et gérez les configurations de modèles. Ces préférences sont enregistrées automatiquement lors de l'exécution d'une expérience et rechargées pour les nouvelles expériences du même projet.",
     "When an automation triggers (on schedule, via webhook, or manually), its execution is recorded here with status and duration.":
       "Lorsqu'une automatisation se déclenche (planifiée, via webhook ou manuellement), son exécution est enregistrée ici avec son statut et sa durée.",
-    "You're viewing a public demo of the VerifyWise AI governance platform. Feel free to explore using demo data, but please don't enter any personal or company information.":
+    "You're viewing a public demo of the Parkar GovernAI AI governance platform. Feel free to explore using demo data, but please don't enter any personal or company information.":
       "Vous consultez une démo publique de la plateforme de gouvernance IA VerifyWise. Explorez librement avec les données de démonstration, mais n'y saisissez pas d'informations personnelles ou d'entreprise.",
     "Your provider API keys are encrypted using AES-256-CBC before being stored. They are only decrypted when proxying a request and are never exposed in logs.":
       "Vos clés API de fournisseurs sont chiffrées avec AES-256-CBC avant stockage. Elles ne sont déchiffrées que pour relayer une requête et ne sont jamais exposées dans les journaux.",
@@ -9280,8 +9280,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Forward": "Transférer",
     "Generate audit reports": "Générer des rapports d'audit",
     "Generate Evaluation Report": "Générer un rapport d'évaluation",
-    "Generate sample data to explore VerifyWise features":
-      "Générer des données d'exemple pour explorer les fonctionnalités de VerifyWise",
+    "Generate sample data to explore Parkar GovernAI features":
+      "Générer des données d'exemple pour explorer les fonctionnalités de Parkar GovernAI",
     "Generate your first report": "Générer votre premier rapport",
     "Get new question": "Obtenir une nouvelle question",
     "Get support": "Obtenir de l'aide",
@@ -10065,7 +10065,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Vendor contact person": "Personne de contact chez le fournisseur",
     "Vendor risk form": "Formulaire de risque fournisseur",
     "Vendor Risk Score Calculation": "Calcul du score de risque fournisseur",
-    "VerifyWise AI gateway": "Passerelle IA VerifyWise",
+    "Parkar GovernAI AI gateway": "Passerelle IA Parkar GovernAI",
     "Version A": "Version A",
     "Version B": "Version B",
     "View mode toggle": "Basculer le mode d'affichage",
@@ -10212,8 +10212,8 @@ export const translations: Record<string, Record<string, string>> = {
     "A use case is a real-world scenario describing how an AI system is applied within an organization. Currently you don":
       "Un cas d'usage est un scénario réel décrivant comment un système IA est utilisé dans une organisation. Actuellement vous n'avez",
     "About EvalCards": "À propos des EvalCards",
-    "Add a new member to give them access to the VerifyWise dashboard":
-      "Ajoutez un nouveau membre pour lui donner accès au tableau de bord VerifyWise",
+    "Add a new member to give them access to the Parkar GovernAI dashboard":
+      "Ajoutez un nouveau membre pour lui donner accès au tableau de bord Parkar GovernAI",
     "Add a new risk from IBM risk database":
       "Ajouter un nouveau risque depuis la base de risques IBM",
     "Add a new risk from risk database": "Ajouter un nouveau risque depuis la base de risques",
@@ -10318,8 +10318,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Appels API directs à des fournisseurs IA détectés dans le code, y compris points de terminaison REST et invocations de méthodes SDK.",
     "Discover AI tools being used without IT approval. Flag tools that may expose sensitive data or violate company policy.":
       "Découvrez les outils IA utilisés sans validation de la DSI. Signalez les outils susceptibles d'exposer des données sensibles ou de violer la politique de l'entreprise.",
-    "Discover and manage plugins to extend VerifyWise functionality":
-      "Découvrir et gérer les plugins pour étendre les fonctionnalités de VerifyWise",
+    "Discover and manage plugins to extend Parkar GovernAI functionality":
+      "Découvrir et gérer les plugins pour étendre les fonctionnalités de Parkar GovernAI",
     "Discover tools": "Découvrir des outils",
     "Document any known biases": "Documentez les biais connus",
     "Done!": "Terminé !",
@@ -10903,7 +10903,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Utilisez des scorers prêts à l'emploi pour des vérifications courantes comme la correspondance exacte ou la similarité, ou écrivez votre propre logique de notation pour des besoins spécifiques à votre domaine.",
     "Use the search bar and level filters above to find specific log entries. Filter by severity to focus on warnings or errors.":
       "Utilisez la barre de recherche et les filtres de niveau ci-dessus pour trouver des entrées de journal spécifiques. Filtrez par gravité pour vous concentrer sur les avertissements ou erreurs.",
-    "VerifyWise logo": "Logo VerifyWise",
+    "Parkar GovernAI logo": "Logo Parkar GovernAI",
     "Warning / Pending": "Avertissement / En attente",
     "Wide": "Large",
     "e.g. 4096": "ex. 4096",
@@ -10958,9 +10958,9 @@ export const translations: Record<string, Record<string, string>> = {
     "e.g., Production agent key": "ex. Clé d'agent de production",
     "e.g., Used by the backend orchestration agent":
       "ex. Utilisé par l'agent d'orchestration backend",
-    "e.g., VerifyWise Scanner Token": "ex. Jeton VerifyWise Scanner",
-    "e.g., VerifyWise, External Vendor, Internal Team":
-      "ex. VerifyWise, fournisseur externe, équipe interne",
+    "e.g., Parkar GovernAI Scanner Token": "ex. Jeton Parkar GovernAI Scanner",
+    "e.g., Parkar GovernAI, External Vendor, Internal Team":
+      "ex. Parkar GovernAI, fournisseur externe, équipe interne",
     "e.g., Web scraping, API, Manual": "ex. Web scraping, API, manuel",
     "e.g., Zscaler proxy": "ex. Proxy Zscaler",
     "e.g., abc1234...": "ex. abc1234...",
@@ -11404,8 +11404,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Filtrer les événements pour trouver rapidement les informations pertinentes.",
     "With many events logged over time, filters help you find what you need. Filter by date range, event type, or related entity to quickly locate specific governance activities. Export filtered events for reports or documentation.":
       "Avec de nombreux événements journalisés dans le temps, les filtres vous aident à trouver ce dont vous avez besoin. Filtrez par plage de dates, type d'événement ou entité liée pour localiser rapidement des activités de gouvernance. Exportez les événements filtrés pour les rapports ou la documentation.",
-    "Settings customize VerifyWise to your organization's needs.":
-      "Les paramètres adaptent VerifyWise aux besoins de votre organisation.",
+    "Settings customize Parkar GovernAI to your organization's needs.":
+      "Les paramètres adaptent Parkar GovernAI aux besoins de votre organisation.",
     "Configure user roles and system defaults to match your governance workflows. Taking time to properly configure settings upfront saves time and reduces confusion later. Review settings periodically as your organization grows.":
       "Configurez les rôles utilisateur et les valeurs par défaut pour correspondre à vos flux de gouvernance. Prendre le temps de bien configurer en amont fait gagner du temps et réduit la confusion par la suite. Revoyez les paramètres périodiquement à mesure que votre organisation grandit.",
     "User roles control access to sensitive information.":
@@ -11522,7 +11522,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Définissez une limite mensuelle de dépenses pour maîtriser les coûts. Lorsque la limite stricte est activée, les requêtes sont rejetées une fois le budget dépassé. Utilisez le seuil d'alerte pour être averti en amont.",
     "Give every developer a governed AI endpoint in minutes.":
       "Donnez à chaque développeur un point de terminaison IA encadré en quelques minutes.",
-    "Create a virtual key, share it with a developer, and they swap their OpenAI base URL to the gateway. Every request flows through your guardrails, budget controls, and audit logs — without anyone needing a VerifyWise account.":
+    "Create a virtual key, share it with a developer, and they swap their OpenAI base URL to the gateway. Every request flows through your guardrails, budget controls, and audit logs — without anyone needing a Parkar GovernAI account.":
       "Créez une clé virtuelle, partagez-la avec un développeur, et il remplace son URL de base OpenAI par celle de la passerelle. Chaque requête passe par vos garde-fous, contrôles de budget et journaux d'audit — sans que personne n'ait besoin d'un compte VerifyWise.",
     "Control costs per team, project, or environment.":
       "Contrôler les coûts par équipe, projet ou environnement.",
@@ -11743,7 +11743,7 @@ export const translations: Record<string, Record<string, string>> = {
     // i18n audit gap fill (auto-applied)
     "A concise name for your AI use case": "Un nom concis pour votre cas d'usage IA",
     "A new version is available": "Une nouvelle version est disponible",
-    "A new version of VerifyWise is available": "Une nouvelle version de VerifyWise est disponible",
+    "A new version of Parkar GovernAI is available": "Une nouvelle version de Parkar GovernAI est disponible",
     "AI Detection onboarding wizard": "Assistant d'intégration de la détection IA",
     "AI advisor can make mistakes. Please double-check responses.":
       "Le conseiller IA peut faire des erreurs. Vérifiez les réponses.",
@@ -11951,7 +11951,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Copiez cette clé maintenant. Vous ne pourrez plus la voir.",
     "Core definition test (EU AI Act)": "Test de définition centrale (Règlement IA de l'UE)",
     "Create Scorer": "Créer un évaluateur",
-    "Create VerifyWise user account": "Créer un compte utilisateur VerifyWise",
+    "Create Parkar GovernAI user account": "Créer un compte utilisateur Parkar GovernAI",
     "Create a custom risk manually": "Créer manuellement un risque personnalisé",
     "Create a new API key for programmatic access to your account.":
       "Créez une nouvelle clé API pour un accès programmatique à votre compte.",
@@ -12190,8 +12190,8 @@ export const translations: Record<string, Record<string, string>> = {
     "LangChain agents, CrewAI, AutoGen, MCP servers, and other autonomous AI systems will appear here":
       "Les agents LangChain, CrewAI, AutoGen, les serveurs MCP et d'autres systèmes IA autonomes apparaîtront ici",
     "Last login": "Dernière connexion",
-    "Let's create a sample project to explore VerifyWise features hands-on.":
-      "Créons un projet d'exemple pour explorer les fonctionnalités de VerifyWise en pratique.",
+    "Let's create a sample project to explore Parkar GovernAI features hands-on.":
+      "Créons un projet d'exemple pour explorer les fonctionnalités de Parkar GovernAI en pratique.",
     "Link risks from your risk database to track which risks are addressed by this annex category.":
       "Liez les risques de votre base de risques pour suivre quels risques sont traités par cette catégorie d'annexe.",
     "Linked": "Lié",
@@ -12239,8 +12239,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Manage linked policies": "Gérer les politiques liées",
     "Manage organizations": "Gérer les organisations",
     "Manage your AI use cases": "Gérez vos cas d'usage IA",
-    "Manage your LLM keys for access to VerifyWise Advisor.":
-      "Gérez vos clés LLM pour accéder au VerifyWise Advisor.",
+    "Manage your LLM keys for access to Parkar GovernAI Advisor.":
+      "Gérez vos clés LLM pour accéder au Parkar GovernAI Advisor.",
     "Management": "Gestion",
     "Map your projects to regulations like EU AI Act, ISO 42001, and ISO 27001 to ensure comprehensive compliance.":
       "Mappez vos projets à des réglementations comme le Règlement IA de l'UE, ISO 42001 et ISO 27001 pour assurer une conformité complète.",
@@ -12471,7 +12471,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Post PR comments": "Publier des commentaires PR",
     "Post status checks": "Publier des vérifications de statut",
     "Post-market monitoring": "Surveillance post-commercialisation",
-    "Powered by VerifyWise": "Propulsé par VerifyWise",
+    "Powered by Parkar GovernAI": "Propulsé par Parkar GovernAI",
     "Prediction column": "Colonne de prédiction",
     "Preview not available for this file type": "Aperçu non disponible pour ce type de fichier",
     "Preview the onboarding modal for the AI Detection module.":
@@ -12796,8 +12796,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Les bases de données vectorielles (Pinecone, Chroma, Qdrant), les chargeurs de documents et les modèles d'embedding apparaîtront ici",
     "Vendor scorecard (advanced)": "Carte de score fournisseur (avancée)",
     "Verify": "Vérifier",
-    "VerifyWise is your AI governance and compliance platform. In 3 minutes, we'll help you get started with managing AI risks, compliance frameworks, and building trust.":
-      "VerifyWise est votre plateforme de gouvernance et de conformité IA. En 3 minutes, nous vous aiderons à démarrer la gestion des risques IA, des référentiels de conformité et la construction de la confiance.",
+    "Parkar GovernAI is your AI governance and compliance platform. In 3 minutes, we'll help you get started with managing AI risks, compliance frameworks, and building trust.":
+      "Parkar GovernAI est votre plateforme de gouvernance et de conformité IA. En 3 minutes, nous vous aiderons à démarrer la gestion des risques IA, des référentiels de conformité et la construction de la confiance.",
     "Versions": "Versions",
     "Very high risks": "Risques très élevés",
     "Very low risks": "Risques très faibles",
@@ -12834,7 +12834,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Lorsqu'activé, les invocations d'outils doivent être approuvées avant l'exécution.",
     "When to begin monitoring": "Quand commencer la surveillance",
     "Who to notify on escalation": "Qui notifier en cas d'escalade",
-    "Why VerifyWise?": "Pourquoi VerifyWise ?",
+    "Why Parkar GovernAI?": "Pourquoi Parkar GovernAI ?",
     "Win Rate": "Taux de victoire",
     "Winner": "Gagnant",
     "Wins": "Victoires",
@@ -12842,8 +12842,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Word (.docx)": "Word (.docx)",
     "Workflow:": "Flux :",
     "X-API-Key": "X-API-Key",
-    "You are ready to work with VerifyWise and manage your AI governance process":
-      "Vous êtes prêt à utiliser VerifyWise et à gérer votre processus de gouvernance IA",
+    "You are ready to work with Parkar GovernAI and manage your AI governance process":
+      "Vous êtes prêt à utiliser Parkar GovernAI et à gérer votre processus de gouvernance IA",
     "You can re-create this guardrail at any time.":
       "Vous pouvez recréer ce garde-fou à tout moment.",
     "You can skip this step and invite team members later from the organization settings.":
@@ -12968,8 +12968,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Ajoutez de nouveaux modèles IA à votre inventaire avec des métadonnées complètes incluant fournisseur, version, capacités, évaluation de sécurité et détails d'utilisation.",
     "Add observability and monitoring capabilities to track system health and performance.":
       "Ajoutez des capacités d'observabilité et de surveillance pour suivre la santé et les performances du système.",
-    "Add your first LLM API key to enable access to your VerifyWise Advisor.":
-      "Ajoutez votre première clé API LLM pour activer l'accès à votre VerifyWise Advisor.",
+    "Add your first LLM API key to enable access to your Parkar GovernAI Advisor.":
+      "Ajoutez votre première clé API LLM pour activer l'accès à votre Parkar GovernAI Advisor.",
     "Address immediately - critical for compliance":
       "À traiter immédiatement — critique pour la conformité",
     "Address soon - important for compliance":
@@ -13136,7 +13136,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Block request (fail-closed)": "Bloquer la requête (fail-closed)",
     "Body governed by public law": "Organisme de droit public",
     "Bot": "Bot",
-    "Browse all available plugins to extend VerifyWise functionality.":
+    "Browse all available plugins to extend Parkar GovernAI functionality.":
       "Parcourez tous les plugins disponibles pour étendre les fonctionnalités de VerifyWise.",
     "Browse and install available plugins": "Parcourir et installer les plugins disponibles",
     "Build evaluation datasets with input/output pairs and golden answers for benchmarking.":
@@ -14269,8 +14269,8 @@ export const translations: Record<string, Record<string, string>> = {
       "Gérer les règles qui suppriment les résultats correspondants lors des futures analyses",
     "Manage team members and their roles": "Gérer les membres de l'équipe et leurs rôles",
     "Manage vendor relationships": "Gérer les relations fournisseurs",
-    "Manage your API keys for programmatic access to VerifyWise features":
-      "Gérez vos clés API pour l'accès programmatique aux fonctionnalités VerifyWise",
+    "Manage your API keys for programmatic access to Parkar GovernAI features":
+      "Gérez vos clés API pour l'accès programmatique aux fonctionnalités Parkar GovernAI",
     "Manage your documents": "Gérez vos documents",
     "Management System": "Système de management",
     "Management of third-party AI related risks": "Gestion des risques liés à l'IA tierce",
@@ -14846,8 +14846,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Session Expired": "Session expirée",
     "Set review deadlines with automated due-soon reminders via email and Slack.":
       "Définissez des échéances d'examen avec des rappels automatiques pour les échéances à venir par e-mail et Slack.",
-    "Settings customize VerifyWise to your organization":
-      "Les paramètres personnalisent VerifyWise pour votre organisation",
+    "Settings customize Parkar GovernAI to your organization":
+      "Les paramètres personnalisent Parkar GovernAI pour votre organisation",
     "Shadow AI, agent discovery, and bias audits":
       "Shadow AI, découverte d'agents et audits de biais",
     "Share link copied to clipboard!": "Lien de partage copié dans le presse-papiers !",
@@ -15106,8 +15106,8 @@ export const translations: Record<string, Record<string, string>> = {
     "Unexpected error. Please try again.": "Erreur inattendue. Veuillez réessayer.",
     "Unknown error": "Erreur inconnue",
     "Unknown error occurred": "Une erreur inconnue s'est produite",
-    "Unlock the full potential of VerifyWise AI governance with our premium features.":
-      "Débloquez tout le potentiel de la gouvernance IA VerifyWise avec nos fonctionnalités premium.",
+    "Unlock the full potential of Parkar GovernAI AI governance with our premium features.":
+      "Débloquez tout le potentiel de la gouvernance IA Parkar GovernAI avec nos fonctionnalités premium.",
     "Unsure": "Incertain",
     "Untitled chat": "Chat sans titre",
     "Up-to-date documentation ensures accurate representation of system functionalities and compliance status.":
@@ -15387,7 +15387,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Wednesday": "Mercredi",
     "Weekly": "Hebdomadaire",
     "Weighing risk dimensions": "Pondération des dimensions de risque",
-    "Welcome to Verifywise": "Bienvenue sur VerifyWise",
+    "Welcome to Verifywise": "Bienvenue sur Parkar GovernAI",
     "Well-defined processes enable efficient and accurate responses to regulatory inquiries or audits.":
       "Des processus bien définis permettent des réponses efficaces et précises aux demandes ou audits réglementaires.",
     "What business goal does this serve?": "Quel objectif commercial cela sert-il ?",
@@ -15418,7 +15418,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Workers": "Travailleurs",
     "Workflow": "Flux de travail",
     "Yes/No": "Oui/Non",
-    "You are ready to work with VerifyWise": "Vous êtes prêt à utiliser VerifyWise",
+    "You are ready to work with Parkar GovernAI": "Vous êtes prêt à utiliser Parkar GovernAI",
     "You can always revisit this onboarding from your profile menu.":
       "Vous pouvez toujours revoir cette intégration depuis le menu de votre profil.",
     "Your AI governance and compliance platform. In 3 minutes, we":

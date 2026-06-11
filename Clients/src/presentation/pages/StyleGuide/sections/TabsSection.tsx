@@ -144,7 +144,7 @@ const TabsSection: React.FC = () => {
       {/* Basic Tabs */}
       <SpecSection title="Basic tabs">
         <Typography sx={{ fontSize: 13, color: theme.palette.text.tertiary, mb: "24px" }}>
-          The TabBar component wraps MUI TabList with VerifyWise styling. Requires TabContext as a
+          The TabBar component wraps MUI TabList with Parkar GovernAI styling. Requires TabContext as a
           parent for proper functionality.
         </Typography>
 

@@ -856,7 +856,7 @@ function DataFormatsSection() {
       <Stack gap="16px">
         <Typography sx={sectionTitleSx}>Data formats</Typography>
         <Typography sx={{ fontSize: 13, color: palette.status.default.text, lineHeight: 1.5 }}>
-          Reference for the exact data formats VerifyWise expects when ingesting Shadow AI events
+          Reference for the exact data formats Parkar GovernAI expects when ingesting Shadow AI events
           via the REST API or syslog forwarding.{" "}
           <Typography
             component="span"

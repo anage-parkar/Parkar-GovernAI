@@ -83,7 +83,7 @@ async def mcp_jsonrpc(request: Request):
         result = {
             "protocolVersion": "2025-03-26",
             "capabilities": {"tools": {"listChanged": True}},
-            "serverInfo": {"name": "VerifyWise MCP Gateway", "version": "1.0.0"},
+            "serverInfo": {"name": "Parkar GovernAI MCP Gateway", "version": "1.0.0"},
         }
         response = JSONResponse(content=_jsonrpc_result(msg_id, result))
         response.headers["Mcp-Session-Id"] = session_id

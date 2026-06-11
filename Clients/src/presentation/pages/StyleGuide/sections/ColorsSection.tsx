@@ -41,7 +41,7 @@ const ColorsSection: React.FC = () => {
             maxWidth: 600,
           }}
         >
-          The VerifyWise color palette. All colors are defined in the theme and should be accessed
+          The Parkar GovernAI color palette. All colors are defined in the theme and should be accessed
           via theme.palette. Click any color to copy its hex value.
         </Typography>
       </Box>
@@ -54,7 +54,7 @@ const ColorsSection: React.FC = () => {
         <ColorGrid>
           <ColorCard
             label="Primary"
-            color="#13715B"
+            color="#1B3A6B"
             usage="Main action buttons, links, focus states"
             themeKey="theme.palette.primary.main"
             onCopy={handleCopy}
@@ -75,7 +75,7 @@ const ColorsSection: React.FC = () => {
           />
           <ColorCard
             label="Primary focus ring"
-            color="rgba(19,113,91,0.1)"
+            color="rgba(27, 58, 107,0.1)"
             usage="Focus box-shadow"
             themeKey="Custom rgba"
             onCopy={handleCopy}
@@ -160,7 +160,7 @@ const ColorsSection: React.FC = () => {
           />
           <ColorCard
             label="Fill background"
-            color="#E6F0EC"
+            color="#E7ECF5"
             usage="Hover states, filled inputs"
             themeKey="theme.palette.background.fill"
             onCopy={handleCopy}
@@ -247,7 +247,7 @@ const ColorsSection: React.FC = () => {
           />
           <ColorCard
             label="Success light"
-            color="#C8E6D0"
+            color="#C2CFE5"
             usage="Success badges"
             themeKey="theme.palette.status.success.light"
             onCopy={handleCopy}
@@ -261,7 +261,7 @@ const ColorsSection: React.FC = () => {
           />
           <ColorCard
             label="Success border"
-            color="#C8E6D0"
+            color="#C2CFE5"
             usage="Success borders"
             themeKey="theme.palette.status.success.border"
             onCopy={handleCopy}
@@ -438,7 +438,7 @@ const ColorsSection: React.FC = () => {
         <ColorGrid columns={6}>
           <ColorCard
             label="Primary"
-            color="#13715B"
+            color="#1B3A6B"
             usage="Main actions"
             themeKey="primary"
             onCopy={handleCopy}
@@ -618,7 +618,7 @@ const ColorsSection: React.FC = () => {
         <Stack spacing="8px">
           {[
             "Always use theme.palette.* for colors - never hardcode hex values",
-            "Primary green #13715B is the main brand color",
+            "Primary green #1B3A6B is the main brand color",
             "Border color #d0d5dd should be used for all input borders",
             "Use status colors for feedback (success, error, warning)",
             "Background colors have semantic meanings - use appropriately",

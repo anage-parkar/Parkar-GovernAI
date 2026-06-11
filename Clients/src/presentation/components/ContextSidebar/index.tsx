@@ -25,7 +25,7 @@ interface ContextSidebarProps {
 
 /**
  * ContextSidebar renders the appropriate sidebar based on the active module.
- * - 'main': Renders the main VerifyWise sidebar
+ * - 'main': Renders the main Parkar GovernAI sidebar
  * - 'evals': Renders EvalsSidebar (state provided via EvalsSidebarContext)
  * - 'ai-detection': Renders AIDetectionSidebar
  */

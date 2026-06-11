@@ -1708,7 +1708,7 @@ export default function PolicyEditorPage() {
                         "color": "text.disabled",
                         "&:hover": {
                           color: "brand.primary",
-                          backgroundColor: "rgba(19, 113, 91, 0.1)",
+                          backgroundColor: "rgba(27, 58, 107, 0.1)",
                         },
                       }}
                     >
@@ -1915,7 +1915,7 @@ export default function PolicyEditorPage() {
                 isDisabled={isSaving || customFieldsGate.blocked}
                 sx={{
                   "backgroundColor": saveSuccess ? "#079455" : "brand.primary",
-                  "border": `1px solid ${saveSuccess ? "#079455" : "#13715B"}`,
+                  "border": `1px solid ${saveSuccess ? "#079455" : "#1B3A6B"}`,
                   "gap": 2,
                   "&:hover": {
                     backgroundColor: saveSuccess ? "#079455" : "#0F5B4D",
@@ -2400,14 +2400,14 @@ export default function PolicyEditorPage() {
               }
               /* Selected cell highlight */
               .policy-tiptap-editor .ProseMirror .selectedCell {
-                background-color: #e6f0ec !important;
-                border-color: #13715B !important;
+                background-color: #E7ECF5 !important;
+                border-color: #1B3A6B !important;
               }
               .policy-tiptap-editor .ProseMirror .selectedCell::after {
                 content: '';
                 position: absolute;
                 inset: 0;
-                background: rgba(19, 113, 91, 0.08);
+                background: rgba(27, 58, 107, 0.08);
                 pointer-events: none;
               }
               /* Column resize handle */
@@ -2417,7 +2417,7 @@ export default function PolicyEditorPage() {
                 top: 0;
                 bottom: -2px;
                 width: 4px;
-                background-color: #13715B;
+                background-color: #1B3A6B;
                 cursor: col-resize;
                 z-index: 10;
               }
@@ -2477,7 +2477,7 @@ export default function PolicyEditorPage() {
                 width: 16px;
                 height: 16px;
                 cursor: pointer;
-                accent-color: #13715B;
+                accent-color: #1B3A6B;
               }
               .policy-tiptap-editor .ProseMirror ul[data-type="taskList"] li > div {
                 flex: 1;

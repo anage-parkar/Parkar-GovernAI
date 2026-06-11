@@ -52,8 +52,8 @@ const progressFill = keyframes`
 `;
 
 const pulseGlow = keyframes`
-  0%, 100% { box-shadow: 0 0 0 0 rgba(19, 113, 91, 0.2); }
-  50% { box-shadow: 0 0 0 8px rgba(19, 113, 91, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(27, 58, 107, 0.2); }
+  50% { box-shadow: 0 0 0 8px rgba(27, 58, 107, 0); }
 `;
 
 const float = keyframes`
@@ -64,10 +64,10 @@ const float = keyframes`
 // ── Card background configs ──
 const GS_CARDS = [
   {
-    title: "Welcome to VerifyWise",
+    title: "Welcome to Parkar GovernAI",
     desc: "An introduction to the platform and its core capabilities.",
     image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80",
-    overlay: "linear-gradient(135deg, rgba(15,90,71,0.82), rgba(19,113,91,0.72))",
+    overlay: "linear-gradient(135deg, rgba(21, 46, 84,0.82), rgba(27, 58, 107,0.72))",
     action: "welcome-video" as const,
     url: "https://verifywise.ai/user-guide",
   },
@@ -88,8 +88,8 @@ const GS_CARDS = [
     url: "https://verifywise.ai/user-guide/getting-started/dashboard",
   },
   {
-    title: "Installing VerifyWise",
-    desc: "Step-by-step guide to deploy VerifyWise in your environment.",
+    title: "Installing Parkar GovernAI",
+    desc: "Step-by-step guide to deploy Parkar GovernAI in your environment.",
     image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80",
     overlay: "linear-gradient(135deg, rgba(230,81,0,0.82), rgba(244,81,30,0.72))",
     action: "external" as const,
@@ -167,7 +167,7 @@ const SHORTCUTS = [
     icon: LayoutGrid,
     path: "/overview",
     color: brand.primaryHover,
-    bg: `linear-gradient(135deg, ${brand.primaryLight}, #C8E6D0)`,
+    bg: `linear-gradient(135deg, ${brand.primaryLight}, #C2CFE5)`,
   },
   {
     label: "Risks",
@@ -261,7 +261,7 @@ const WHATS_NEW = [
     url: "https://verifywise.ai/blog/eu-ai-act-omnibus-what-changed",
   },
   {
-    label: "VerifyWise YouTube channel launched",
+    label: "Parkar GovernAI YouTube channel launched",
     sub: "May 7, 2026",
     url: "https://verifywise.ai/blog/verifywise-youtube-channel-launch",
   },
@@ -656,10 +656,10 @@ const StartHere = () => {
           </Box>
         </Box>
 
-        {/* Row 2: Explore VerifyWise */}
+        {/* Row 2: Explore Parkar GovernAI */}
         <Box sx={{ animation: `${fadeInUp} 0.5s ease-out 0.25s both` }}>
           <Typography sx={{ fontSize: 15, fontWeight: 600, mb: "12px" }}>
-            Explore VerifyWise
+            Explore Parkar GovernAI
           </Typography>
           <Box sx={{ position: "relative" }}>
             <IconButton
@@ -964,8 +964,8 @@ const StartHere = () => {
                   </Typography>
                   <Box
                     component="img"
-                    src="/verifywise-logo.png"
-                    alt="VerifyWise"
+                    src="/parkar-logo.png"
+                    alt="Parkar GovernAI"
                     sx={{ height: 16, mt: "2px", opacity: 0.7 }}
                   />
                 </Stack>

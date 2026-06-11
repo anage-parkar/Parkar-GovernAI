@@ -39,7 +39,7 @@ const loadingSnippets = {
 <CircularProgress size={20} />
 
 // Custom color
-<CircularProgress sx={{ color: "#13715B" }} />`,
+<CircularProgress sx={{ color: "#1B3A6B" }} />`,
   toast: `import CustomizableToast from "../Toast";
 
 // Full-page loading overlay

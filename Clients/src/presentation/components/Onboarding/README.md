@@ -14,10 +14,10 @@ const userId = /* your user ID */;
 localStorage.removeItem(`verifywise_onboarding_${userId}`);
 ```
 
-### Option 2: Clear All VerifyWise LocalStorage
+### Option 2: Clear All Parkar GovernAI LocalStorage
 
 ```javascript
-// Clear all VerifyWise data
+// Clear all Parkar GovernAI data
 Object.keys(localStorage).forEach((key) => {
   if (key.startsWith("verifywise_")) {
     localStorage.removeItem(key);

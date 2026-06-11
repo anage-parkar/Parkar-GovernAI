@@ -41,7 +41,7 @@ describe("VWBarChart", () => {
     const { container } = renderWithProviders(
       <VWBarChart
         data={barData}
-        series={[{ dataKey: "sales", color: "#13715B" }]}
+        series={[{ dataKey: "sales", color: "#1B3A6B" }]}
         categoryKey="category"
       />,
     );
@@ -72,7 +72,7 @@ describe("VWBarChart", () => {
       <VWBarChart
         data={multiData}
         series={[
-          { dataKey: "sales", color: "#13715B" },
+          { dataKey: "sales", color: "#1B3A6B" },
           { dataKey: "profit", color: "#2196F3" },
         ]}
         categoryKey="category"
@@ -90,7 +90,7 @@ describe("VWDonutChart", () => {
         data={donutData}
         dataKey="value"
         nameKey="name"
-        colors={["#13715B", "#E53E3E", "#F6AD55"]}
+        colors={["#1B3A6B", "#E53E3E", "#F6AD55"]}
       />,
     );
 
@@ -102,7 +102,7 @@ describe("VWDonutChart", () => {
       <VWDonutChart
         data={donutData}
         dataKey="value"
-        colors={["#13715B", "#E53E3E", "#F6AD55"]}
+        colors={["#1B3A6B", "#E53E3E", "#F6AD55"]}
         centerValue="100"
         centerLabel="Total"
         innerRadius={50}
@@ -117,7 +117,7 @@ describe("VWDonutChart", () => {
       <VWDonutChart
         data={donutData}
         dataKey="value"
-        colors={["#13715B", "#E53E3E", "#F6AD55"]}
+        colors={["#1B3A6B", "#E53E3E", "#F6AD55"]}
         innerRadius={0}
       />,
     );
@@ -132,7 +132,7 @@ describe("VWLineChart", () => {
       <VWLineChart
         data={lineData}
         series={[
-          { dataKey: "risk", color: "#13715B" },
+          { dataKey: "risk", color: "#1B3A6B" },
           { dataKey: "incidents", color: "#E53E3E" },
         ]}
         categoryKey="month"
@@ -146,7 +146,7 @@ describe("VWLineChart", () => {
     const { container } = renderWithProviders(
       <VWLineChart
         data={lineData}
-        series={[{ dataKey: "risk", color: "#13715B", name: "Risk Score" }]}
+        series={[{ dataKey: "risk", color: "#1B3A6B", name: "Risk Score" }]}
         categoryKey="month"
         showLegend
       />,
@@ -161,7 +161,7 @@ describe("VWAreaChart", () => {
     const { container } = renderWithProviders(
       <VWAreaChart
         data={areaData}
-        series={[{ dataKey: "value", color: "#13715B" }]}
+        series={[{ dataKey: "value", color: "#1B3A6B" }]}
         categoryKey="date"
       />,
     );
@@ -179,7 +179,7 @@ describe("VWAreaChart", () => {
       <VWAreaChart
         data={multiAreaData}
         series={[
-          { dataKey: "val1", color: "#13715B" },
+          { dataKey: "val1", color: "#1B3A6B" },
           { dataKey: "val2", color: "#2196F3" },
         ]}
         categoryKey="date"

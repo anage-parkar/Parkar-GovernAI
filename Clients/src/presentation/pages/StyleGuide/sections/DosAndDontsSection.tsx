@@ -196,7 +196,7 @@ const DosAndDontsSection: React.FC = () => {
       items: [
         {
           do: {
-            title: "Use VerifyWise components when available",
+            title: "Use Parkar GovernAI components when available",
             example: null,
             code: `import Select from "../components/Inputs/Select";
 
@@ -294,7 +294,7 @@ const DosAndDontsSection: React.FC = () => {
           }}
         >
           Visual examples of correct and incorrect patterns. Follow these guidelines to maintain
-          consistency across the VerifyWise application.
+          consistency across the Parkar GovernAI application.
         </Typography>
       </Box>
 
@@ -381,7 +381,7 @@ const DosAndDontsSection: React.FC = () => {
               "Use sentence case for all UI text",
               "Use theme.palette for colors",
               "Use theme.spacing() for spacing",
-              "Use VerifyWise components over MUI",
+              "Use Parkar GovernAI components over MUI",
               "Use lucide-react for icons",
               "Use 4px border radius",
               "Use #d0d5dd for borders",

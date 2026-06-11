@@ -27,7 +27,7 @@ export const ADVISOR_DOMAINS: Record<string, AdvisorDomainConfig> = {
     path: "/",
     displayName: "Dashboard",
     welcomeMessage:
-      "Hello! I'm your VerifyWise AI Advisor. I can help you with risks, models, vendors, incidents, tasks, policies, use cases, datasets, frameworks, training, evidence, reporting, AI Trust Center, and agent discovery. What would you like to know?",
+      "Hello! I'm your Parkar GovernAI AI Advisor. I can help you with risks, models, vendors, incidents, tasks, policies, use cases, datasets, frameworks, training, evidence, reporting, AI Trust Center, and agent discovery. What would you like to know?",
     placeholder: "Ask me anything about your AI governance...",
     suggestions: [
       { prompt: "Give me an executive summary of our risk landscape", label: "Summarize risks" },
@@ -362,7 +362,7 @@ export type AdvisorDomain = keyof typeof ADVISOR_DOMAINS;
 export const ADVISOR_PATHS = Object.values(ADVISOR_DOMAINS).map((d) => d.path);
 
 export const DEFAULT_WELCOME_MESSAGE =
-  "Hello! I'm your VerifyWise AI Advisor. I can help you with risks, models, vendors, incidents, tasks, policies, use cases, datasets, frameworks, training, evidence, reporting, AI Trust Center, and agent discovery. What would you like to know?";
+  "Hello! I'm your Parkar GovernAI AI Advisor. I can help you with risks, models, vendors, incidents, tasks, policies, use cases, datasets, frameworks, training, evidence, reporting, AI Trust Center, and agent discovery. What would you like to know?";
 
 /**
  * Get domain key by path

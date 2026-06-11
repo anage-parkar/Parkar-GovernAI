@@ -1,6 +1,6 @@
 # FilterBy Component Implementation Guide
 
-This document provides a comprehensive guide for implementing the FilterBy component across tables in the VerifyWise application.
+This document provides a comprehensive guide for implementing the FilterBy component across tables in the Parkar GovernAI application.
 
 ## Overview
 

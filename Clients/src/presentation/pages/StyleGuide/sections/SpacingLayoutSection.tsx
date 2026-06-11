@@ -103,7 +103,7 @@ const SpacingLayoutSection: React.FC = () => {
       {/* Spacing Scale */}
       <SpecSection title="Spacing scale">
         <Typography sx={{ fontSize: 13, color: theme.palette.text.tertiary, mb: "24px" }}>
-          VerifyWise uses theme.spacing(n) where the base unit is 2px. Use these consistent values
+          Parkar GovernAI uses theme.spacing(n) where the base unit is 2px. Use these consistent values
           instead of arbitrary pixel values.
         </Typography>
 

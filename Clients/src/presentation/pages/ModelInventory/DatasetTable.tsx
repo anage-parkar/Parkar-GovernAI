@@ -338,7 +338,7 @@ const DatasetTable: React.FC<DatasetTableProps> = ({
                     ? {
                         "animation": "flashRow 1s ease-in-out",
                         "@keyframes flashRow": {
-                          "0%": { backgroundColor: "rgba(19, 113, 91, 0.3)" },
+                          "0%": { backgroundColor: "rgba(27, 58, 107, 0.3)" },
                           "100%": { backgroundColor: "transparent" },
                         },
                       }

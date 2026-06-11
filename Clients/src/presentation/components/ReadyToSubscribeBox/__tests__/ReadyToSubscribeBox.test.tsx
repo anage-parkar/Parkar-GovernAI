@@ -15,7 +15,7 @@ describe("ReadyToSubscribeBox Component", () => {
     renderWithProviders(<ReadyToSubscribeBox />);
 
     expect(screen.getByText("Ready to subscribe?")).toBeInTheDocument();
-    expect(screen.getByText(/Unlock the full potential of VerifyWise/)).toBeInTheDocument();
+    expect(screen.getByText(/Unlock the full potential of Parkar GovernAI/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /view plans/i })).toBeInTheDocument();
   });
 

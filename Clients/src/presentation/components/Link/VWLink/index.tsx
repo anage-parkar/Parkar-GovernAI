@@ -6,7 +6,7 @@ import { IVWLinkProps } from "../../../types/link.types";
 /**
  * VWLink component
  *
- * A customizable link component that wraps Material-UI Link with VerifyWise styling.
+ * A customizable link component that wraps Material-UI Link with Parkar GovernAI styling.
  * Supports both URL navigation and button-like onClick behavior (e.g., for modals).
  *
  * Features:

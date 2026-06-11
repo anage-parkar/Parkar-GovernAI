@@ -1,5 +1,5 @@
 /**
- * VerifyWise Reusable Chart Components
+ * Parkar GovernAI Reusable Chart Components
  *
  * Thin wrappers around Recharts that enforce consistent styling:
  * - Palette-based axis/grid colors
@@ -194,7 +194,7 @@ export const VWBarChart: React.FC<VWBarChartProps> = ({
             <Tooltip
               contentStyle={vwTooltipStyle}
               formatter={tooltipFormatter}
-              cursor={isVertical ? { fill: "rgba(19, 113, 91, 0.04)" } : undefined}
+              cursor={isVertical ? { fill: "rgba(27, 58, 107, 0.04)" } : undefined}
             />
           )}
           {series.map((s, _i) => (

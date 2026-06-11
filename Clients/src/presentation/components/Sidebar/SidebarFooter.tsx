@@ -901,7 +901,7 @@ const SidebarFooter: FC<SidebarFooterProps> = ({
                 </Stack>
               </Box>
 
-              {/* Explore VerifyWise Section */}
+              {/* Explore Parkar GovernAI Section */}
               <Box>
                 <Typography
                   variant="overline"

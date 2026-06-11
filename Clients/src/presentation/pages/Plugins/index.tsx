@@ -241,7 +241,7 @@ const Plugins: React.FC = () => {
   return (
     <PageHeaderExtended
       title="Plugins"
-      description="Discover and manage plugins to extend VerifyWise functionality"
+      description="Discover and manage plugins to extend Parkar GovernAI functionality"
       alert={
         toast && toast.visible ? (
           <Suspense fallback={<div>Loading...</div>}>
@@ -395,7 +395,7 @@ const Plugins: React.FC = () => {
               <Box>
                 <Chip
                   label={`${installedPlugins.length} plugin${installedPlugins.length !== 1 ? "s" : ""} installed`}
-                  backgroundColor="rgba(19, 113, 91, 0.1)"
+                  backgroundColor="rgba(27, 58, 107, 0.1)"
                   textColor={brand.primary}
                 />
               </Box>

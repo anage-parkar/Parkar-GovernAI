@@ -27,7 +27,7 @@ const FrameworkMapper = () => {
       key: domain as string,
       label: (domain as string).replace(/_/g, " "),
       count,
-      color: "#13715B",
+      color: "#1B3A6B",
     };
   });
 

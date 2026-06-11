@@ -195,7 +195,7 @@ export function SubmissionSuccess() {
         </Box>
 
         <Typography sx={{ textAlign: "center", color: "#cbd5e1", fontSize: "12px", mt: 4 }}>
-          Powered by VerifyWise
+          Powered by Parkar GovernAI
         </Typography>
       </Box>
     </Box>

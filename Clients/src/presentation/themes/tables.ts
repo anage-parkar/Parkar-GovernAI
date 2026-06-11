@@ -68,9 +68,9 @@ export const tableStyles = {
         "borderRadius": "4px",
         "&:hover": {
           opacity: 0.9,
-          backgroundColor: "#13715B",
+          backgroundColor: "#1B3A6B",
           color: "#fff",
-          border: "1px solid #13715B",
+          border: "1px solid #1B3A6B",
           cursor: "pointer",
         },
       },

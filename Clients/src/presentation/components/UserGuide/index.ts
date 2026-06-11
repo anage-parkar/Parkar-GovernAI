@@ -7,7 +7,7 @@
  *    - Full standalone documentation with hero section
  *    - Uses UserGuideWrapper as the main entry point
  *
- * 2. In-App Mode (sidebar within VerifyWise app)
+ * 2. In-App Mode (sidebar within Parkar GovernAI app)
  *    - Sidebar documentation (360px) on the right side
  *    - Uses SidebarWrapper as the main entry point
  *    - Includes vertical tab bar (50px) with User Guide and Help tabs

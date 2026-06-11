@@ -16,7 +16,7 @@ interface AdvisorHeaderProps {
  *
  * Styling notes: matches the NotificationBell popover conventions so the
  * advisor's past-chats list feels native to VerifyWise. 8px radius, soft
- * shadow, `rgba(19, 113, 91, 0.04)` brand tint for the active row with a
+ * shadow, `rgba(27, 58, 107, 0.04)` brand tint for the active row with a
  * 3px left accent, 13/12/11px typography, hover-reveal delete action.
  */
 const AdvisorHeaderComponent = ({ pageContext }: AdvisorHeaderProps) => {
@@ -95,7 +95,7 @@ const AdvisorHeaderComponent = ({ pageContext }: AdvisorHeaderProps) => {
     "height": "28px",
     "color": "text.secondary",
     "&:hover": {
-      backgroundColor: "rgba(19, 113, 91, 0.08)",
+      backgroundColor: "rgba(27, 58, 107, 0.08)",
       color: "brand.primary",
     },
     "&.Mui-disabled": {
@@ -225,10 +225,10 @@ const AdvisorHeaderComponent = ({ pageContext }: AdvisorHeaderProps) => {
                     "cursor": "pointer",
                     "borderLeft": isActive ? "3px solid" : "3px solid transparent",
                     "borderLeftColor": isActive ? "brand.primary" : "transparent",
-                    "backgroundColor": isActive ? "rgba(19, 113, 91, 0.04)" : "transparent",
+                    "backgroundColor": isActive ? "rgba(27, 58, 107, 0.04)" : "transparent",
                     "transition": "all 0.15s ease",
                     "&:hover": {
-                      backgroundColor: isActive ? "rgba(19, 113, 91, 0.04)" : "rgba(0, 0, 0, 0.02)",
+                      backgroundColor: isActive ? "rgba(27, 58, 107, 0.04)" : "rgba(0, 0, 0, 0.02)",
                     },
                     // Reveal the delete button on hover/focus only, so the
                     // resting state stays clean.

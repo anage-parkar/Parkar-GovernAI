@@ -1052,7 +1052,7 @@ const VWISO27001AnnexDrawerDialog = ({
                                 "color": "text.tertiary",
                                 "&:hover": {
                                   color: "primary.main",
-                                  backgroundColor: "rgba(19, 113, 91, 0.08)",
+                                  backgroundColor: "rgba(27, 58, 107, 0.08)",
                                 },
                               }}
                             >
@@ -1321,7 +1321,7 @@ const VWISO27001AnnexDrawerDialog = ({
                                 "color": "text.tertiary",
                                 "&:hover": {
                                   color: "primary.main",
-                                  backgroundColor: "rgba(19, 113, 91, 0.08)",
+                                  backgroundColor: "rgba(27, 58, 107, 0.08)",
                                 },
                               }}
                             >

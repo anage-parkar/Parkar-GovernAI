@@ -92,7 +92,7 @@ const TaskWorkflowStep: React.FC<OnboardingStepProps> = () => {
             key={index}
             sx={{
               padding: 10,
-              background: "linear-gradient(135deg, #13715B08 0%, transparent 100%)",
+              background: "linear-gradient(135deg, #1B3A6B08 0%, transparent 100%)",
               border: `1px solid ${status.default.border}`,
               borderRadius: "4px",
               display: "flex",
@@ -105,7 +105,7 @@ const TaskWorkflowStep: React.FC<OnboardingStepProps> = () => {
                 width: "32px",
                 height: "32px",
                 borderRadius: "6px",
-                backgroundColor: "#13715B15",
+                backgroundColor: "#1B3A6B15",
                 color: `${brand.primary}`,
                 display: "flex",
                 alignItems: "center",

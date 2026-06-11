@@ -13,7 +13,7 @@ import * as LucideIcons from "lucide-react";
 import CodeBlock from "../components/CodeBlock";
 import { status } from "../../../themes/palette";
 
-// Common icons used throughout VerifyWise
+// Common icons used throughout Parkar GovernAI
 const COMMON_ICONS = [
   // Navigation & UI
   "ChevronDown",
@@ -200,7 +200,7 @@ const IconsSection: React.FC = () => {
             maxWidth: 600,
           }}
         >
-          VerifyWise uses lucide-react for all icons. This catalog shows commonly used icons with
+          Parkar GovernAI uses lucide-react for all icons. This catalog shows commonly used icons with
           their import names. Click any icon to copy its import.
         </Typography>
       </Box>

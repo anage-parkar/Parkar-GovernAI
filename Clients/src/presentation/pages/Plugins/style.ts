@@ -112,7 +112,7 @@ export const regionHeader = (theme: Theme): SxProps<Theme> => ({
   "borderRadius": theme.shape.borderRadius,
   "transition": "all 0.2s ease",
   "&:hover": {
-    backgroundColor: theme.palette.action?.hover || "rgba(19, 113, 91, 0.04)",
+    backgroundColor: theme.palette.action?.hover || "rgba(27, 58, 107, 0.04)",
   },
   "&:hover svg": {
     color: theme.palette.primary.main,

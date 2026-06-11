@@ -57,7 +57,7 @@
 
 /* Selected day should keep green background on hover */
 .MuiPickersDay-root.Mui-selected:hover {
-  background-color: #13715b !important;
+  background-color: #1B3A6B !important;
   color: #ffffff !important;
 }
 

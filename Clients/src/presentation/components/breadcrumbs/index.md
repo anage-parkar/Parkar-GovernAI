@@ -473,4 +473,4 @@ When contributing to the Breadcrumbs component:
 
 ## License
 
-This component is part of the VerifyWise project and follows the project's licensing terms.
+This component is part of the Parkar GovernAI project and follows the project's licensing terms.

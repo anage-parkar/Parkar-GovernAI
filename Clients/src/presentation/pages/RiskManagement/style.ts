@@ -59,13 +59,13 @@ export const riskMenuItemStyle = {
   "transition": "background-color 0.15s ease, border-color 0.15s ease",
   "position": "relative" as const,
   "&:hover": {
-    backgroundColor: "rgba(19, 113, 91, 0.04)",
-    border: "1px solid rgba(19, 113, 91, 0.12)",
+    backgroundColor: "rgba(27, 58, 107, 0.04)",
+    border: "1px solid rgba(27, 58, 107, 0.12)",
   },
   "&:focus-visible": {
     outline: "none",
-    backgroundColor: "rgba(19, 113, 91, 0.04)",
-    border: "1px solid rgba(19, 113, 91, 0.24)",
+    backgroundColor: "rgba(27, 58, 107, 0.04)",
+    border: "1px solid rgba(27, 58, 107, 0.24)",
   },
 };
 
@@ -103,7 +103,7 @@ export const riskMenuItemLogoStyle: React.CSSProperties = {
 };
 
 export const riskMenuItemRecommendedBadgeStyle = {
-  backgroundColor: "#13715B",
+  backgroundColor: "#1B3A6B",
   color: "white",
   fontSize: "9px",
   fontWeight: 600,

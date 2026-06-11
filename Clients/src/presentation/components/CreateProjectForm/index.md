@@ -345,4 +345,4 @@ test("validates required fields", async () => {
 
 ## License
 
-This component is part of the VerifyWise application and follows the project's licensing terms.
+This component is part of the Parkar GovernAI application and follows the project's licensing terms.

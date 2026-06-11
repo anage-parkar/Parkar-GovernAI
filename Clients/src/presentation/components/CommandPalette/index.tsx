@@ -88,7 +88,7 @@ function WiseSearchWelcomeBanner({ onDismiss }: { onDismiss: () => void }) {
           width: 100,
           height: 100,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(19, 113, 91, 0.3) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(27, 58, 107, 0.3) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -529,9 +529,9 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 "display": "flex",
                 "alignItems": "center",
                 "gap": 0.5,
-                "background": reviewStatus ? "rgba(19, 113, 91, 0.1)" : "transparent",
+                "background": reviewStatus ? "rgba(27, 58, 107, 0.1)" : "transparent",
                 "border": "1px solid",
-                "borderColor": reviewStatus ? "rgba(19, 113, 91, 0.3)" : "rgba(0,0,0,0.12)",
+                "borderColor": reviewStatus ? "rgba(27, 58, 107, 0.3)" : "rgba(0,0,0,0.12)",
                 "borderRadius": "4px",
                 "padding": "3px 8px",
                 "cursor": "pointer",
@@ -541,8 +541,8 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 "whiteSpace": "nowrap",
                 "transition": "all 0.15s ease",
                 "&:hover": {
-                  borderColor: reviewStatus ? "rgba(19, 113, 91, 0.5)" : "rgba(0,0,0,0.25)",
-                  background: reviewStatus ? "rgba(19, 113, 91, 0.15)" : "rgba(0,0,0,0.04)",
+                  borderColor: reviewStatus ? "rgba(27, 58, 107, 0.5)" : "rgba(0,0,0,0.25)",
+                  background: reviewStatus ? "rgba(27, 58, 107, 0.15)" : "rgba(0,0,0,0.04)",
                 },
               }}
               aria-label="Filter by review status"
@@ -598,7 +598,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                       "padding": "8px 12px",
                       "border": "none",
                       "background":
-                        reviewStatus === option.value ? "rgba(19, 113, 91, 0.08)" : "transparent",
+                        reviewStatus === option.value ? "rgba(27, 58, 107, 0.08)" : "transparent",
                       "cursor": "pointer",
                       "fontSize": "13px",
                       "color": reviewStatus === option.value ? "brand.primary" : "#666",
@@ -608,7 +608,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                       "&:hover": {
                         background:
                           reviewStatus === option.value
-                            ? "rgba(19, 113, 91, 0.12)"
+                            ? "rgba(27, 58, 107, 0.12)"
                             : "rgba(0,0,0,0.04)",
                       },
                       "&:not(:last-child)": {

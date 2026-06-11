@@ -1,5 +1,5 @@
 /**
- * VWTooltip - A VerifyWise tooltip component that supports HTML/JSX content
+ * VWTooltip - A Parkar GovernAI tooltip component that supports HTML/JSX content
  *
  * @component
  * @example

@@ -274,7 +274,7 @@ const ShareViewDropdown: React.FC<ShareViewDropdownProps> = ({
                       "padding": "4px",
                       "color": `${brand.primary}`,
                       "&:hover": {
-                        backgroundColor: "rgba(19, 113, 91, 0.1)",
+                        backgroundColor: "rgba(27, 58, 107, 0.1)",
                       },
                     }}
                   >
@@ -302,7 +302,7 @@ const ShareViewDropdown: React.FC<ShareViewDropdownProps> = ({
                       "padding": "4px",
                       "color": `${brand.primary}`,
                       "&:hover": {
-                        backgroundColor: "rgba(19, 113, 91, 0.1)",
+                        backgroundColor: "rgba(27, 58, 107, 0.1)",
                       },
                     }}
                   >
@@ -331,7 +331,7 @@ const ShareViewDropdown: React.FC<ShareViewDropdownProps> = ({
                       "padding": "4px",
                       "color": `${brand.primary}`,
                       "&:hover": {
-                        backgroundColor: "rgba(19, 113, 91, 0.1)",
+                        backgroundColor: "rgba(27, 58, 107, 0.1)",
                       },
                     }}
                   >

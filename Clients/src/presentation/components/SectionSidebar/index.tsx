@@ -68,12 +68,12 @@ const SectionSidebar = ({
                   border: isActive ? "1px solid #E8E8E8" : "1px solid transparent",
                 },
                 "&:hover svg": {
-                  color: "#13715B !important",
-                  stroke: "#13715B !important",
+                  color: "#1B3A6B !important",
+                  stroke: "#1B3A6B !important",
                   animation: "icon-shake 400ms ease-in-out",
                 },
                 "&:hover svg path": {
-                  stroke: "#13715B !important",
+                  stroke: "#1B3A6B !important",
                 },
               }}
             >
@@ -87,16 +87,16 @@ const SectionSidebar = ({
                   "marginRight": 0,
                   "& svg": {
                     color: isActive
-                      ? "#13715B !important"
+                      ? "#1B3A6B !important"
                       : `${theme.palette.text.tertiary} !important`,
                     stroke: isActive
-                      ? "#13715B !important"
+                      ? "#1B3A6B !important"
                       : `${theme.palette.text.tertiary} !important`,
                     transition: "color 0.2s ease, stroke 0.2s ease",
                   },
                   "& svg path": {
                     stroke: isActive
-                      ? "#13715B !important"
+                      ? "#1B3A6B !important"
                       : `${theme.palette.text.tertiary} !important`,
                   },
                 }}

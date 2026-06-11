@@ -107,7 +107,7 @@ const BasicModalCancelButtonStyle = {
   "borderRadius": "4px",
   "color": `${text.secondary}`,
   "&:hover": {
-    backgroundColor: "rgba(19, 113, 91, 0.04)",
+    backgroundColor: "rgba(27, 58, 107, 0.04)",
   },
 };
 
@@ -493,7 +493,7 @@ const Uploader: React.FC<UploaderProps> = ({
     "position": "relative",
     "borderRadius": "4px",
     "background": isDragging
-      ? "linear-gradient(135deg, rgba(19, 113, 91, 0.05) 0%, rgba(19, 113, 91, 0.1) 100%)"
+      ? "linear-gradient(135deg, rgba(27, 58, 107, 0.05) 0%, rgba(27, 58, 107, 0.1) 100%)"
       : "background.main",
     "border": `2px dashed ${isDragging ? singleTheme.buttons.primary.contained.backgroundColor : "#d0d5dd"}`,
     "boxShadow": "none",
@@ -515,14 +515,14 @@ const Uploader: React.FC<UploaderProps> = ({
       right: 0,
       bottom: 0,
       background: isDragging
-        ? "linear-gradient(135deg, rgba(19, 113, 91, 0.03) 0%, rgba(19, 113, 91, 0.08) 100%)"
+        ? "linear-gradient(135deg, rgba(27, 58, 107, 0.03) 0%, rgba(27, 58, 107, 0.08) 100%)"
         : "transparent",
       opacity: 0,
       transition: "opacity 0.2s ease",
     },
     "&:hover": {
       "borderColor": "#5FA896",
-      "backgroundColor": "rgba(19, 113, 91, 0.02)",
+      "backgroundColor": "rgba(27, 58, 107, 0.02)",
       "&::before": { opacity: 1 },
     },
   };
@@ -537,7 +537,7 @@ const Uploader: React.FC<UploaderProps> = ({
     "overflow": "hidden",
     "mb": 2,
     "&:hover": {
-      backgroundColor: "rgba(19, 113, 91, 0.02)",
+      backgroundColor: "rgba(27, 58, 107, 0.02)",
     },
   };
 

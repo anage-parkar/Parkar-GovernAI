@@ -301,7 +301,7 @@ export default function TestDatasetPanel({
                 "height": 4,
                 "borderRadius": 2,
                 "bgcolor": "#E4E7EC",
-                "& .MuiLinearProgress-bar": { bgcolor: "#13715B" },
+                "& .MuiLinearProgress-bar": { bgcolor: "#1B3A6B" },
               }}
             />
             <Typography fontSize={11} color="text.secondary" mt={0.5}>

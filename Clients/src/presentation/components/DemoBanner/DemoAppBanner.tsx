@@ -9,7 +9,7 @@ const DemoAppBanner = () => {
   return (
     <Container role="alert" aria-live="polite">
       <Text>
-        You're viewing a public demo of the VerifyWise AI governance platform. Feel free to explore
+        You're viewing a public demo of the Parkar GovernAI AI governance platform. Feel free to explore
         using demo data, but please don't enter any personal or company information.
       </Text>
     </Container>

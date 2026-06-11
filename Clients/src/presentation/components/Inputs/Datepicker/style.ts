@@ -121,11 +121,11 @@ export const DatePickerStyle = {
   "& .MuiPickersOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
     borderColor: "brand.primary !important",
     borderWidth: "2px",
-    boxShadow: "0 0 0 3px rgba(19, 113, 91, 0.1)",
+    boxShadow: "0 0 0 3px rgba(27, 58, 107, 0.1)",
   },
   "& .MuiPickersOutlinedInput-root.Mui-focused fieldset": {
     borderColor: "brand.primary !important",
     borderWidth: "2px",
-    boxShadow: "0 0 0 3px rgba(19, 113, 91, 0.1)",
+    boxShadow: "0 0 0 3px rgba(27, 58, 107, 0.1)",
   },
 };

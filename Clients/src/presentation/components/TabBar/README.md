@@ -147,7 +147,7 @@ All icons from [Lucide React](https://lucide.dev/icons/) are available. Just pas
 | `tabListSx`      | `object`                 | No       | -           | Custom styles for tab list  |
 | `tabSx`          | `object`                 | No       | -           | Custom styles for tabs      |
 | `disableRipple`  | `boolean`                | No       | `true`      | Disable ripple effect       |
-| `indicatorColor` | `string`                 | No       | `"#13715B"` | Active tab indicator color  |
+| `indicatorColor` | `string`                 | No       | `"#1B3A6B"` | Active tab indicator color  |
 | `dataJoyrideId`  | `string`                 | No       | -           | ID for page tours           |
 
 ### TabItem Interface
@@ -177,7 +177,7 @@ import { createTabLabelWithCount } from "../../utils/tabUtils";
   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
     <TabList
       onChange={handleTabChange}
-      TabIndicatorProps={{ style: { backgroundColor: "#13715B" } }}
+      TabIndicatorProps={{ style: { backgroundColor: "#1B3A6B" } }}
       sx={tabContainerStyle}
     >
       <Tab

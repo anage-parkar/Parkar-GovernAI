@@ -43,7 +43,7 @@ export function BenefitsScene({ frame }: { frame: number }) {
           transform: `translateY(${titleY}px)`,
         }}
       >
-        Why VerifyWise?
+        Why Parkar GovernAI?
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>

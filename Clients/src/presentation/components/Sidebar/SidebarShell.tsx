@@ -29,7 +29,7 @@ import { brand, background, border as borderPalette } from "../../themes/palette
 import { toggleSidebar } from "../../../application/redux/ui/uiSlice";
 import "../Layout/icon-shake.css";
 import { VerifyWiseContext } from "../../../application/contexts/VerifyWise.context";
-import VerifyWiseLogo from "../../assets/imgs/verifywise-logo.svg";
+import VerifyWiseLogo from "../../assets/imgs/parkar-logo.png";
 import SidebarFooter from "./SidebarFooter";
 import { FlyingHearts } from "../FlyingHearts";
 
@@ -607,7 +607,7 @@ const SidebarShell: FC<SidebarShellProps> = ({
               <RouterLink to="/" style={{ display: "flex", alignItems: "center" }}>
                 <img
                   src={VerifyWiseLogo}
-                  alt="VerifyWise"
+                  alt="Parkar GovernAI"
                   height={20}
                   className="dark-mode-keep-inverted"
                   style={{ position: "relative", zIndex: 1, display: "block" }}

@@ -80,7 +80,7 @@ export const frameworkAddedBadgeStyle: SxProps<Theme> = {
   py: 0.5,
   fontSize: 13,
   fontWeight: 600,
-  color: "#13715B",
+  color: "#1B3A6B",
 };
 
 export const modalDoneButtonStyle: SxProps<Theme> = {

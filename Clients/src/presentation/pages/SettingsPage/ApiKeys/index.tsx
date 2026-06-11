@@ -239,7 +239,7 @@ const ApiKeys = () => {
               API Keys
             </Typography>
             <Typography sx={{ fontSize: 13, color: "#666666", mt: 0.5, mb: 3 }}>
-              Manage your API keys for programmatic access to VerifyWise features
+              Manage your API keys for programmatic access to Parkar GovernAI features
             </Typography>
           </Box>
           {tokens.length > 0 && (
@@ -324,7 +324,7 @@ const ApiKeys = () => {
                     transition: "all 0.3s ease-in-out",
                     cursor: "default",
                     boxShadow:
-                      hoveredTokenId === token.id ? "0 2px 8px rgba(19, 113, 91, 0.08)" : "none",
+                      hoveredTokenId === token.id ? "0 2px 8px rgba(27, 58, 107, 0.08)" : "none",
                     opacity: deletingTokenId === token.id ? 0 : 1,
                     transform: deletingTokenId === token.id ? "translateY(-20px)" : "translateY(0)",
                   }}

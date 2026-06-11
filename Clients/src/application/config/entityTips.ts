@@ -278,7 +278,7 @@ export const ENTITY_TIPS: EntityTips = {
   ],
   "settings": [
     {
-      header: "Settings customize VerifyWise to your organization's needs.",
+      header: "Settings customize Parkar GovernAI to your organization's needs.",
       content:
         "Configure user roles and system defaults to match your governance workflows. Taking time to properly configure settings upfront saves time and reduces confusion later. Review settings periodically as your organization grows.",
     },
@@ -475,7 +475,7 @@ export const ENTITY_TIPS: EntityTips = {
     {
       header: "Give every developer a governed AI endpoint in minutes.",
       content:
-        "Create a virtual key, share it with a developer, and they swap their OpenAI base URL to the gateway. Every request flows through your guardrails, budget controls, and audit logs — without anyone needing a VerifyWise account.",
+        "Create a virtual key, share it with a developer, and they swap their OpenAI base URL to the gateway. Every request flows through your guardrails, budget controls, and audit logs — without anyone needing a Parkar GovernAI account.",
     },
     {
       header: "Control costs per team, project, or environment.",

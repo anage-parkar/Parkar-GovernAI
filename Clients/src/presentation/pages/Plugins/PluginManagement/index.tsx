@@ -411,7 +411,7 @@ const PluginManagement: React.FC = () => {
                       )}
                     </Box>
                     <Typography variant="body2" color="text.secondary" fontSize={13}>
-                      Version {plugin.version} • {plugin.author || "VerifyWise"}
+                      Version {plugin.version} • {plugin.author || "Parkar GovernAI"}
                     </Typography>
                   </Box>
                 </Box>

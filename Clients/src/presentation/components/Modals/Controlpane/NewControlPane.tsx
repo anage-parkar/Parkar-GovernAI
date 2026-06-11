@@ -2171,7 +2171,7 @@ const NewControlPane = ({
                                       "color": "text.tertiary",
                                       "&:hover": {
                                         color: "brand.primary",
-                                        backgroundColor: "rgba(19, 113, 91, 0.08)",
+                                        backgroundColor: "rgba(27, 58, 107, 0.08)",
                                       },
                                     }}
                                   >

@@ -45,7 +45,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({
             "width": size === "small" ? "32px" : size === "large" ? "44px" : "34px",
             "height": size === "small" ? "32px" : size === "large" ? "44px" : "34px",
             "&:hover": {
-              backgroundColor: "rgba(19, 113, 91, 0.08)",
+              backgroundColor: "rgba(27, 58, 107, 0.08)",
               borderColor: `${brand.primary}`,
             },
             "&:disabled": {

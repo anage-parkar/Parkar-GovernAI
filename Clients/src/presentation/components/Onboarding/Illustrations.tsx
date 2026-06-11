@@ -191,7 +191,7 @@ const IconGrid: React.FC = () => (
             height: "4px",
             top: 0,
             left: 0,
-            background: `linear-gradient(90deg, #13715B ${i * 15}%, #0F5A47 100%)`,
+            background: `linear-gradient(90deg, #1B3A6B ${i * 15}%, #152E54 100%)`,
           },
         }}
       />
@@ -220,14 +220,14 @@ const FlowDiagram: React.FC = () => (
             width: "80px",
             height: "80px",
             borderRadius: "8px",
-            background: `linear-gradient(135deg, #13715B ${step * 20}%, #0F5A47 100%)`,
+            background: `linear-gradient(135deg, #1B3A6B ${step * 20}%, #152E54 100%)`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             color: "white",
             fontSize: "24px",
             fontWeight: 600,
-            boxShadow: "0 4px 6px rgba(19, 113, 91, 0.3)",
+            boxShadow: "0 4px 6px rgba(27, 58, 107, 0.3)",
           }}
         >
           {step}
