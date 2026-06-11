@@ -1,6 +1,6 @@
 import { FC, memo } from "react";
 import { Stack, Tooltip, Box, Typography, useTheme } from "@mui/material";
-import { Shield, FlaskConical, ScanSearch, Eye, Router, Crown } from "lucide-react";
+import { Shield, Router, Crown } from "lucide-react";
 import { AppModule } from "../../../application/redux/ui/uiSlice";
 import "./index.css";
 
@@ -25,24 +25,26 @@ const modules: ModuleItem[] = [
     label: "Governance",
     description: "Centralized AI governance, risk, and compliance platform",
   },
-  {
-    id: "evals",
-    icon: <FlaskConical size={16} strokeWidth={1.5} />,
-    label: "LLM Evals",
-    description: "Evaluate LLM quality, performance and reliability over time",
-  },
-  {
-    id: "ai-detection",
-    icon: <ScanSearch size={16} strokeWidth={1.5} />,
-    label: "AI Detection",
-    description: "Scan repositories to detect AI/ML libraries and frameworks",
-  },
-  {
-    id: "shadow-ai",
-    icon: <Eye size={16} strokeWidth={1.5} />,
-    label: "Shadow AI",
-    description: "Detect and govern unauthorized AI tool usage across your organization",
-  },
+  // --- Hidden on UI (per management request) — keep only Governance & AI Gateway.
+  //     Re-add these three entries to restore LLM Evals / AI Detection / Shadow AI.
+  // {
+  //   id: "evals",
+  //   icon: <FlaskConical size={16} strokeWidth={1.5} />,
+  //   label: "LLM Evals",
+  //   description: "Evaluate LLM quality, performance and reliability over time",
+  // },
+  // {
+  //   id: "ai-detection",
+  //   icon: <ScanSearch size={16} strokeWidth={1.5} />,
+  //   label: "AI Detection",
+  //   description: "Scan repositories to detect AI/ML libraries and frameworks",
+  // },
+  // {
+  //   id: "shadow-ai",
+  //   icon: <Eye size={16} strokeWidth={1.5} />,
+  //   label: "Shadow AI",
+  //   description: "Detect and govern unauthorized AI tool usage across your organization",
+  // },
   {
     id: "ai-gateway",
     icon: <Router size={16} strokeWidth={1.5} />,

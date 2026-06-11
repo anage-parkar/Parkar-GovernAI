@@ -145,7 +145,9 @@
       "Bash(python -c ' *)",
       "Bash(cd \"/c/Users/abhishek.nage/AIONIQ-AI-GOV/verifywise/Servers\")",
       "Bash(python -c \"import litellm; print\\('azure:', any\\('azure' in m for m in litellm.models_by_provider.get\\('azure',[]\\)[:1]\\) or 'azure' in litellm.provider_list\\); print\\('providers sample:', [p for p in litellm.provider_list if p in \\('azure','vertex_ai','bedrock','openai','anthropic','gemini'\\)]\\)\")",
-      "Bash(python -c \"from PIL import Image; im=Image.open\\('Parkar_logo.png'\\); print\\('size:', im.size, 'mode:', im.mode\\)\")"
+      "Bash(python -c \"from PIL import Image; im=Image.open\\('Parkar_logo.png'\\); print\\('size:', im.size, 'mode:', im.mode\\)\")",
+      "Bash(sed -n '1,80p' application/hooks/useActiveModule.ts)",
+      "Bash(ls presentation/components/AppSwitcher/)"
     ]
   }
 }
