@@ -69,7 +69,7 @@ const GS_CARDS = [
     image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80",
     overlay: "linear-gradient(135deg, rgba(21, 46, 84,0.82), rgba(27, 58, 107,0.72))",
     action: "welcome-video" as const,
-    url: "https://verifywise.ai/user-guide",
+    url: "/user-guide/index.html",
   },
   {
     title: "Quick start guide",
@@ -77,7 +77,7 @@ const GS_CARDS = [
     image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&q=80",
     overlay: "linear-gradient(135deg, rgba(21,101,192,0.82), rgba(30,136,229,0.72))",
     action: "external" as const,
-    url: "https://verifywise.ai/user-guide/getting-started/quick-start",
+    url: "/user-guide/index.html",
   },
   {
     title: "Navigating the dashboard",
@@ -85,7 +85,7 @@ const GS_CARDS = [
     image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80",
     overlay: "linear-gradient(135deg, rgba(123,31,162,0.82), rgba(156,39,176,0.72))",
     action: "external" as const,
-    url: "https://verifywise.ai/user-guide/getting-started/dashboard",
+    url: "/user-guide/governance.html#dashboard",
   },
   {
     title: "Installing Parkar GovernAI",
@@ -93,7 +93,7 @@ const GS_CARDS = [
     image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80",
     overlay: "linear-gradient(135deg, rgba(230,81,0,0.82), rgba(244,81,30,0.72))",
     action: "external" as const,
-    url: "https://verifywise.ai/user-guide/getting-started/installing",
+    url: "/user-guide/index.html",
   },
 ] as const;
 
@@ -230,47 +230,46 @@ const SHORTCUTS = [
 const RESOURCES = [
   {
     label: "User guide",
-    sub: "verifywise.ai/user-guide",
+    sub: "Governance & AI Gateway",
     icon: BookOpen,
-    url: "https://verifywise.ai/user-guide",
+    url: "/user-guide/index.html",
+    disabled: false,
   },
-  { label: "Blog", sub: "verifywise.ai/blog", icon: Newspaper, url: "https://verifywise.ai/blog" },
+  { label: "Blog", sub: "Coming soon", icon: Newspaper, url: "", disabled: true },
   {
     label: "API documentation",
-    sub: "verifywise.ai/api-docs",
+    sub: "Coming soon",
     icon: Plug,
-    url: "https://verifywise.ai/api-docs",
+    url: "",
+    disabled: true,
   },
   {
     label: "Community",
-    sub: "github.com/bluewave-labs/verifywise",
+    sub: "Coming soon",
     icon: MessageCircle,
-    url: "https://github.com/bluewave-labs/verifywise",
+    url: "",
+    disabled: true,
   },
-] as const;
+];
 
-const WHATS_NEW = [
+const ABOUT_PARKAR = [
   {
-    label: "US AI regulations 2026",
-    sub: "May 15, 2026",
-    url: "https://verifywise.ai/blog/state-of-ai-governance-regulations-united-states-2026",
+    label: "Digital transformation experts",
+    sub: "Parkar Digital delivers end-to-end technology solutions across AI, cloud, and enterprise modernization.",
   },
   {
-    label: "EU AI Act omnibus: what changed",
-    sub: "May 14, 2026",
-    url: "https://verifywise.ai/blog/eu-ai-act-omnibus-what-changed",
+    label: "AI governance built for compliance",
+    sub: "Parkar GovernAI helps organizations meet EU AI Act, ISO 42001, and NIST AI RMF requirements with a single platform.",
   },
   {
-    label: "Parkar GovernAI YouTube channel launched",
-    sub: "May 7, 2026",
-    url: "https://verifywise.ai/blog/verifywise-youtube-channel-launch",
+    label: "Trusted across industries",
+    sub: "From healthcare to finance, Parkar partners with enterprises to operationalize responsible and auditable AI programs.",
   },
   {
-    label: "Why LLM evaluations matter",
-    sub: "May 4, 2026",
-    url: "https://verifywise.ai/blog/why-llm-evaluations-matter-for-ai-governance",
+    label: "Headquartered in the United States",
+    sub: "Parkar Digital operates globally with teams delivering solutions that align with regional regulatory requirements.",
   },
-] as const;
+];
 
 // Progress step definitions with check functions
 interface ProgressStep {
@@ -317,9 +316,6 @@ const StartHere = () => {
     () => localStorage.getItem("verifywise_start_here_progress_dismissed") === "true",
   );
   const [welcomeVideoOpen, setWelcomeVideoOpen] = useState(false);
-  const [expertsDismissed, setExpertsDismissed] = useState(
-    () => localStorage.getItem("verifywise_start_here_experts_dismissed") === "true",
-  );
   const [exploreVideoTitle, setExploreVideoTitle] = useState<string | null>(null);
 
   const exploreVideoConfig = useMemo(
@@ -906,91 +902,61 @@ const StartHere = () => {
           </Stack>
         </Box>
 
-        {/* Row 4: Your experts */}
-        {!expertsDismissed && (
-          <Box sx={{ animation: `${fadeInUp} 0.5s ease-out 0.4s both` }}>
-            <Typography sx={{ fontSize: 15, fontWeight: 600, mb: "12px" }}>Your experts</Typography>
-            <Stack
-              direction="row"
-              alignItems="flex-start"
-              sx={{ gap: "12px", position: "relative", width: "fit-content" }}
-            >
-              {[
-                { name: "Ulas Ozguven", photo: "https://verifywise.ai/images/team/ulas.jpeg" },
-                {
-                  name: "David Pinkney",
-                  photo: "https://verifywise.ai/images/avatars/DavidPinkney.jpg",
-                },
-              ].map((expert) => (
-                <Stack
-                  key={expert.name}
-                  onClick={() =>
-                    window.open("https://verifywise.ai/contact", "_blank", "noopener,noreferrer")
-                  }
-                  alignItems="center"
-                  sx={{
-                    "gap": "8px",
-                    "p": "16px",
-                    "borderRadius": "8px",
-                    "border": `1px solid ${theme.palette.border.light}`,
-                    "minWidth": 160,
-                    "cursor": "pointer",
-                    "transition":
-                      "border-color 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                    "&:hover": {
-                      borderColor: theme.palette.border.dark,
-                      transform: "translateY(-2px)",
-                    },
-                  }}
-                >
-                  <Box
-                    component="img"
-                    src={expert.photo}
-                    alt={expert.name}
-                    sx={{
-                      width: 56,
-                      height: 56,
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <Typography sx={{ fontSize: 13, fontWeight: 600, textAlign: "center" }}>
-                    {expert.name}
-                  </Typography>
-                  <Typography
-                    sx={{ fontSize: 11, color: theme.palette.text.secondary, textAlign: "center" }}
-                  >
-                    AI governance expert
-                  </Typography>
-                  <Box
-                    component="img"
-                    src="/parkar-logo.png"
-                    alt="Parkar GovernAI"
-                    sx={{ height: 16, mt: "2px", opacity: 0.7 }}
-                  />
-                </Stack>
-              ))}
-              <Typography
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setExpertsDismissed(true);
-                  localStorage.setItem("verifywise_start_here_experts_dismissed", "true");
-                }}
+        {/* Row 4: Our developers */}
+        <Box sx={{ animation: `${fadeInUp} 0.5s ease-out 0.4s both` }}>
+          <Typography sx={{ fontSize: 15, fontWeight: 600, mb: "12px" }}>Our developers</Typography>
+          <Stack
+            direction="row"
+            alignItems="flex-start"
+            sx={{ gap: "12px", width: "fit-content" }}
+          >
+            {[
+              {
+                name: "Kamlesh Choudhary",
+                photo:
+                  "https://media.licdn.com/dms/image/v2/D4D03AQGF5bMiuokK2A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1725448834074?e=1782950400&v=beta&t=YUpwK2WgTcS_Qn-OSvzZqsllT9speC71ZbDBVXQ7xvE",
+              },
+              {
+                name: "Abhishek Nage",
+                photo:
+                  "https://media.licdn.com/dms/image/v2/D4D03AQGJQ1Z3OXUcqw/profile-displayphoto-crop_800_800/B4DZ3klndeJgAI-/0/1777656561773?e=1782950400&v=beta&t=h_AMqTLw4UFqmguWHiqQeo-qBTDTvdS-Zq-Mzyp4LiY",
+              },
+            ].map((expert) => (
+              <Stack
+                key={expert.name}
+                alignItems="center"
                 sx={{
-                  "position": "absolute",
-                  "top": -24,
-                  "right": 0,
-                  "fontSize": 11,
-                  "color": theme.palette.text.accent,
-                  "cursor": "pointer",
-                  "&:hover": { color: theme.palette.text.secondary },
+                  gap: "8px",
+                  p: "16px",
+                  borderRadius: "8px",
+                  border: `1px solid ${theme.palette.border.light}`,
+                  minWidth: 160,
                 }}
               >
-                Dismiss
-              </Typography>
-            </Stack>
-          </Box>
-        )}
+                <Box
+                  component="img"
+                  src={expert.photo}
+                  alt={expert.name}
+                  sx={{ width: 56, height: 56, borderRadius: "50%", objectFit: "cover" }}
+                />
+                <Typography sx={{ fontSize: 13, fontWeight: 600, textAlign: "center" }}>
+                  {expert.name}
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 11, color: theme.palette.text.secondary, textAlign: "center" }}
+                >
+                  AI Developer
+                </Typography>
+                <Box
+                  component="img"
+                  src="/parkar-logo.png"
+                  alt="Parkar GovernAI"
+                  sx={{ height: 16, mt: "2px", opacity: 0.7 }}
+                />
+              </Stack>
+            ))}
+          </Stack>
+        </Box>
       </Stack>
 
       {/* ── Right sidebar ── */}
@@ -1156,24 +1122,29 @@ const StartHere = () => {
                   key={r.label}
                   direction="row"
                   alignItems="center"
-                  component="a"
-                  href={r.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {...(!r.disabled && {
+                    component: "a",
+                    href: r.url,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                  })}
                   sx={{
                     "gap": "8px",
                     "p": "8px",
                     "borderRadius": "6px",
-                    "cursor": "pointer",
+                    "cursor": r.disabled ? "default" : "pointer",
                     "transition": "all 0.2s ease",
                     "textDecoration": "none",
                     "color": "inherit",
-                    "&:hover": {
-                      "background": "#F9F9F9",
-                      "& .resource-icon svg": {
-                        stroke: brand.primary,
+                    "opacity": r.disabled ? 0.5 : 1,
+                    ...(!r.disabled && {
+                      "&:hover": {
+                        "background": "#F9F9F9",
+                        "& .resource-icon svg": {
+                          stroke: brand.primary,
+                        },
                       },
-                    },
+                    }),
                   }}
                 >
                   <Box
@@ -1203,7 +1174,7 @@ const StartHere = () => {
           </Stack>
         </Box>
 
-        {/* What's new */}
+        {/* About Parkar */}
         <Box
           sx={{
             background: theme.palette.background.main,
@@ -1212,30 +1183,21 @@ const StartHere = () => {
             p: "16px",
           }}
         >
-          <Typography sx={{ fontSize: 13, fontWeight: 600, mb: "12px" }}>What's new</Typography>
+          <Typography sx={{ fontSize: 13, fontWeight: 600, mb: "12px" }}>About Parkar</Typography>
           <Stack sx={{ gap: "4px" }}>
-            {WHATS_NEW.map((item) => (
+            {ABOUT_PARKAR.map((item) => (
               <Stack
                 key={item.label}
                 direction="row"
-                alignItems="center"
-                onClick={() => window.open(item.url, "_blank", "noopener,noreferrer")}
+                alignItems="flex-start"
                 sx={{
-                  "gap": "8px",
-                  "p": "8px",
-                  "borderRadius": "6px",
-                  "cursor": "pointer",
-                  "transition": "all 0.2s ease",
-                  "&:hover": {
-                    "background": "#F9F9F9",
-                    "& .whatsnew-icon svg": {
-                      stroke: brand.primary,
-                    },
-                  },
+                  gap: "8px",
+                  p: "8px",
+                  borderRadius: "6px",
+                  cursor: "default",
                 }}
               >
                 <Box
-                  className="whatsnew-icon"
                   sx={{
                     width: 28,
                     height: 28,
@@ -1243,6 +1205,7 @@ const StartHere = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     flexShrink: 0,
+                    mt: "1px",
                   }}
                 >
                   <Sparkles size={14} color={theme.palette.text.secondary} strokeWidth={1.5} />

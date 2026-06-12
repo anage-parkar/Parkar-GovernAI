@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Gateway — Parkar GovernAI User Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary:        #1B3A6B;
+      --primary-hover:  #152E54;
+      --primary-light:  #E7ECF5;
+      --accent:         #13715B;
+      --accent-light:   #E6F4F0;
+      --gateway:        #7B1FA2;
+      --gateway-light:  #F3E5F5;
+      --mcp:            #1565C0;
+      --mcp-light:      #E3F2FD;
+      --text-primary:   #1c2130;
+      --text-secondary: #344054;
+      --text-muted:     #667085;
+      --border:         #eaecf0;
+      --bg:             #FFFFFF;
+      --bg-alt:         #FCFCFD;
+      --bg-hover:       #F9FAFB;
+      --sidebar-w:      272px;
+      --header-h:       60px;
+      --radius:         10px;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.6; font-size: 14px; }
+
+    /* ── HEADER ── */
+    .site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: var(--header-h); background: var(--primary); display: flex; align-items: center; padding: 0 24px; gap: 16px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-mark { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,#13715B,#1B8A6B); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 12px; }
+    .logo-text { color: #fff; font-weight: 600; font-size: 14px; }
+    .breadcrumb { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,.55); font-size: 12px; }
+    .breadcrumb a { color: rgba(255,255,255,.7); text-decoration: none; }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb span { color: rgba(255,255,255,.4); }
+    .header-nav { margin-left: auto; display: flex; gap: 4px; }
+    .header-nav a { color: rgba(255,255,255,.75); text-decoration: none; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 500; transition: all .15s; }
+    .header-nav a:hover, .header-nav a.active { color: #fff; background: rgba(255,255,255,.12); }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: fixed; top: var(--header-h); left: 0; bottom: 0; width: var(--sidebar-w); background: var(--bg-alt); border-right: 1px solid var(--border); overflow-y: auto; z-index: 100; padding: 20px 12px; }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .sidebar-section { margin-bottom: 6px; }
+    .sidebar-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: var(--text-muted); padding: 12px 10px 6px; }
+    .sidebar-item { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: 7px; text-decoration: none; color: var(--text-secondary); font-size: 13px; font-weight: 500; transition: all .15s; }
+    .sidebar-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .sidebar-item.active { background: var(--gateway-light); color: var(--gateway); font-weight: 600; }
+    .sidebar-item.mcp.active { background: var(--mcp-light); color: var(--mcp); }
+    .sidebar-item .icon { font-size: 15px; flex-shrink: 0; width: 20px; text-align: center; }
+
+    /* ── CONTENT ── */
+    .content { margin-left: var(--sidebar-w); margin-top: var(--header-h); min-height: calc(100vh - var(--header-h)); }
+
+    .page-hero { background: linear-gradient(135deg, #4A0072 0%, #7B1FA2 60%, #9C27B0 100%); padding: 48px 56px; }
+    .page-hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.85); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 16px; }
+    .page-hero h1 { font-size: 34px; font-weight: 700; color: #fff; letter-spacing: -.4px; margin-bottom: 10px; }
+    .page-hero p { font-size: 15px; color: rgba(255,255,255,.75); max-width: 600px; }
+    .reg-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .reg-pill { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); color: rgba(255,255,255,.85); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+
+    .article { padding: 48px 56px; max-width: 880px; }
+    .module-section { margin-bottom: 72px; scroll-margin-top: calc(var(--header-h) + 24px); }
+    .module-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .module-icon { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .module-header-text h2 { font-size: 22px; font-weight: 700; color: var(--text-primary); letter-spacing: -.3px; margin-bottom: 6px; }
+    .module-header-text p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .route-tag { display: inline-block; font-size: 11px; font-weight: 500; background: var(--primary-light); color: var(--primary); padding: 2px 10px; border-radius: 4px; font-family: monospace; margin-top: 8px; }
+    .mcp-tag { background: var(--mcp-light); color: var(--mcp); }
+
+    h3 { font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 28px 0 12px; }
+    p { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.7; }
+    ul, ol { padding-left: 20px; margin-bottom: 16px; }
+    li { font-size: 14px; color: var(--text-secondary); margin-bottom: 7px; line-height: 1.6; }
+    li strong { color: var(--text-primary); font-weight: 600; }
+
+    .info-box { background: var(--accent-light); border: 1px solid #b8dcd5; border-left: 4px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; margin: 20px 0; }
+    .info-box p { color: #0a4a3a; margin: 0; font-size: 13px; }
+    .warn-box { background: #FFF8E1; border: 1px solid #F5E6B8; border-left: 4px solid #F59E0B; border-radius: var(--radius); padding: 14px 18px; margin: 20px 0; }
+    .warn-box p { color: #78350F; margin: 0; font-size: 13px; }
+    .tip-box { background: #EFF6FF; border: 1px solid #BFDBFE; border-left: 4px solid #3B82F6; border-radius: var(--radius); padding: 14px 18px; margin: 20px 0; }
+    .tip-box p { color: #1e40af; margin: 0; font-size: 13px; }
+    .gateway-box { background: var(--gateway-light); border: 1px solid #ce93d8; border-left: 4px solid var(--gateway); border-radius: var(--radius); padding: 14px 18px; margin: 20px 0; }
+    .gateway-box p { color: #4a0072; margin: 0; font-size: 13px; }
+    .mcp-box { background: var(--mcp-light); border: 1px solid #90caf9; border-left: 4px solid var(--mcp); border-radius: var(--radius); padding: 14px 18px; margin: 20px 0; }
+    .mcp-box p { color: #0d47a1; margin: 0; font-size: 13px; }
+
+    .data-table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; }
+    .data-table th { background: var(--bg-alt); text-align: left; font-weight: 600; color: var(--text-primary); padding: 9px 14px; border-bottom: 2px solid var(--border); font-size: 12px; }
+    .data-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--bg-hover); }
+    code { background: var(--primary-light); color: var(--primary); padding: 1px 6px; border-radius: 4px; font-size: 12px; font-family: monospace; }
+    .badge { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+    .badge-green { background: #E6F4EA; color: #138A5E; }
+    .badge-blue { background: #E3F2FD; color: #1565C0; }
+    .badge-orange { background: #FFE5D0; color: #E64A19; }
+    .badge-red { background: #FFD6D6; color: #D32F2F; }
+    .badge-grey { background: #F3F4F6; color: #6B7280; }
+    .badge-purple { background: #F3E5F5; color: #7B1FA2; }
+    .step-flow { margin: 20px 0; }
+    .step-row { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+    .step-circle { width: 28px; height: 28px; border-radius: 50%; background: var(--gateway); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .step-body strong { font-size: 14px; color: var(--text-primary); display: block; margin-bottom: 3px; }
+    .step-body span { font-size: 13px; color: var(--text-muted); }
+    .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+    /* MCP section header */
+    .mcp-section-header { background: linear-gradient(135deg, var(--mcp-light), #dbeeff); border: 1px solid #90caf9; border-radius: var(--radius); padding: 20px 24px; margin: 32px 0 24px; display: flex; gap: 16px; align-items: center; }
+    .mcp-section-icon { font-size: 28px; }
+    .mcp-section-text h3 { font-size: 16px; font-weight: 700; color: var(--mcp); margin: 0 0 4px; }
+    .mcp-section-text p { font-size: 13px; color: #1565C0; margin: 0; }
+
+    .site-footer { text-align: center; padding: 28px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 12px; }
+    .site-footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-mark">PG</div>
+    <span class="logo-text">Parkar GovernAI</span>
+  </a>
+  <div class="breadcrumb">
+    <span>›</span>
+    <a href="index.html">User Guide</a>
+    <span>›</span>
+    <span style="color:rgba(255,255,255,.85)">AI Gateway</span>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="governance.html">Governance</a>
+    <a href="ai-gateway.html" class="active">AI Gateway</a>
+  </nav>
+</header>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">AI Gateway</div>
+    <a href="#spend-dashboard" class="sidebar-item"><span class="icon">💰</span>Spend Dashboard</a>
+    <a href="#endpoints" class="sidebar-item"><span class="icon">🔌</span>Endpoints</a>
+    <a href="#playground" class="sidebar-item"><span class="icon">🎮</span>Playground</a>
+    <a href="#guardrails" class="sidebar-item"><span class="icon">🛡️</span>Guardrails</a>
+    <a href="#prompts" class="sidebar-item"><span class="icon">💬</span>Prompts</a>
+    <a href="#models" class="sidebar-item"><span class="icon">🧠</span>Models</a>
+    <a href="#logs" class="sidebar-item"><span class="icon">📋</span>Logs</a>
+    <a href="#settings" class="sidebar-item"><span class="icon">⚙️</span>Settings</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">MCP Gateway</div>
+    <a href="#mcp-agent-keys" class="sidebar-item mcp"><span class="icon">🔑</span>Agent Keys</a>
+    <a href="#mcp-servers" class="sidebar-item mcp"><span class="icon">🖥️</span>Servers</a>
+    <a href="#mcp-tools" class="sidebar-item mcp"><span class="icon">🔧</span>Tools</a>
+    <a href="#mcp-audit-log" class="sidebar-item mcp"><span class="icon">📜</span>Audit Log</a>
+    <a href="#mcp-approvals" class="sidebar-item mcp"><span class="icon">✔️</span>Approvals</a>
+    <a href="#mcp-guardrails" class="sidebar-item mcp"><span class="icon">🚧</span>Guardrails</a>
+  </div>
+</aside>
+
+<!-- CONTENT -->
+<main class="content">
+
+  <div class="page-hero">
+    <div class="page-hero-badge">⚡ Section 2</div>
+    <h1>AI Gateway</h1>
+    <p>A centralized proxy for all LLM traffic in your organization — with built-in guardrails, cost tracking, prompt management, full audit logging, and MCP protocol support for AI agents.</p>
+    <div class="reg-pills">
+      <span class="reg-pill">EU AI Act Article 12</span>
+      <span class="reg-pill">Human Oversight</span>
+      <span class="reg-pill">Audit Logging</span>
+      <span class="reg-pill">MCP Protocol</span>
+      <span class="reg-pill">Cost Governance</span>
+    </div>
+  </div>
+
+  <div class="article">
+
+    <div class="gateway-box">
+      <p><strong>What is the AI Gateway?</strong><br/>The AI Gateway is a reverse proxy that sits between your applications and LLM providers (OpenAI, Anthropic, Azure OpenAI, etc.). Every LLM request flows through the Gateway, where it can be inspected, filtered by guardrails, logged for compliance, and cost-tracked. For organizations governed by EU AI Act Article 12 (record-keeping obligations), this provides the complete audit trail of every AI action.</p>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SPEND DASHBOARD -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="spend-dashboard">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E7ECF5;">💰</div>
+        <div class="module-header-text">
+          <h2>Spend Dashboard</h2>
+          <p>Real-time LLM cost tracking across all providers and endpoints — with budget management, usage trends, and spend breakdowns by model and team.</p>
+          <span class="route-tag">/ai-gateway/spend-dashboard</span>
+        </div>
+      </div>
+
+      <p>The Spend Dashboard gives finance, procurement, and engineering leaders a live view of AI expenditure. Without centralized tracking, LLM costs are invisible until the monthly invoice arrives. The Gateway tracks every token, every request, every dollar — in real time.</p>
+
+      <h3>Key Metrics Displayed</h3>
+      <ul>
+        <li><strong>Total spend</strong> — across all endpoints and providers for the selected time period</li>
+        <li><strong>Spend by endpoint</strong> — which proxy endpoints are consuming the most cost</li>
+        <li><strong>Spend by model</strong> — cost breakdown per LLM model (GPT-4o, Claude 3.5, Llama, etc.)</li>
+        <li><strong>Request volume trends</strong> — daily/weekly request counts and latency</li>
+        <li><strong>Budget utilization</strong> — how much of the allocated budget has been consumed</li>
+        <li><strong>Cost per request</strong> — average cost efficiency over time</li>
+      </ul>
+
+      <h3>Budget Management</h3>
+      <p>Set budget thresholds per endpoint or organization-wide. When spend approaches the configured threshold, alerts are triggered — before the budget is exceeded, not after.</p>
+
+      <div class="info-box"><p><strong>Cost governance:</strong> LLM costs can scale rapidly with usage. The Spend Dashboard provides the visibility needed to make informed decisions about which models to use, which endpoints to optimize, and where cost controls need to be applied.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- ENDPOINTS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="endpoints">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E8F5E9;">🔌</div>
+        <div class="module-header-text">
+          <h2>Endpoints</h2>
+          <p>Create and manage LLM proxy endpoints — configure the model, API keys, system prompts, rate limits, fallback endpoints, and response caching for each use case.</p>
+          <span class="route-tag">/ai-gateway/endpoints</span>
+        </div>
+      </div>
+
+      <p>An <strong>endpoint</strong> is a named proxy configuration that your applications call instead of calling an LLM provider directly. By routing through a Gateway endpoint, you gain: centralized key management, rate limiting, guardrail enforcement, full logging, and the ability to swap models without changing application code.</p>
+
+      <h3>Creating an Endpoint</h3>
+      <div class="step-flow">
+        <div class="step-row"><div class="step-circle">1</div><div class="step-body"><strong>Name and description</strong><span>Give the endpoint a clear name (e.g., "Customer Support Bot - GPT-4o") that identifies its purpose.</span></div></div>
+        <div class="step-row"><div class="step-circle">2</div><div class="step-body"><strong>Select provider and model</strong><span>Choose the LLM provider and specific model. The gateway handles the API call format differences between providers.</span></div></div>
+        <div class="step-row"><div class="step-circle">3</div><div class="step-body"><strong>Configure API key</strong><span>Select a provider API key from Settings → API Keys. The key is never exposed to calling applications.</span></div></div>
+        <div class="step-row"><div class="step-circle">4</div><div class="step-body"><strong>Set system prompt</strong><span>Define the base system prompt for this endpoint — or leave empty for callers to provide their own.</span></div></div>
+        <div class="step-row"><div class="step-circle">5</div><div class="step-body"><strong>Configure rate limits</strong><span>Set requests-per-minute, tokens-per-minute, and per-user limits to prevent abuse and control costs.</span></div></div>
+        <div class="step-row"><div class="step-circle">6</div><div class="step-body"><strong>Set fallback endpoint</strong><span>Configure a fallback endpoint to use when the primary is unavailable — ensures resilience.</span></div></div>
+        <div class="step-row"><div class="step-circle">7</div><div class="step-body"><strong>Enable caching</strong><span>Toggle response caching to reduce costs and latency for repeated identical requests.</span></div></div>
+      </div>
+
+      <h3>Endpoint Configuration Fields</h3>
+      <table class="data-table">
+        <thead><tr><th>Field</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Provider</td><td>OpenAI, Anthropic, Azure OpenAI, AWS Bedrock, Google, Cohere, etc.</td></tr>
+          <tr><td>Model</td><td>Specific model within the provider</td></tr>
+          <tr><td>API Key</td><td>Provider key from Settings (never exposed to callers)</td></tr>
+          <tr><td>System Prompt</td><td>Base instruction prepended to every request through this endpoint</td></tr>
+          <tr><td>Temperature</td><td>Default generation temperature (0.0–2.0)</td></tr>
+          <tr><td>Max Tokens</td><td>Maximum token limit per response</td></tr>
+          <tr><td>Rate Limit (RPM)</td><td>Requests per minute cap</td></tr>
+          <tr><td>Rate Limit (TPM)</td><td>Tokens per minute cap</td></tr>
+          <tr><td>Fallback Endpoint</td><td>Backup endpoint when primary is unavailable</td></tr>
+          <tr><td>Response Caching</td><td>Cache identical requests to reduce cost and latency</td></tr>
+          <tr><td>Prompt Template</td><td>Optional template from the Prompts module</td></tr>
+          <tr><td>Active Toggle</td><td>Enable or disable the endpoint without deleting it</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tip-box"><p><strong>Best practice:</strong> Create separate endpoints for different use cases (e.g., "Customer Support," "Internal Analytics," "Code Assistant") rather than a single generic endpoint. This allows per-use-case guardrails, rate limits, and cost tracking.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- PLAYGROUND -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="playground">
+      <div class="module-header">
+        <div class="module-icon" style="background:#FFF8E1;">🎮</div>
+        <div class="module-header-text">
+          <h2>Playground</h2>
+          <p>Interactive chat interface to test any configured endpoint — adjust parameters, observe responses, and track per-message cost before deploying to production.</p>
+          <span class="route-tag">/ai-gateway/playground</span>
+        </div>
+      </div>
+
+      <p>The Playground lets developers and compliance teams test endpoints directly from the browser. Before deploying an endpoint to production, test its system prompt, observe how guardrails affect responses, and verify cost per call against your budget targets.</p>
+
+      <h3>Playground Features</h3>
+      <ul>
+        <li><strong>Endpoint selector:</strong> Choose any configured Gateway endpoint to test against.</li>
+        <li><strong>Chat interface:</strong> Full conversation interface with message history — just like the final user experience.</li>
+        <li><strong>Temperature control:</strong> Adjust generation temperature in real time (0.0 = deterministic, 2.0 = very random).</li>
+        <li><strong>Max tokens control:</strong> Set the maximum response length for this session.</li>
+        <li><strong>Cost per message:</strong> See the token count and dollar cost for every request — immediately visible after each response.</li>
+        <li><strong>Settings modal:</strong> Configure additional parameters specific to the selected endpoint.</li>
+      </ul>
+
+      <h3>Use Cases for the Playground</h3>
+      <ul>
+        <li><strong>System prompt testing:</strong> Iterate on system prompts before production without touching application code.</li>
+        <li><strong>Guardrail verification:</strong> Test that guardrails correctly block prohibited content or PII leakage.</li>
+        <li><strong>Cost estimation:</strong> Estimate the cost of a typical user interaction before scaling up traffic.</li>
+        <li><strong>Model comparison:</strong> Switch between endpoints pointing to different models to compare response quality.</li>
+      </ul>
+
+      <div class="tip-box"><p><strong>All Playground requests are logged</strong> in the Logs module with a "playground" source tag — so you can distinguish test traffic from production traffic in your audit logs.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- GUARDRAILS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="guardrails">
+      <div class="module-header">
+        <div class="module-icon" style="background:#FCE4EC;">🛡️</div>
+        <div class="module-header-text">
+          <h2>Guardrails</h2>
+          <p>Apply content safety, PII protection, prompt injection prevention, data leakage detection, and output quality filters to any endpoint — with a single toggle per rule.</p>
+          <span class="route-tag">/ai-gateway/guardrails</span>
+        </div>
+      </div>
+
+      <p>Guardrails are real-time filters that inspect every request and response flowing through a Gateway endpoint. They enforce your AI governance policies automatically — no application code changes required. A guardrail can block a request, redact content, log a violation, or alert on suspicious patterns.</p>
+
+      <h3>Guardrail Categories</h3>
+      <table class="data-table">
+        <thead><tr><th>Category</th><th>What It Protects Against</th><th>Example Rules</th></tr></thead>
+        <tbody>
+          <tr><td><strong>PII Protection</strong></td><td>Personal data leakage in inputs and outputs</td><td>Detect and redact: SSNs, email addresses, credit card numbers, health data</td></tr>
+          <tr><td><strong>Content Safety</strong></td><td>Harmful, offensive, or inappropriate content</td><td>Block: violent content, self-harm, adult content, hate speech</td></tr>
+          <tr><td><strong>Prompt Security</strong></td><td>Prompt injection and jailbreak attempts</td><td>Detect: instruction override attempts, system prompt extraction, role manipulation</td></tr>
+          <tr><td><strong>Data Leakage</strong></td><td>Sensitive organizational data in responses</td><td>Block: internal code snippets, confidential document content, API keys in outputs</td></tr>
+          <tr><td><strong>Output Quality</strong></td><td>Low-quality or hallucinated responses</td><td>Flag: factual claims requiring verification, off-topic responses, incomplete outputs</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Enabling Guardrails</h3>
+      <ul>
+        <li>Browse the <strong>Guardrail Catalog</strong> — all available rules with descriptions and risk categories.</li>
+        <li>Filter by category, severity, or search by name.</li>
+        <li>Toggle a guardrail ON to enable it for the selected endpoint — takes effect immediately.</li>
+        <li>Each guardrail shows an estimated impact on latency (most are &lt; 5ms overhead).</li>
+      </ul>
+
+      <div class="warn-box"><p><strong>Blocking vs. Logging:</strong> Some guardrails block requests entirely (e.g., prompt injection detection). Others log violations without blocking (e.g., output quality flags). Configure each guardrail's enforcement mode based on your risk tolerance.</p></div>
+
+      <h3>Compliance Relevance</h3>
+      <p>Guardrails provide technical enforcement of governance policies:</p>
+      <ul>
+        <li><strong>GDPR Article 25 (Privacy by Design):</strong> PII detection guardrails implement privacy-by-default at the API layer.</li>
+        <li><strong>EU AI Act Article 9 (Risk Management):</strong> Content safety guardrails are technical risk mitigation measures that can be documented as controls.</li>
+        <li><strong>EU AI Act Article 15 (Robustness):</strong> Prompt injection guardrails protect against adversarial attacks on the AI system.</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- PROMPTS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="prompts">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E8EAF6;">💬</div>
+        <div class="module-header-text">
+          <h2>Prompts</h2>
+          <p>Create, version, and manage prompt templates for reuse across endpoints. Maintain your organization's approved prompt library with labels and search.</p>
+          <span class="route-tag">/ai-gateway/prompts</span>
+        </div>
+      </div>
+
+      <p>The Prompts module is the organization's approved prompt template library. Rather than every developer writing system prompts from scratch — or duplicating prompts across endpoints — prompts are created once, reviewed, versioned, and reused. This ensures consistency, enables governance oversight of what instructions are given to AI models, and provides an audit trail of prompt changes.</p>
+
+      <h3>Prompt Fields</h3>
+      <table class="data-table">
+        <thead><tr><th>Field</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Name</strong></td><td>A clear, searchable name (e.g., "Customer Support — Polite Response Style")</td></tr>
+          <tr><td><strong>Content</strong></td><td>The prompt text itself — supports variable placeholders like <code>{{user_name}}</code></td></tr>
+          <tr><td><strong>Description</strong></td><td>What this prompt does, when to use it, and any limitations</td></tr>
+          <tr><td><strong>Version</strong></td><td>Semantic version (v1.0, v1.1, v2.0) — each save can create a new version</td></tr>
+          <tr><td><strong>Labels</strong></td><td>Categorization tags (e.g., "customer-facing", "internal", "technical")</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Versioning</h3>
+      <p>Every time a prompt template is updated, a new version is created. Previous versions are preserved — you can see the full history of how a prompt evolved, and roll back to an earlier version if a change causes unexpected model behavior.</p>
+
+      <h3>Linking to Endpoints</h3>
+      <p>When creating or editing an endpoint, select a prompt template from the Prompts library. The template's content is applied as the default system prompt for that endpoint. When the template is updated and a new version is published, the endpoint can be updated to the new version — or remain pinned to a specific version for stability.</p>
+
+      <div class="tip-box"><p><strong>Governance use:</strong> The Prompts library provides governance teams with visibility into what instructions are being given to AI models. This is relevant for EU AI Act Article 13 (transparency) — you can document and justify every system prompt used in production.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- MODELS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="models">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E0F7FA;">🧠</div>
+        <div class="module-header-text">
+          <h2>Models</h2>
+          <p>Browse the full AI model catalog, compare features across models, and estimate monthly costs before committing to a model for a production endpoint.</p>
+          <span class="route-tag">/ai-gateway/models</span>
+        </div>
+      </div>
+
+      <p>The Models page is a decision-support tool. Before selecting a model for a new endpoint, use this page to understand what each model supports, what it costs, and how it compares to alternatives. This informs better governance decisions — the right model for the right task at the right cost.</p>
+
+      <h3>Three Tabs</h3>
+
+      <h3 class="inline-h3">Tab 1 — Model Catalog</h3>
+      <ul>
+        <li>Full list of available models across all configured providers</li>
+        <li>Filter by: provider, modality (text/vision/audio/image), supported features</li>
+        <li>Pagination for large catalogs</li>
+        <li>Each model card shows: provider, context window size, supported features, pricing (input/output per million tokens), and availability status</li>
+      </ul>
+
+      <h3>Tab 2 — Cost Calculator</h3>
+      <ul>
+        <li>Enter expected monthly request volume, average input tokens, and average output tokens</li>
+        <li>The calculator projects monthly cost across all models simultaneously</li>
+        <li>Compare the projected cost of GPT-4o vs. Claude 3.5 Sonnet vs. Llama 3.1 for your specific usage pattern</li>
+        <li>Useful for budget planning before adopting a new model</li>
+      </ul>
+
+      <h3>Tab 3 — Feature Comparison</h3>
+      <ul>
+        <li>Select up to 5 models for a side-by-side feature comparison</li>
+        <li>Compare: context window, fine-tuning support, function calling, vision support, streaming, JSON mode, tool use, max output tokens, knowledge cutoff</li>
+        <li>Export the comparison as a reference document</li>
+      </ul>
+
+      <div class="info-box"><p><strong>Governance link:</strong> Models selected and deployed through Gateway endpoints should be registered in the Governance section's <strong>Model Inventory</strong>. The Model Inventory is the compliance record — the Gateway Models page is the selection tool. Use both together.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- LOGS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="logs">
+      <div class="module-header">
+        <div class="module-icon" style="background:#FFF3E0;">📋</div>
+        <div class="module-header-text">
+          <h2>Logs</h2>
+          <p>Full request/response audit log for every LLM call through the Gateway — with auto-refresh, filtering, expandable details, and compliance-ready export.</p>
+          <span class="route-tag">/ai-gateway/logs</span>
+        </div>
+      </div>
+
+      <p><strong>EU AI Act Article 12</strong> (Record-keeping) requires that high-risk AI systems automatically log events for a defined period. The Logs module provides exactly this — every LLM request flowing through the Gateway is logged with full context, immutably stored, and available for compliance audits.</p>
+
+      <h3>What Gets Logged</h3>
+      <ul>
+        <li><strong>Timestamp</strong> — exact time of request (UTC)</li>
+        <li><strong>Endpoint</strong> — which Gateway endpoint was called</li>
+        <li><strong>Model</strong> — which LLM model processed the request</li>
+        <li><strong>Status</strong> — success, blocked by guardrail, rate limited, error</li>
+        <li><strong>Token counts</strong> — input tokens, output tokens, total tokens</li>
+        <li><strong>Cost</strong> — dollar cost of this request</li>
+        <li><strong>Source</strong> — which application or agent sent the request</li>
+        <li><strong>Latency</strong> — response time in milliseconds</li>
+        <li><strong>Guardrail flags</strong> — any guardrail violations detected</li>
+      </ul>
+
+      <h3>Log Table Features</h3>
+      <ul>
+        <li><strong>Auto-refresh:</strong> The table refreshes every 10 seconds — live view of production traffic.</li>
+        <li><strong>Search with debounce:</strong> Full-text search across log entries with intelligent debouncing (no request on every keystroke).</li>
+        <li><strong>Filter by:</strong> Status (success/blocked/error), source application, endpoint, model, time range.</li>
+        <li><strong>Expandable rows:</strong> Click any row to expand and see the full request prompt, response content, and metadata.</li>
+        <li><strong>Pagination:</strong> Navigate through large log volumes efficiently.</li>
+      </ul>
+
+      <h3>Log Retention</h3>
+      <p>Log retention period is configured in Settings. For EU AI Act compliance, the recommended minimum retention is <strong>6 months</strong> for operational logs and <strong>10 years</strong> for logs related to incidents or serious events.</p>
+
+      <div class="warn-box"><p><strong>Privacy consideration:</strong> Log entries may contain personal data from user inputs. Ensure your log retention and access policies are aligned with your GDPR data minimization obligations. The PII guardrail can be used to redact PII before logging.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SETTINGS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="settings">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E7ECF5;">⚙️</div>
+        <div class="module-header-text">
+          <h2>Settings</h2>
+          <p>Manage LLM provider API keys, configure organization-level Gateway preferences, and control global defaults for all endpoints.</p>
+          <span class="route-tag">/ai-gateway/settings</span>
+        </div>
+      </div>
+
+      <p>The Settings page is the configuration hub for the AI Gateway. Most importantly, it is where provider API keys are stored — securely, centrally, and separately from application code. Developers never need to handle provider keys directly.</p>
+
+      <h3>LLM Provider API Keys</h3>
+      <ul>
+        <li><strong>Add a key:</strong> Select the provider (OpenAI, Anthropic, AWS, Azure, Google, Cohere, etc.) and paste the API key. The key is encrypted at rest and never returned in plain text after saving.</li>
+        <li><strong>Edit a key:</strong> Update a key without disrupting endpoints — the key reference (not the value) is stored in endpoints.</li>
+        <li><strong>Delete a key:</strong> Removing a key disables all endpoints that reference it. Review impacted endpoints before deleting.</li>
+        <li><strong>Multiple keys per provider:</strong> Maintain separate keys for production and staging environments, or for different cost centers.</li>
+      </ul>
+
+      <h3>Organization Settings</h3>
+      <ul>
+        <li><strong>Default rate limits</strong> — organization-wide defaults applied to all new endpoints unless overridden</li>
+        <li><strong>Log retention period</strong> — how long request logs are stored</li>
+        <li><strong>Budget alerts</strong> — thresholds for spend notifications</li>
+        <li><strong>Default guardrails</strong> — guardrails automatically applied to all new endpoints</li>
+      </ul>
+
+      <div class="info-box"><p><strong>Key security:</strong> API keys are stored encrypted and never exposed through the API after initial creation. Only the key name/label is visible after saving. This means if the Settings page is accessed by an unauthorized user, they cannot retrieve provider keys.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- MCP SECTION -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="mcp-section-header">
+      <div class="mcp-section-icon">🔗</div>
+      <div class="mcp-section-text">
+        <h3>MCP Gateway</h3>
+        <p>The Model Context Protocol (MCP) Gateway governs AI agents that use tools to interact with external systems. It provides authentication, tool access control, audit logging, and human approval workflows for agentic AI operations.</p>
+      </div>
+    </div>
+
+    <div class="mcp-box"><p><strong>What is MCP?</strong><br/>The Model Context Protocol (MCP) is an open standard that allows AI models to call external tools — databases, APIs, code execution, file systems, and more. The MCP Gateway controls <em>which agents can use which tools, under what conditions, with what approvals</em>. Without a governed MCP Gateway, AI agents can take uncontrolled actions in your systems.</p></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- MCP AGENT KEYS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="mcp-agent-keys">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E3F2FD;">🔑</div>
+        <div class="module-header-text">
+          <h2>MCP — Agent Keys</h2>
+          <p>Issue and manage authentication keys for AI agents connecting to the MCP Gateway. Control which agents are authorized to use tools.</p>
+          <span class="route-tag mcp-tag">/ai-gateway/mcp/agent-keys</span>
+        </div>
+      </div>
+
+      <p>Agent Keys are the authentication credentials that AI agents use to connect to the MCP Gateway. Only agents with a valid, active key can access MCP tools. This is the <strong>identity gate</strong> — the first line of defense against unauthorized AI agent activity.</p>
+
+      <h3>Managing Agent Keys</h3>
+      <ul>
+        <li><strong>Issue a key:</strong> Create a named key associated with a specific agent or application. Set an optional expiry date and scope restrictions.</li>
+        <li><strong>Revoke a key:</strong> Instantly revoke a key to disconnect an agent from all MCP tools — useful when an agent is decommissioned or compromised.</li>
+        <li><strong>Scope restrictions:</strong> Limit a key to specific tool categories (e.g., "this agent can only access database read tools, not write tools").</li>
+        <li><strong>Expiry management:</strong> Keys with expiry dates automatically become invalid after the expiry — reducing the risk from forgotten or abandoned keys.</li>
+      </ul>
+
+      <div class="warn-box"><p><strong>Governance principle:</strong> Every AI agent connecting to MCP tools should have its own unique agent key — never share keys between agents. This enables per-agent audit trails and granular revocation without impacting other agents.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- MCP SERVERS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="mcp-servers">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E3F2FD;">🖥️</div>
+        <div class="module-header-text">
+          <h2>MCP — Servers</h2>
+          <p>Register and configure MCP servers that expose tools to AI agents. Manage server health, connection settings, and tool availability.</p>
+          <span class="route-tag mcp-tag">/ai-gateway/mcp/servers</span>
+        </div>
+      </div>
+
+      <p>An <strong>MCP Server</strong> is a service that exposes a set of tools that AI agents can call. For example, a database MCP server exposes tools like <code>query_database</code> and <code>list_tables</code>. The MCP Gateway acts as the broker between agents (who hold Agent Keys) and these servers (which expose tools).</p>
+
+      <h3>Server Configuration</h3>
+      <ul>
+        <li><strong>Server name and URL:</strong> A unique name and the connection endpoint for the MCP server.</li>
+        <li><strong>Authentication:</strong> Configure how the Gateway authenticates to the MCP server (API key, OAuth, mTLS).</li>
+        <li><strong>Tool discovery:</strong> The Gateway automatically discovers tools exposed by the server and populates the Tool Catalog.</li>
+        <li><strong>Health monitoring:</strong> Connection status and uptime are monitored continuously — unhealthy servers are flagged.</li>
+        <li><strong>Enabled / Disabled toggle:</strong> Disable a server to prevent any agent from using its tools without deleting the configuration.</li>
+      </ul>
+
+      <div class="tip-box"><p><strong>Example MCP Servers:</strong> Database query server, file system server, web search server, code execution server, GitHub integration server, Slack messaging server, internal REST API wrapper.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- MCP TOOLS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="mcp-tools">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E3F2FD;">🔧</div>
+        <div class="module-header-text">
+          <h2>MCP — Tools</h2>
+          <p>Browse the complete catalog of tools available to AI agents through the MCP Gateway — understand capabilities, parameters, and access restrictions.</p>
+          <span class="route-tag mcp-tag">/ai-gateway/mcp/tools</span>
+        </div>
+      </div>
+
+      <p>The Tool Catalog is automatically populated by the Gateway when MCP servers are connected. It provides a browsable inventory of every action AI agents can take through the Gateway.</p>
+
+      <h3>Tool Catalog Features</h3>
+      <ul>
+        <li><strong>Full tool inventory:</strong> Every tool exposed by registered MCP servers, with name, description, input parameters, and output schema.</li>
+        <li><strong>Access control:</strong> See which agent key scopes can access each tool — and configure restrictions.</li>
+        <li><strong>Risk classification:</strong> Tools are classified by risk level based on their capabilities (read-only vs. write, reversible vs. irreversible).</li>
+        <li><strong>Usage statistics:</strong> How often each tool is called, by which agents, and the success/failure rate.</li>
+      </ul>
+
+      <h3>Tool Risk Levels</h3>
+      <table class="data-table">
+        <thead><tr><th>Risk Level</th><th>Examples</th><th>Default Approval Required</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-green">Read Only</span></td><td>list_tables, get_file, search_web</td><td>No (auto-approved)</td></tr>
+          <tr><td><span class="badge badge-blue">Low Write</span></td><td>create_document, append_log</td><td>No (auto-approved)</td></tr>
+          <tr><td><span class="badge badge-orange">High Write</span></td><td>modify_database, send_email, execute_code</td><td>Yes (human approval)</td></tr>
+          <tr><td><span class="badge badge-red">Irreversible</span></td><td>delete_record, send_payment, drop_table</td><td>Yes (mandatory)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- MCP AUDIT LOG -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="mcp-audit-log">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E3F2FD;">📜</div>
+        <div class="module-header-text">
+          <h2>MCP — Audit Log</h2>
+          <p>Complete, immutable audit trail of every MCP operation — which agent used which tool, with what parameters, and what the result was.</p>
+          <span class="route-tag mcp-tag">/ai-gateway/mcp/audit-log</span>
+        </div>
+      </div>
+
+      <p>The MCP Audit Log is the compliance record for all AI agent actions. <strong>EU AI Act Article 12</strong> (record-keeping) and <strong>Article 14</strong> (human oversight) both require that AI system actions can be traced, reviewed, and investigated. The Audit Log provides exactly this trail for every tool call made through the MCP Gateway.</p>
+
+      <h3>What Is Recorded</h3>
+      <ul>
+        <li><strong>Agent identity</strong> — which agent key was used (maps back to a specific agent)</li>
+        <li><strong>Tool called</strong> — which MCP tool was invoked</li>
+        <li><strong>Parameters</strong> — the exact input parameters passed to the tool</li>
+        <li><strong>Result</strong> — the tool's response (or error)</li>
+        <li><strong>Timestamp</strong> — exact time of execution (UTC)</li>
+        <li><strong>Approval status</strong> — whether this call required approval and who approved it</li>
+        <li><strong>Guardrail checks</strong> — any guardrail rules that were evaluated</li>
+      </ul>
+
+      <h3>Filtering and Investigation</h3>
+      <ul>
+        <li>Filter by: agent, tool, server, time range, approval status, result status</li>
+        <li>Search across parameter content — find all calls that touched a specific resource</li>
+        <li>Export filtered results for incident investigation or regulatory submission</li>
+      </ul>
+
+      <div class="mcp-box"><p><strong>Governance value:</strong> When an AI agent takes an unexpected action — deleting data, sending a message to the wrong recipient, executing unauthorized code — the Audit Log provides the complete forensic record needed to investigate what happened, why, and who authorized it.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- MCP APPROVALS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="mcp-approvals">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E3F2FD;">✔️</div>
+        <div class="module-header-text">
+          <h2>MCP — Approvals</h2>
+          <p>Human-in-the-loop approval workflow for sensitive AI agent actions — require explicit sign-off before high-risk tool calls execute.</p>
+          <span class="route-tag mcp-tag">/ai-gateway/mcp/approvals</span>
+        </div>
+      </div>
+
+      <p><strong>EU AI Act Article 14</strong> requires human oversight measures for high-risk AI systems — meaning humans must be able to intervene when necessary. The Approvals module implements this at the tool-call level: for any tool classified as high-risk or irreversible, an AI agent's request is held in a queue until a human reviewer approves or rejects it.</p>
+
+      <h3>The Approval Workflow</h3>
+      <div class="step-flow">
+        <div class="step-row"><div class="step-circle" style="background:var(--mcp);">1</div><div class="step-body"><strong>Agent requests a high-risk tool call</strong><span>The agent sends a tool call request to the Gateway. The Gateway identifies it as requiring approval based on the tool's risk classification.</span></div></div>
+        <div class="step-row"><div class="step-circle" style="background:var(--mcp);">2</div><div class="step-body"><strong>Request queued in Approvals</strong><span>The tool call is placed in the approval queue with the full context: agent ID, tool name, parameters, and timestamp. The agent waits.</span></div></div>
+        <div class="step-row"><div class="step-circle" style="background:var(--mcp);">3</div><div class="step-body"><strong>Human reviewer approves or rejects</strong><span>A designated reviewer sees the request in the Approvals dashboard. They can review the parameters, understand the intended action, and approve or reject with a comment.</span></div></div>
+        <div class="step-row"><div class="step-circle" style="background:var(--mcp);">4</div><div class="step-body"><strong>Gateway executes (or blocks) the call</strong><span>If approved, the Gateway forwards the tool call to the MCP server. If rejected, the agent receives a rejection response. All outcomes are logged in the Audit Log.</span></div></div>
+      </div>
+
+      <h3>Approval Queue Columns</h3>
+      <ul>
+        <li><strong>Agent</strong> — which agent is requesting the action</li>
+        <li><strong>Tool</strong> — which tool is being called</li>
+        <li><strong>Parameters</strong> — the exact parameters (expandable)</li>
+        <li><strong>Requested at</strong> — timestamp of the request</li>
+        <li><strong>Waiting time</strong> — how long the agent has been waiting</li>
+        <li><strong>Actions</strong> — Approve or Reject buttons</li>
+      </ul>
+
+      <div class="info-box"><p><strong>Auto-approve rules:</strong> Configure auto-approval for low-risk tools from trusted agents, so only genuinely sensitive operations require human review. This keeps the approval queue manageable without compromising oversight of high-risk actions.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- MCP GUARDRAILS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="mcp-guardrails">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E3F2FD;">🚧</div>
+        <div class="module-header-text">
+          <h2>MCP — Guardrails</h2>
+          <p>Apply real-time input/output guardrail rules specifically to MCP tool calls — prevent data leakage, enforce policy compliance, and protect external systems from AI agent misuse.</p>
+          <span class="route-tag mcp-tag">/ai-gateway/mcp/guardrails</span>
+        </div>
+      </div>
+
+      <p>MCP Guardrails work the same way as Gateway Guardrails — but they are applied specifically to tool call inputs and outputs, rather than LLM chat messages. They protect against AI agents inadvertently (or maliciously) sending sensitive data to external tools, or receiving dangerous content back from tools.</p>
+
+      <h3>MCP-Specific Guardrail Rules</h3>
+      <table class="data-table">
+        <thead><tr><th>Rule</th><th>What It Prevents</th></tr></thead>
+        <tbody>
+          <tr><td>PII in tool inputs</td><td>AI agent passing personal data to external APIs without authorization</td></tr>
+          <tr><td>Credential detection</td><td>Agent passing API keys, passwords, or tokens as tool parameters</td></tr>
+          <tr><td>Data exfiltration</td><td>Agent sending large data volumes to external endpoints (potential data leak)</td></tr>
+          <tr><td>SQL injection in queries</td><td>Malicious SQL payloads in database query tool parameters</td></tr>
+          <tr><td>Tool output sanitization</td><td>Dangerous content in tool responses that could influence subsequent agent actions</td></tr>
+          <tr><td>Rate limiting per tool</td><td>Agent calling a tool at an abnormal rate (potential runaway agent)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="mcp-box"><p><strong>Why this matters:</strong> AI agents are increasingly capable of taking sequences of actions autonomously. A single guardrail failure — an agent passing PII to a third-party web search API, for example — can create a GDPR violation, a security incident, and a regulatory disclosure obligation simultaneously. MCP Guardrails are the last line of defense before an agent's action reaches an external system.</p></div>
+
+      <h3>Linking to Governance Policies</h3>
+      <p>Each active MCP guardrail can be linked to a policy in the Governance section's Policy Manager. This creates the traceability chain auditors expect:</p>
+      <ul>
+        <li>"We have a PII Handling Policy" (Policy Manager)</li>
+        <li>"The policy requires that PII is never sent to unapproved external services" (Policy content)</li>
+        <li>"This is enforced by the PII Detection MCP guardrail applied to all database and web tools" (MCP Guardrails)</li>
+        <li>"The guardrail has blocked 14 PII leakage attempts in the last 30 days" (Audit Log)</li>
+      </ul>
+    </section>
+
+  </div><!-- /article -->
+</main>
+
+<footer class="site-footer">
+  © 2026 <strong>Parkar GovernAI</strong> · Built by Parkar Digital · <a href="index.html">User Guide Home</a> · <a href="governance.html">Governance Guide</a>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.module-section');
+  const sidebarItems = document.querySelectorAll('.sidebar-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        sidebarItems.forEach(i => i.classList.remove('active'));
+        const link = document.querySelector(`.sidebar-item[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -75% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parkar GovernAI — User Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:        #1B3A6B;
+      --primary-hover:  #152E54;
+      --primary-light:  #E7ECF5;
+      --accent:         #13715B;
+      --accent-light:   #E6F4F0;
+      --text-primary:   #1c2130;
+      --text-secondary: #344054;
+      --text-muted:     #667085;
+      --border:         #eaecf0;
+      --bg:             #FFFFFF;
+      --bg-alt:         #FCFCFD;
+      --bg-hover:       #F9FAFB;
+      --radius:         10px;
+      --shadow:         0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md:      0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 60px;
+      background: var(--primary);
+      display: flex; align-items: center; padding: 0 32px;
+      gap: 16px;
+      box-shadow: 0 1px 0 rgba(255,255,255,.1);
+    }
+    .site-header .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, #13715B, #1B8A6B);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #fff; font-size: 14px; letter-spacing: -.5px;
+    }
+    .logo-text { color: #fff; font-weight: 600; font-size: 15px; letter-spacing: -.2px; }
+    .logo-badge {
+      font-size: 10px; font-weight: 500; color: rgba(255,255,255,.6);
+      background: rgba(255,255,255,.12); padding: 2px 7px; border-radius: 20px;
+      letter-spacing: .5px; text-transform: uppercase;
+    }
+    .header-nav { margin-left: auto; display: flex; gap: 4px; }
+    .header-nav a {
+      color: rgba(255,255,255,.8); text-decoration: none;
+      padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 500;
+      transition: all .15s;
+    }
+    .header-nav a:hover, .header-nav a.active {
+      color: #fff; background: rgba(255,255,255,.12);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      margin-top: 60px;
+      background: linear-gradient(160deg, #1B3A6B 0%, #13715B 100%);
+      padding: 80px 48px 72px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero h1 {
+      font-size: 40px; font-weight: 700; color: #fff;
+      letter-spacing: -.5px; margin-bottom: 16px; position: relative;
+    }
+    .hero p {
+      font-size: 17px; color: rgba(255,255,255,.8);
+      max-width: 600px; margin: 0 auto 36px; position: relative;
+    }
+    .hero-pills {
+      display: flex; gap: 10px; justify-content: center;
+      flex-wrap: wrap; position: relative;
+    }
+    .pill {
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.9); padding: 6px 16px; border-radius: 20px;
+      font-size: 12px; font-weight: 500;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 56px 32px 80px; }
+
+    .section-heading {
+      font-size: 11px; font-weight: 600; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 26px; font-weight: 700; color: var(--text-primary);
+      letter-spacing: -.4px; margin-bottom: 8px;
+    }
+    .section-desc {
+      font-size: 15px; color: var(--text-muted); margin-bottom: 40px;
+      max-width: 580px;
+    }
+
+    /* ── MODULE GRID ── */
+    .module-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px; margin-bottom: 56px;
+    }
+    .module-card {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg-alt); padding: 24px;
+      text-decoration: none; color: inherit;
+      transition: all .2s; display: block;
+    }
+    .module-card:hover {
+      border-color: #b3c4e8; box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .card-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; margin-bottom: 14px;
+    }
+    .card-title {
+      font-size: 15px; font-weight: 600; color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .card-desc {
+      font-size: 13px; color: var(--text-muted); line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .card-links { display: flex; flex-wrap: wrap; gap: 6px; }
+    .card-link {
+      font-size: 12px; color: var(--accent); text-decoration: none;
+      background: var(--accent-light); padding: 3px 10px; border-radius: 20px;
+      font-weight: 500; transition: all .15s;
+    }
+    .card-link:hover { background: #c8e6df; }
+
+    /* ── QUICK START ── */
+    .quickstart {
+      background: linear-gradient(135deg, var(--primary-light), #dce8ff);
+      border: 1px solid #c5d6f0; border-radius: var(--radius);
+      padding: 32px 36px; margin-bottom: 56px;
+      display: flex; gap: 32px; align-items: flex-start;
+    }
+    .qs-steps { flex: 1; }
+    .qs-title { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 20px; }
+    .qs-step {
+      display: flex; gap: 14px; align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--primary); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .step-text strong { font-size: 14px; color: var(--text-primary); display: block; margin-bottom: 2px; }
+    .step-text span { font-size: 13px; color: var(--text-muted); }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      text-align: center; padding: 32px; border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 13px;
+    }
+    .site-footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-mark">PG</div>
+    <span class="logo-text">Parkar GovernAI</span>
+    <span class="logo-badge">User Guide</span>
+  </a>
+  <nav class="header-nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="governance.html">Governance</a>
+    <a href="ai-gateway.html">AI Gateway</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Parkar GovernAI User Guide</h1>
+  <p>Everything you need to govern, monitor, and audit your AI systems — from risk assessment to regulatory compliance.</p>
+  <div class="hero-pills">
+    <span class="pill">EU AI Act</span>
+    <span class="pill">ISO 42001</span>
+    <span class="pill">ISO 27001</span>
+    <span class="pill">NIST AI RMF</span>
+    <span class="pill">GDPR</span>
+    <span class="pill">HIPAA</span>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- Quick Start -->
+  <div class="quickstart">
+    <div class="qs-steps">
+      <div class="qs-title">🚀 Get started in 5 steps</div>
+      <div class="qs-step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Register your first AI use case</strong>
+          <span>Navigate to Governance → Use Cases. Create a new use case, classify its EU AI Act risk level, and assign framework compliance requirements.</span>
+        </div>
+      </div>
+      <div class="qs-step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <strong>Add your AI models to the inventory</strong>
+          <span>Go to Model Inventory, register every model in use, assign an approver, and document security assessments.</span>
+        </div>
+      </div>
+      <div class="qs-step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>Import risks from curated databases</strong>
+          <span>In Risk Management, import from the IBM AI Risk Database (113 risks) or MIT AI Risk Repository — no blank sheet needed.</span>
+        </div>
+      </div>
+      <div class="qs-step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <strong>Map controls across frameworks</strong>
+          <span>Open Frameworks, assign owners to ISO 42001 / NIST AI RMF controls, and attach evidence to each satisfied control.</span>
+        </div>
+      </div>
+      <div class="qs-step">
+        <div class="step-num">5</div>
+        <div class="step-text">
+          <strong>Generate your first compliance report</strong>
+          <span>Go to Reporting, choose your framework, upload your logo, and generate a board-ready PDF in under 30 seconds.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Governance Section -->
+  <div class="section-heading">Section 1</div>
+  <div class="section-title">Governance</div>
+  <div class="section-desc">The complete AI governance platform covering system inventory, risk management, policy, compliance, incident reporting, and transparency.</div>
+
+  <div class="module-grid">
+
+    <a href="governance.html#start-here" class="module-card">
+      <div class="card-icon" style="background:#E7ECF5;">🏠</div>
+      <div class="card-title">Start Here</div>
+      <div class="card-desc">Onboarding hub with a 5-step checklist, feature discovery carousel, shortcuts, and resources to orient new users.</div>
+      <div class="card-links"><span class="card-link">Onboarding</span><span class="card-link">Shortcuts</span></div>
+    </a>
+
+    <a href="governance.html#dashboard" class="module-card">
+      <div class="card-icon" style="background:#E7ECF5;">📊</div>
+      <div class="card-title">Dashboard</div>
+      <div class="card-desc">Real-time command center with Executive and Operations views — governance score, risk distributions, framework completion, and activity feed.</div>
+      <div class="card-links"><span class="card-link">Executive view</span><span class="card-link">Metrics</span></div>
+    </a>
+
+    <a href="governance.html#tasks" class="module-card">
+      <div class="card-icon" style="background:#F3E5F5;">✅</div>
+      <div class="card-title">Tasks</div>
+      <div class="card-desc">Compliance work management — assign tasks with priorities, deadlines, and entity links to use cases, controls, or risks.</div>
+      <div class="card-links"><span class="card-link">Assignments</span><span class="card-link">Deadlines</span></div>
+    </a>
+
+    <a href="governance.html#frameworks" class="module-card">
+      <div class="card-icon" style="background:#E3F2FD;">🏛️</div>
+      <div class="card-title">Frameworks</div>
+      <div class="card-desc">Map compliance activities to ISO 42001, ISO 27001, and NIST AI RMF. Assign control owners, track status, and attach evidence.</div>
+      <div class="card-links"><span class="card-link">ISO 42001</span><span class="card-link">ISO 27001</span><span class="card-link">NIST AI RMF</span></div>
+    </a>
+
+    <a href="governance.html#use-cases" class="module-card">
+      <div class="card-icon" style="background:#E8F5E9;">🗂️</div>
+      <div class="card-title">Use Cases</div>
+      <div class="card-desc">Central AI system registry — register every AI deployment, classify by EU AI Act risk level, and track full lifecycle compliance.</div>
+      <div class="card-links"><span class="card-link">EU AI Act</span><span class="card-link">Risk level</span></div>
+    </a>
+
+    <a href="governance.html#model-inventory" class="module-card">
+      <div class="card-icon" style="background:#FFF8E1;">🤖</div>
+      <div class="card-title">Model Inventory</div>
+      <div class="card-desc">Registry of all AI/ML models with approval workflow, security assessments, model risks, and evidence hub integration.</div>
+      <div class="card-links"><span class="card-link">Approval gate</span><span class="card-link">Model risks</span></div>
+    </a>
+
+    <a href="governance.html#datasets" class="module-card">
+      <div class="card-icon" style="background:#E0F2F1;">🗄️</div>
+      <div class="card-title">Datasets</div>
+      <div class="card-desc">Data governance and lineage tracking — document training data, classify PII, and prove data provenance for EU AI Act Article 10.</div>
+      <div class="card-links"><span class="card-link">PII tracking</span><span class="card-link">Data lineage</span></div>
+    </a>
+
+    <a href="governance.html#agent-discovery" class="module-card">
+      <div class="card-icon" style="background:#FCE4EC;">🔍</div>
+      <div class="card-title">Agent Discovery</div>
+      <div class="card-desc">Automatically discover all AI agents running in your environment from Azure, AWS, and other platforms. Eliminate shadow AI.</div>
+      <div class="card-links"><span class="card-link">Auto-sync</span><span class="card-link">Permissions</span></div>
+    </a>
+
+    <a href="governance.html#risk-management" class="module-card">
+      <div class="card-icon" style="background:#FFE5D0;">⚠️</div>
+      <div class="card-title">Risk Management</div>
+      <div class="card-desc">Central AI risk register with IBM and MIT curated databases. Track severity, likelihood, mitigation status, and analytics trends.</div>
+      <div class="card-links"><span class="card-link">IBM database</span><span class="card-link">MIT database</span></div>
+    </a>
+
+    <a href="governance.html#training-registry" class="module-card">
+      <div class="card-icon" style="background:#E8EAF6;">🎓</div>
+      <div class="card-title">Training Registry</div>
+      <div class="card-desc">Track AI literacy programs per department. Satisfy EU AI Act Article 4 organizational training requirements with auditable records.</div>
+      <div class="card-links"><span class="card-link">EU AI Act Art. 4</span><span class="card-link">Certificates</span></div>
+    </a>
+
+    <a href="governance.html#evidence-hub" class="module-card">
+      <div class="card-icon" style="background:#E8F5E9;">📁</div>
+      <div class="card-title">Evidence Hub</div>
+      <div class="card-desc">Compliance evidence vault with 15 document types mapped to EU AI Act Annex IV. Expiry tracking, access logging, and multi-entity linking.</div>
+      <div class="card-links"><span class="card-link">Annex IV</span><span class="card-link">15 types</span></div>
+    </a>
+
+    <a href="governance.html#reporting" class="module-card">
+      <div class="card-icon" style="background:#E3F2FD;">📄</div>
+      <div class="card-title">Reporting</div>
+      <div class="card-desc">Generate board-ready, regulator-ready compliance reports in PDF or DOCX with your branding — in under 30 seconds.</div>
+      <div class="card-links"><span class="card-link">PDF export</span><span class="card-link">Custom branding</span></div>
+    </a>
+
+    <a href="governance.html#ai-trust-center" class="module-card">
+      <div class="card-icon" style="background:#F3E5F5;">🛡️</div>
+      <div class="card-title">AI Trust Center</div>
+      <div class="card-desc">Public-facing AI transparency page — publish compliance badges, governance policies, and subprocessor lists for customers and auditors.</div>
+      <div class="card-links"><span class="card-link">Public page</span><span class="card-link">Compliance badges</span></div>
+    </a>
+
+    <a href="governance.html#vendors" class="module-card">
+      <div class="card-icon" style="background:#FFF3E0;">🏢</div>
+      <div class="card-title">Vendors</div>
+      <div class="card-desc">Third-party AI risk management — auto-score vendors on data sensitivity, criticality, past incidents, and regulatory exposure.</div>
+      <div class="card-links"><span class="card-link">Scorecard</span><span class="card-link">Vendor risks</span></div>
+    </a>
+
+    <a href="governance.html#policy-manager" class="module-card">
+      <div class="card-icon" style="background:#E0F7FA;">📝</div>
+      <div class="card-title">Policy Manager</div>
+      <div class="card-desc">Write, version, and approve AI governance policies with a rich text editor, 50+ templates, review workflows, and export as PDF/DOCX.</div>
+      <div class="card-links"><span class="card-link">Templates</span><span class="card-link">Approval flow</span></div>
+    </a>
+
+    <a href="governance.html#incident-management" class="module-card">
+      <div class="card-icon" style="background:#FFD6D6;">🚨</div>
+      <div class="card-title">Incident Management</div>
+      <div class="card-desc">EU AI Act Article 73 serious incident reporting — structured capture, harm category mapping, approval workflow, and CE Marking integration.</div>
+      <div class="card-links"><span class="card-link">Article 73</span><span class="card-link">INC-XXXX IDs</span></div>
+    </a>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- AI Gateway Section -->
+  <div class="section-heading">Section 2</div>
+  <div class="section-title">AI Gateway</div>
+  <div class="section-desc">Govern, monitor, and control all LLM traffic through a centralized proxy — with guardrails, cost tracking, prompt management, and MCP integration.</div>
+
+  <div class="module-grid">
+
+    <a href="ai-gateway.html#spend-dashboard" class="module-card">
+      <div class="card-icon" style="background:#E7ECF5;">💰</div>
+      <div class="card-title">Spend Dashboard</div>
+      <div class="card-desc">Real-time cost tracking across all LLM providers. Monitor spend by endpoint, model, and time period. Manage budgets and cost allocation.</div>
+      <div class="card-links"><span class="card-link">Cost tracking</span><span class="card-link">Budgets</span></div>
+    </a>
+
+    <a href="ai-gateway.html#endpoints" class="module-card">
+      <div class="card-icon" style="background:#E8F5E9;">🔌</div>
+      <div class="card-title">Endpoints</div>
+      <div class="card-desc">Create and manage LLM proxy endpoints for any provider. Configure API keys, system prompts, rate limits, fallbacks, and response caching.</div>
+      <div class="card-links"><span class="card-link">Rate limits</span><span class="card-link">Fallback</span><span class="card-link">Caching</span></div>
+    </a>
+
+    <a href="ai-gateway.html#playground" class="module-card">
+      <div class="card-icon" style="background:#FFF8E1;">🎮</div>
+      <div class="card-title">Playground</div>
+      <div class="card-desc">Interactive chat interface to test any configured endpoint. Adjust temperature, max tokens, and track per-message cost in real time.</div>
+      <div class="card-links"><span class="card-link">Live testing</span><span class="card-link">Cost per call</span></div>
+    </a>
+
+    <a href="ai-gateway.html#guardrails" class="module-card">
+      <div class="card-icon" style="background:#FCE4EC;">🛡️</div>
+      <div class="card-title">Guardrails</div>
+      <div class="card-desc">Apply content safety, PII protection, prompt injection prevention, and output quality filters to any endpoint with a single toggle.</div>
+      <div class="card-links"><span class="card-link">PII protection</span><span class="card-link">Content safety</span></div>
+    </a>
+
+    <a href="ai-gateway.html#prompts" class="module-card">
+      <div class="card-icon" style="background:#E8EAF6;">💬</div>
+      <div class="card-title">Prompts</div>
+      <div class="card-desc">Create and version prompt templates for use across endpoints. Label, search, and manage your organization's prompt library.</div>
+      <div class="card-links"><span class="card-link">Versioning</span><span class="card-link">Templates</span></div>
+    </a>
+
+    <a href="ai-gateway.html#models" class="module-card">
+      <div class="card-icon" style="background:#E0F7FA;">🧠</div>
+      <div class="card-title">Models</div>
+      <div class="card-desc">Browse the full AI model catalog. Compare features, estimate monthly costs, and evaluate models side-by-side across providers.</div>
+      <div class="card-links"><span class="card-link">Catalog</span><span class="card-link">Cost calculator</span><span class="card-link">Compare</span></div>
+    </a>
+
+    <a href="ai-gateway.html#logs" class="module-card">
+      <div class="card-icon" style="background:#FFF3E0;">📋</div>
+      <div class="card-title">Logs</div>
+      <div class="card-desc">Full request/response audit log for every LLM call. Filter by status, endpoint, model. Auto-refreshes every 10 seconds.</div>
+      <div class="card-links"><span class="card-link">Request log</span><span class="card-link">Audit trail</span></div>
+    </a>
+
+    <a href="ai-gateway.html#settings" class="module-card">
+      <div class="card-icon" style="background:#E7ECF5;">⚙️</div>
+      <div class="card-title">Settings</div>
+      <div class="card-desc">Manage LLM provider API keys, configure organization-level preferences, and control gateway-wide defaults.</div>
+      <div class="card-links"><span class="card-link">API keys</span><span class="card-link">Providers</span></div>
+    </a>
+
+    <a href="ai-gateway.html#mcp-agent-keys" class="module-card">
+      <div class="card-icon" style="background:#E8F5E9;">🔑</div>
+      <div class="card-title">MCP — Agent Keys</div>
+      <div class="card-desc">Issue and manage authentication keys for AI agents accessing the MCP Gateway. Control which agents can connect and use tools.</div>
+      <div class="card-links"><span class="card-link">Authentication</span><span class="card-link">Access control</span></div>
+    </a>
+
+    <a href="ai-gateway.html#mcp-servers" class="module-card">
+      <div class="card-icon" style="background:#E3F2FD;">🖥️</div>
+      <div class="card-title">MCP — Servers</div>
+      <div class="card-desc">Register and configure MCP servers that expose tools to AI agents. Manage server health, connection settings, and availability.</div>
+      <div class="card-links"><span class="card-link">Server registry</span><span class="card-link">Health</span></div>
+    </a>
+
+    <a href="ai-gateway.html#mcp-tools" class="module-card">
+      <div class="card-icon" style="background:#F3E5F5;">🔧</div>
+      <div class="card-title">MCP — Tools</div>
+      <div class="card-desc">Browse the catalog of all tools available to AI agents through the MCP Gateway. Understand capabilities and control access.</div>
+      <div class="card-links"><span class="card-link">Tool catalog</span><span class="card-link">Capabilities</span></div>
+    </a>
+
+    <a href="ai-gateway.html#mcp-audit-log" class="module-card">
+      <div class="card-icon" style="background:#FFF8E1;">📜</div>
+      <div class="card-title">MCP — Audit Log</div>
+      <div class="card-desc">Complete audit trail of every MCP operation — which agent used which tool, when, and with what parameters. Full accountability.</div>
+      <div class="card-links"><span class="card-link">Audit trail</span><span class="card-link">Agent actions</span></div>
+    </a>
+
+    <a href="ai-gateway.html#mcp-approvals" class="module-card">
+      <div class="card-icon" style="background:#FFE5D0;">✔️</div>
+      <div class="card-title">MCP — Approvals</div>
+      <div class="card-desc">Approval workflow for sensitive MCP operations. Require human sign-off before AI agents can execute high-risk tool calls.</div>
+      <div class="card-links"><span class="card-link">Human oversight</span><span class="card-link">Approvals</span></div>
+    </a>
+
+    <a href="ai-gateway.html#mcp-guardrails" class="module-card">
+      <div class="card-icon" style="background:#FFD6D6;">🚧</div>
+      <div class="card-title">MCP — Guardrails</div>
+      <div class="card-desc">Apply input/output guardrail rules specifically to MCP tool calls. Prevent data leakage and enforce policy compliance for agent actions.</div>
+      <div class="card-links"><span class="card-link">Data leakage</span><span class="card-link">Policy rules</span></div>
+    </a>
+
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>© 2026 <strong>Parkar GovernAI</strong> · Built by <a href="#">Parkar Digital</a> · <a href="governance.html">Governance Guide</a> · <a href="ai-gateway.html">AI Gateway Guide</a></p>
+</footer>
+
+</body>
+</html>

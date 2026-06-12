@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Governance — Parkar GovernAI User Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary:        #1B3A6B;
+      --primary-hover:  #152E54;
+      --primary-light:  #E7ECF5;
+      --accent:         #13715B;
+      --accent-light:   #E6F4F0;
+      --text-primary:   #1c2130;
+      --text-secondary: #344054;
+      --text-muted:     #667085;
+      --border:         #eaecf0;
+      --bg:             #FFFFFF;
+      --bg-alt:         #FCFCFD;
+      --bg-hover:       #F9FAFB;
+      --sidebar-w:      272px;
+      --header-h:       60px;
+      --radius:         10px;
+      --shadow:         0 1px 3px rgba(0,0,0,.08);
+      --shadow-md:      0 4px 12px rgba(0,0,0,.08);
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.6; font-size: 14px; }
+
+    /* ── HEADER ── */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: var(--header-h); background: var(--primary);
+      display: flex; align-items: center; padding: 0 24px; gap: 16px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-mark { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,#13715B,#1B8A6B); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 12px; }
+    .logo-text { color: #fff; font-weight: 600; font-size: 14px; }
+    .header-nav { margin-left: auto; display: flex; gap: 4px; }
+    .header-nav a { color: rgba(255,255,255,.75); text-decoration: none; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 500; transition: all .15s; }
+    .header-nav a:hover, .header-nav a.active { color: #fff; background: rgba(255,255,255,.12); }
+    .breadcrumb { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,.55); font-size: 12px; }
+    .breadcrumb a { color: rgba(255,255,255,.7); text-decoration: none; }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb span { color: rgba(255,255,255,.4); }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: fixed; top: var(--header-h); left: 0; bottom: 0;
+      width: var(--sidebar-w); background: var(--bg-alt);
+      border-right: 1px solid var(--border); overflow-y: auto;
+      z-index: 100; padding: 20px 12px;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .sidebar-section { margin-bottom: 6px; }
+    .sidebar-section-title {
+      font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .8px; color: var(--text-muted); padding: 12px 10px 6px;
+    }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 9px;
+      padding: 7px 10px; border-radius: 7px;
+      text-decoration: none; color: var(--text-secondary);
+      font-size: 13px; font-weight: 500;
+      transition: all .15s; cursor: pointer;
+    }
+    .sidebar-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .sidebar-item.active { background: var(--accent-light); color: var(--accent); font-weight: 600; }
+    .sidebar-item .icon { font-size: 15px; flex-shrink: 0; width: 20px; text-align: center; }
+
+    /* ── CONTENT ── */
+    .content {
+      margin-left: var(--sidebar-w);
+      margin-top: var(--header-h);
+      min-height: calc(100vh - var(--header-h));
+    }
+
+    /* page hero */
+    .page-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #244a88 100%);
+      padding: 48px 56px;
+    }
+    .page-hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.85); padding: 4px 12px; border-radius: 20px;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px;
+      margin-bottom: 16px;
+    }
+    .page-hero h1 { font-size: 34px; font-weight: 700; color: #fff; letter-spacing: -.4px; margin-bottom: 10px; }
+    .page-hero p { font-size: 15px; color: rgba(255,255,255,.75); max-width: 580px; }
+    .reg-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .reg-pill { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); color: rgba(255,255,255,.85); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+
+    /* article */
+    .article { padding: 48px 56px; max-width: 880px; }
+    .module-section { margin-bottom: 72px; scroll-margin-top: calc(var(--header-h) + 24px); }
+
+    .module-header {
+      display: flex; align-items: flex-start; gap: 20px; margin-bottom: 28px;
+      padding-bottom: 20px; border-bottom: 1px solid var(--border);
+    }
+    .module-icon {
+      width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+    }
+    .module-header-text h2 { font-size: 22px; font-weight: 700; color: var(--text-primary); letter-spacing: -.3px; margin-bottom: 6px; }
+    .module-header-text p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .route-tag {
+      display: inline-block; font-size: 11px; font-weight: 500;
+      background: var(--primary-light); color: var(--primary);
+      padding: 2px 10px; border-radius: 4px; font-family: monospace;
+      margin-top: 8px;
+    }
+
+    h3 { font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 28px 0 12px; }
+    h3.inline-h3 { margin-top: 0; }
+    p { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.7; }
+
+    ul, ol { padding-left: 20px; margin-bottom: 16px; }
+    li { font-size: 14px; color: var(--text-secondary); margin-bottom: 7px; line-height: 1.6; }
+    li strong { color: var(--text-primary); font-weight: 600; }
+
+    /* info box */
+    .info-box {
+      background: var(--accent-light); border: 1px solid #b8dcd5;
+      border-left: 4px solid var(--accent); border-radius: var(--radius);
+      padding: 14px 18px; margin: 20px 0;
+    }
+    .info-box p { color: #0a4a3a; margin: 0; font-size: 13px; }
+    .info-box strong { color: #0a4a3a; }
+
+    .warn-box {
+      background: #FFF8E1; border: 1px solid #F5E6B8;
+      border-left: 4px solid #F59E0B; border-radius: var(--radius);
+      padding: 14px 18px; margin: 20px 0;
+    }
+    .warn-box p { color: #78350F; margin: 0; font-size: 13px; }
+
+    .tip-box {
+      background: #EFF6FF; border: 1px solid #BFDBFE;
+      border-left: 4px solid #3B82F6; border-radius: var(--radius);
+      padding: 14px 18px; margin: 20px 0;
+    }
+    .tip-box p { color: #1e40af; margin: 0; font-size: 13px; }
+
+    /* table */
+    .data-table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; }
+    .data-table th { background: var(--bg-alt); text-align: left; font-weight: 600; color: var(--text-primary); padding: 9px 14px; border-bottom: 2px solid var(--border); font-size: 12px; }
+    .data-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--bg-hover); }
+    code { background: var(--primary-light); color: var(--primary); padding: 1px 6px; border-radius: 4px; font-size: 12px; font-family: monospace; }
+
+    /* status badge */
+    .badge { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+    .badge-green { background: #E6F4EA; color: #138A5E; }
+    .badge-blue { background: #E3F2FD; color: #1565C0; }
+    .badge-orange { background: #FFE5D0; color: #E64A19; }
+    .badge-red { background: #FFD6D6; color: #D32F2F; }
+    .badge-grey { background: #F3F4F6; color: #6B7280; }
+    .badge-purple { background: #F3E5F5; color: #7B1FA2; }
+
+    /* step flow */
+    .step-flow { margin: 20px 0; }
+    .step-row { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+    .step-circle { width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .step-body strong { font-size: 14px; color: var(--text-primary); display: block; margin-bottom: 3px; }
+    .step-body span { font-size: 13px; color: var(--text-muted); }
+
+    /* reg mapping */
+    .reg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+    .reg-item { background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+    .reg-item-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: var(--accent); margin-bottom: 4px; }
+    .reg-item-text { font-size: 13px; color: var(--text-secondary); }
+
+    /* divider */
+    .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+    /* footer */
+    .site-footer { text-align: center; padding: 28px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-mark">PG</div>
+    <span class="logo-text">Parkar GovernAI</span>
+  </a>
+  <div class="breadcrumb">
+    <span>›</span>
+    <a href="index.html">User Guide</a>
+    <span>›</span>
+    <span style="color:rgba(255,255,255,.85)">Governance</span>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="governance.html" class="active">Governance</a>
+    <a href="ai-gateway.html">AI Gateway</a>
+  </nav>
+</header>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Overview</div>
+    <a href="#start-here" class="sidebar-item"><span class="icon">🏠</span>Start Here</a>
+    <a href="#dashboard" class="sidebar-item"><span class="icon">📊</span>Dashboard</a>
+    <a href="#tasks" class="sidebar-item"><span class="icon">✅</span>Tasks</a>
+    <a href="#frameworks" class="sidebar-item"><span class="icon">🏛️</span>Frameworks</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Inventory</div>
+    <a href="#use-cases" class="sidebar-item"><span class="icon">🗂️</span>Use Cases</a>
+    <a href="#model-inventory" class="sidebar-item"><span class="icon">🤖</span>Model Inventory</a>
+    <a href="#datasets" class="sidebar-item"><span class="icon">🗄️</span>Datasets</a>
+    <a href="#agent-discovery" class="sidebar-item"><span class="icon">🔍</span>Agent Discovery</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Assurance</div>
+    <a href="#risk-management" class="sidebar-item"><span class="icon">⚠️</span>Risk Management</a>
+    <a href="#training-registry" class="sidebar-item"><span class="icon">🎓</span>Training Registry</a>
+    <a href="#evidence-hub" class="sidebar-item"><span class="icon">📁</span>Evidence Hub</a>
+    <a href="#reporting" class="sidebar-item"><span class="icon">📄</span>Reporting</a>
+    <a href="#ai-trust-center" class="sidebar-item"><span class="icon">🛡️</span>AI Trust Center</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Governance</div>
+    <a href="#vendors" class="sidebar-item"><span class="icon">🏢</span>Vendors</a>
+    <a href="#policy-manager" class="sidebar-item"><span class="icon">📝</span>Policy Manager</a>
+    <a href="#incident-management" class="sidebar-item"><span class="icon">🚨</span>Incident Management</a>
+  </div>
+</aside>
+
+<!-- CONTENT -->
+<main class="content">
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-badge">📘 Section 1</div>
+    <h1>Governance</h1>
+    <p>A complete AI governance platform — from registering AI systems and managing risks to publishing compliance reports and responding to incidents.</p>
+    <div class="reg-pills">
+      <span class="reg-pill">EU AI Act</span>
+      <span class="reg-pill">ISO 42001</span>
+      <span class="reg-pill">ISO 27001</span>
+      <span class="reg-pill">NIST AI RMF</span>
+      <span class="reg-pill">GDPR</span>
+    </div>
+  </div>
+
+  <div class="article">
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- START HERE -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="start-here">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E7ECF5;">🏠</div>
+        <div class="module-header-text">
+          <h2>Start Here</h2>
+          <p>The personalized onboarding hub that orients every new user and tracks their setup progress from account creation to first risk assessment.</p>
+          <span class="route-tag">/start-here</span>
+        </div>
+      </div>
+
+      <p>When a user logs in for the first time, the Start Here page is their guide. It is personalized — the platform greets users by name with a time-aware message ("Good morning, Kamlesh") and immediately shows what needs to be done next. No hunting around the platform — everything is surfaced in one place.</p>
+
+      <h3>5-Step Onboarding Checklist</h3>
+      <p>A circular progress ring in the right sidebar tracks onboarding completion. Each step links to the relevant action:</p>
+      <div class="step-flow">
+        <div class="step-row"><div class="step-circle">1</div><div class="step-body"><strong>Create your account</strong><span>Auto-completed on first login.</span></div></div>
+        <div class="step-row"><div class="step-circle">2</div><div class="step-body"><strong>Set up your organization</strong><span>Auto-completed after organization name is configured.</span></div></div>
+        <div class="step-row"><div class="step-circle">3</div><div class="step-body"><strong>Invite a team member</strong><span>Completed when more than one user exists. Links to Settings → Team tab.</span></div></div>
+        <div class="step-row"><div class="step-circle">4</div><div class="step-body"><strong>Create your first use case</strong><span>Completed when at least one AI use case exists. Links to Use Cases.</span></div></div>
+        <div class="step-row"><div class="step-circle">5</div><div class="step-body"><strong>Complete a risk assessment</strong><span>Completed when any risk assessment record exists. Links to Risk Management.</span></div></div>
+      </div>
+      <div class="info-box"><p>When all 5 steps are complete, a <strong>confetti animation</strong> fires once and the checklist card auto-dismisses. The progress state is cached so it persists across page refreshes.</p></div>
+
+      <h3>Main Content Areas</h3>
+      <ul>
+        <li><strong>Getting Started cards (4):</strong> Welcome to Parkar GovernAI, Quick start guide, Navigating the dashboard, Installation guide — clicking opens the relevant resource.</li>
+        <li><strong>Explore GovernAI carousel (10 cards):</strong> AI governance, Compliance, Risk management, LLM Evals, AI detection, Shadow AI, Policies, Reporting, Training, Plugins — each opens a short feature video.</li>
+        <li><strong>Shortcuts grid (8 icons):</strong> Use cases, Risks, Models, Vendors, Tasks, Reporting, Policies, Settings — one-click navigation to key areas.</li>
+      </ul>
+
+      <h3>Right Sidebar Resources</h3>
+      <ul>
+        <li><strong>Our developers:</strong> Contact panel showing the Parkar GovernAI team — click to reach out for support.</li>
+        <li><strong>Resources:</strong> User guide, Blog, API documentation, Community links.</li>
+        <li><strong>What's new:</strong> Latest AI regulatory news articles with publication dates.</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- DASHBOARD -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="dashboard">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E7ECF5;">📊</div>
+        <div class="module-header-text">
+          <h2>Dashboard</h2>
+          <p>The real-time command center for AI governance. Supports both Executive and Operations views to serve every stakeholder from CISO to compliance team.</p>
+          <span class="route-tag">/overview</span>
+        </div>
+      </div>
+
+      <p>The Dashboard is the most information-dense screen in the platform — a live snapshot of the entire governance posture. Two views are available and can be toggled with one button; the preference is saved per user.</p>
+
+      <h3>Executive View</h3>
+      <p>Designed for CISOs, AI officers, and board members who need the strategic picture:</p>
+      <ul>
+        <li><strong>5 Quick Stat cards:</strong> Models, Vendors, Policies, Trainings, Incidents — each clickable to navigate to that module.</li>
+        <li><strong>AI Governance Score:</strong> A composite 0–100 score breaking down governance maturity across all modules.</li>
+        <li><strong>Framework Completion donuts:</strong> ISO 42001 Clauses + Annexes, ISO 27001, NIST AI RMF — with carousel navigation.</li>
+        <li><strong>Risk Distribution donuts:</strong> Use Case Risks (High/Medium/Low), Vendor Risks (Very High–Very Low), Model Risks (Critical–Low).</li>
+        <li><strong>Recent Activity feed:</strong> Last 5 changes across the platform (policies updated, risks added, incidents opened).</li>
+        <li><strong>Recent Use Cases table:</strong> Last 5 projects with compliance progress %.</li>
+        <li><strong>Status cards:</strong> Training distribution, Policy status, Incident lifecycle breakdown.</li>
+      </ul>
+
+      <h3>Operations View</h3>
+      <p>Designed for compliance managers who need to track daily work items:</p>
+      <ul>
+        <li><strong>Task Radar (top):</strong> Overdue / Due today / Upcoming tasks — the most urgent items surface first.</li>
+        <li><strong>Incident Status:</strong> Open / Investigating / Mitigated / Closed counts.</li>
+        <li><strong>Evidence Coverage:</strong> How many models have compliance documents attached.</li>
+        <li><strong>Model Lifecycle:</strong> Distribution across lifecycle stages (Development, Testing, Production, Retired).</li>
+      </ul>
+
+      <h3>Dashboard Tabs</h3>
+      <table class="data-table">
+        <thead><tr><th>Tab</th><th>What it shows</th><th>Regulatory reference</th></tr></thead>
+        <tbody>
+          <tr><td>Overview</td><td>All cards above (Executive and Operations views)</td><td>General governance posture</td></tr>
+          <tr><td>Audit Readiness</td><td>Per-control readiness scores and EU AI Act Article tracker</td><td>EU AI Act readiness</td></tr>
+          <tr><td>AI Content Review</td><td>Reviews and approvals for AI-generated content</td><td>EU AI Act Article 52</td></tr>
+          <tr><td>AI Audit</td><td>Complete audit trail for every AI action</td><td>EU AI Act Article 12 (record keeping)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tip-box"><p><strong>Tip:</strong> On first login, a modal prompts you to set your organization name. This name appears on all generated reports and the AI Trust Center public page.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- TASKS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="tasks">
+      <div class="module-header">
+        <div class="module-icon" style="background:#F3E5F5;">✅</div>
+        <div class="module-header-text">
+          <h2>Tasks</h2>
+          <p>Work management for the governance team — assign, track, and complete compliance action items with full deadline visibility and entity linking.</p>
+          <span class="route-tag">/tasks</span>
+        </div>
+      </div>
+
+      <p>Every compliance framework generates action items. The Tasks module centralizes all governance work in one place — no Jira spreadsheets alongside your compliance data. Tasks can be linked directly to use cases, risks, controls, and vendors for full traceability.</p>
+
+      <h3>Summary Tiles</h3>
+      <p>Five colored tiles at the top of the page. Clicking any tile filters the table instantly:</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-grey">Total</span>
+        <span class="badge badge-blue">Open</span>
+        <span class="badge badge-red">Overdue</span>
+        <span class="badge badge-orange">In Progress</span>
+        <span class="badge badge-green">Completed</span>
+      </div>
+
+      <h3>Two Views</h3>
+      <ul>
+        <li><strong>List view (default):</strong> Sortable table — Task title | Priority | Status | Due date | Assignees | Actions.</li>
+        <li><strong>Deadline view:</strong> Tasks grouped into time buckets — Overdue | Today | This week | Next week | This month | Later | No due date.</li>
+      </ul>
+
+      <h3>Priority Levels</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-red">Critical</span>
+        <span class="badge badge-orange">High</span>
+        <span class="badge badge-blue">Medium</span>
+        <span class="badge badge-grey">Low</span>
+      </div>
+
+      <h3>Key Actions</h3>
+      <ul>
+        <li><strong>Create a task</strong> — Set title, priority, due date, assignees. Crucially, link the task to other entities: a specific use case, a compliance control, or a risk. This creates full traceability.</li>
+        <li><strong>Inline status/priority change</strong> — Update right in the table row without opening a modal.</li>
+        <li><strong>Archive</strong> — Soft-delete; tasks can be restored. Hard delete is permanent.</li>
+        <li><strong>Export</strong> — Download the filtered task list as CSV or Excel.</li>
+        <li><strong>My tasks only</strong> — Filter to see only your assigned tasks.</li>
+      </ul>
+
+      <div class="info-box"><p><strong>GovernanceOS Integration:</strong> The AI advisor can automatically create remediation tasks when it detects compliance gaps. The task list auto-refreshes when an AI-generated task is approved by a human reviewer.</p></div>
+
+      <h3>Role Permissions</h3>
+      <table class="data-table">
+        <thead><tr><th>Role</th><th>Can Create</th><th>Can Edit</th><th>Can Archive</th><th>Can Delete</th></tr></thead>
+        <tbody>
+          <tr><td>Admin</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+          <tr><td>Editor</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+          <tr><td>Reviewer</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
+          <tr><td>Auditor</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- FRAMEWORKS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="frameworks">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E3F2FD;">🏛️</div>
+        <div class="module-header-text">
+          <h2>Frameworks</h2>
+          <p>The compliance control center — map every governance activity against ISO 42001, ISO 27001, and NIST AI RMF. Assign owners, track status, and attach evidence per control.</p>
+          <span class="route-tag">/framework</span>
+        </div>
+      </div>
+
+      <p>The Frameworks page is where compliance work happens. ISO 42001 has 38 clauses and 93 annex controls. NIST AI RMF has 106 subcategories. Managing these in spreadsheets is error-prone and not audit-ready. Here, every control has an owner, a status, a due date, and attached evidence — in one place.</p>
+
+      <h3>Supported Frameworks</h3>
+      <div class="reg-grid">
+        <div class="reg-item"><div class="reg-item-label">ISO 42001</div><div class="reg-item-text">AI Management Systems — Clauses and Annexes</div></div>
+        <div class="reg-item"><div class="reg-item-label">ISO 27001</div><div class="reg-item-text">Information Security Management — Clauses and Annexes</div></div>
+        <div class="reg-item"><div class="reg-item-label">NIST AI RMF</div><div class="reg-item-text">Govern, Map, Measure, Manage functions — all subcategories</div></div>
+        <div class="reg-item"><div class="reg-item-label">EU AI Act</div><div class="reg-item-text">Managed per use case (not org-level) — see Use Cases section</div></div>
+      </div>
+
+      <h3>Page Tabs</h3>
+      <ul>
+        <li><strong>Dashboard:</strong> Framework completion donuts, assignment status %, control status breakdown, per-category progress bars.</li>
+        <li><strong>Framework Risks:</strong> Organizational-level risks linked to specific controls.</li>
+        <li><strong>Linked Models:</strong> All models from Model Inventory mapped to this framework's requirements.</li>
+        <li><strong>Requirements and Controls (core work area):</strong> Every clause, annex, and subcategory with inline editing of status, owner, reviewer, due date, and evidence.</li>
+        <li><strong>Settings:</strong> Enable or disable frameworks for the organization.</li>
+      </ul>
+
+      <h3>Control Statuses</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-grey">Not Started</span>
+        <span class="badge badge-blue">Draft</span>
+        <span class="badge badge-orange">In Progress</span>
+        <span class="badge badge-purple">Awaiting Review</span>
+        <span class="badge badge-orange">Awaiting Approval</span>
+        <span class="badge badge-green">Implemented</span>
+        <span class="badge badge-red">Needs Rework</span>
+      </div>
+
+      <h3>The Organizational Project</h3>
+      <p>All framework work lives inside a single <strong>Organizational Project</strong> — the master compliance container for the whole organization. If no project exists, the page prompts you to create one. This is the governance anchor point from which all framework control assignments flow.</p>
+
+      <div class="tip-box"><p><strong>Deep linking:</strong> Clicking a framework card on the Dashboard navigates directly to the correct control in the Controls tab. URL parameters preserve the exact position, so sharing a link opens the same control for a colleague.</p></div>
+
+      <h3>NIST AI RMF Structure</h3>
+      <table class="data-table">
+        <thead><tr><th>Function</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Govern</strong></td><td>Policies, processes, and accountability structures for AI risk management</td></tr>
+          <tr><td><strong>Map</strong></td><td>Categorize and contextualize AI risks relative to organizational objectives</td></tr>
+          <tr><td><strong>Measure</strong></td><td>Analyze, assess, and track identified AI risks</td></tr>
+          <tr><td><strong>Manage</strong></td><td>Prioritize and address AI risks, respond, and improve</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- USE CASES -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="use-cases">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E8F5E9;">🗂️</div>
+        <div class="module-header-text">
+          <h2>Use Cases</h2>
+          <p>The central AI system registry. Every AI deployment in the organization gets a Use Case — the governance container that holds all compliance controls, risks, models, and evidence for that system.</p>
+          <span class="route-tag">/home</span>
+        </div>
+      </div>
+
+      <p>A <strong>Use Case</strong> (also called a "Project") is the most fundamental object in Parkar GovernAI. Everything else — risks, models, datasets, compliance controls, vendors — links back to a Use Case. EU AI Act requires organizations to enumerate all AI systems, classify them by risk level, and demonstrate compliance per system. This is that registry.</p>
+
+      <h3>Creating a Use Case</h3>
+      <p>Key fields when registering a new AI system:</p>
+      <table class="data-table">
+        <thead><tr><th>Field</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>UC-ID</strong></td><td>Auto-generated (UC-1, UC-2…) — immutable reference number for regulatory submissions</td></tr>
+          <tr><td><strong>AI Risk Classification</strong></td><td>Prohibited / High risk / Limited risk / Minimal risk (EU AI Act Article 6)</td></tr>
+          <tr><td><strong>Role</strong></td><td>Deployer / Provider / Distributor / Importer / Manufacturer / Authorized Rep</td></tr>
+          <tr><td><strong>Linked Frameworks</strong></td><td>EU AI Act, ISO 42001, ISO 27001, NIST AI RMF — multi-select</td></tr>
+          <tr><td><strong>Owner + Members</strong></td><td>Team assignment with granular roles</td></tr>
+          <tr><td><strong>Geography</strong></td><td>Jurisdiction context for regulatory applicability</td></tr>
+          <tr><td><strong>Status</strong></td><td>Not started → In progress → Under review → Completed / Rejected / On hold</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Inside a Use Case — 5 Tabs</h3>
+      <ul>
+        <li><strong>Overview:</strong> Compliance progress per framework, risk count by severity, linked members, vendors, models, and datasets.</li>
+        <li><strong>Risks:</strong> All risks scoped to this specific AI system — a filtered view of the global risk register.</li>
+        <li><strong>Project Settings:</strong> Edit framework assignments, member roles, classification, FRIA (EU AI Act Article 27), and CE Marking documentation.</li>
+        <li><strong>Activity:</strong> Full immutable change history — every field change, status transition, and member addition with timestamps.</li>
+        <li><strong>Post-Market Monitoring:</strong> Ongoing monitoring questions for deployed AI systems (EU AI Act Article 72).</li>
+      </ul>
+
+      <div class="info-box"><p><strong>FRIA:</strong> The Fundamental Rights Impact Assessment, required by EU AI Act Article 27 for High-Risk AI systems deployed by public authorities. The FRIA section is accessible within each use case's Project Settings tab.</p></div>
+
+      <h3>EU AI Act Risk Classification</h3>
+      <table class="data-table">
+        <thead><tr><th>Classification</th><th>Examples</th><th>Compliance Obligations</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-red">Prohibited</span></td><td>Social scoring, subliminal manipulation</td><td>Must not be deployed</td></tr>
+          <tr><td><span class="badge badge-orange">High Risk</span></td><td>Creditworthiness, hiring, medical devices, critical infrastructure</td><td>Full Article 9–15 compliance required</td></tr>
+          <tr><td><span class="badge badge-blue">Limited Risk</span></td><td>Chatbots, deepfake generators</td><td>Transparency obligations (Article 52)</td></tr>
+          <tr><td><span class="badge badge-green">Minimal Risk</span></td><td>Spam filters, AI in video games</td><td>Voluntary codes of practice</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- MODEL INVENTORY -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="model-inventory">
+      <div class="module-header">
+        <div class="module-icon" style="background:#FFF8E1;">🤖</div>
+        <div class="module-header-text">
+          <h2>Model Inventory</h2>
+          <p>Centralized registry of every AI/ML model in the organization — with approval workflow, security assessment documentation, model risk tracking, and evidence management.</p>
+          <span class="route-tag">/model-inventory</span>
+        </div>
+      </div>
+
+      <p>The Model Inventory answers a critical governance question: <em>"What AI models are we using, who approved them, and what risks do they carry?"</em> Every model enters the inventory as <strong>Pending</strong> and must be explicitly approved before use.</p>
+
+      <h3>Model Approval Statuses</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-green">Approved — cleared for use</span>
+        <span class="badge badge-orange">Restricted — approved with conditions</span>
+        <span class="badge badge-grey">Pending — awaiting security review</span>
+        <span class="badge badge-red">Blocked — not permitted</span>
+      </div>
+
+      <h3>Four Tabs</h3>
+      <ul>
+        <li><strong>Models:</strong> Registry table with provider, model name, version, approver, security assessment flag, risk count, and status. Filter, group, export, and share.</li>
+        <li><strong>Model Risks:</strong> Cross-model risk register — Risk name | Model | Risk level | Status | Owner | Next review date. Create, edit, track, and soft-delete model-specific risks.</li>
+        <li><strong>Evaluations:</strong> LLM evaluation results from the EvalServer integration — performance benchmarks, safety scores, and bias test results.</li>
+        <li><strong>Evidence Hub:</strong> Compliance documents linked to models — 15 standardized evidence types covering all EU AI Act Annex IV requirements.</li>
+      </ul>
+
+      <h3>Key Fields</h3>
+      <table class="data-table">
+        <thead><tr><th>Field</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Provider</td><td>OpenAI, Anthropic, AWS, Microsoft, Internal, etc.</td></tr>
+          <tr><td>Model + Version</td><td>Specific model identifier and version string</td></tr>
+          <tr><td>Security Assessment</td><td>Boolean flag + uploaded assessment document — the gate for approval</td></tr>
+          <tr><td>Approver</td><td>User who signed off on using this model</td></tr>
+          <tr><td>Hosting Provider</td><td>Cloud / On-premises / SaaS — important for data residency</td></tr>
+          <tr><td>Known Biases</td><td>Documented limitations (required by EU AI Act Article 13)</td></tr>
+          <tr><td>Linked Use Cases</td><td>Which AI systems use this model — traceability</td></tr>
+          <tr><td>Linked Frameworks</td><td>Which compliance requirements apply to this model</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Model Risk Categories</h3>
+      <ul>
+        <li><strong>Performance</strong> — accuracy degradation, model drift</li>
+        <li><strong>Bias and Fairness</strong> — demographic bias, historical bias amplification</li>
+        <li><strong>Security</strong> — adversarial attacks, model inversion, data poisoning</li>
+        <li><strong>Data Quality</strong> — training data issues, distribution shift</li>
+        <li><strong>Compliance</strong> — regulatory non-conformity, licensing issues</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- DATASETS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="datasets">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E0F2F1;">🗄️</div>
+        <div class="module-header-text">
+          <h2>Datasets</h2>
+          <p>Data governance and AI data lineage tracking — document training data, classify PII, and satisfy EU AI Act Article 10 data governance requirements.</p>
+          <span class="route-tag">/datasets</span>
+        </div>
+      </div>
+
+      <p><strong>EU AI Act Article 10</strong> requires high-risk AI systems to have documented data governance practices. This page captures exactly that evidence — what data was used, how it was classified, whether it contains PII, what biases it has, and how those biases were mitigated.</p>
+
+      <h3>Dataset Types</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-blue">Training</span>
+        <span class="badge badge-green">Validation</span>
+        <span class="badge badge-orange">Testing</span>
+        <span class="badge badge-grey">Production</span>
+        <span class="badge badge-purple">Reference</span>
+      </div>
+
+      <h3>Classification Levels</h3>
+      <table class="data-table">
+        <thead><tr><th>Level</th><th>Description</th><th>Typical Use</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-green">Public</span></td><td>No restrictions on access</td><td>Open-source training datasets</td></tr>
+          <tr><td><span class="badge badge-blue">Internal</span></td><td>For internal use only</td><td>Internal business data, non-sensitive logs</td></tr>
+          <tr><td><span class="badge badge-orange">Confidential</span></td><td>Restricted to authorized personnel</td><td>Customer data without PII</td></tr>
+          <tr><td><span class="badge badge-red">Restricted</span></td><td>Highest protection level</td><td>PII, financial data, health records</td></tr>
+        </tbody>
+      </table>
+
+      <h3>PII Tracking</h3>
+      <p>When <strong>Contains PII</strong> is marked as Yes, you must also specify PII types (names, health data, financial data, location data, etc.). This automatically:</p>
+      <ul>
+        <li>Triggers GDPR/CCPA compliance obligations for that dataset</li>
+        <li>Flags the dataset in the Dashboard as requiring data protection review</li>
+        <li>Requires bias mitigation documentation before the use case can be marked compliant</li>
+      </ul>
+
+      <h3>Data Lineage</h3>
+      <p>Link each dataset to the models trained on it and the use cases it belongs to. This creates a complete lineage graph:</p>
+      <div class="info-box"><p><strong>Use Case → Model → Dataset</strong><br/>A regulator can follow this chain to see: which AI system uses which model, which model was trained on which data, and what governance was applied to that data.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- AGENT DISCOVERY -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="agent-discovery">
+      <div class="module-header">
+        <div class="module-icon" style="background:#FCE4EC;">🔍</div>
+        <div class="module-header-text">
+          <h2>Agent Discovery</h2>
+          <p>Automatically discover every AI agent running in your environment. Eliminate shadow AI — you cannot govern what you do not know about.</p>
+          <span class="route-tag">/agent-discovery</span>
+        </div>
+      </div>
+
+      <p>Most enterprises don't know all the AI agents running in their environment — GitHub Copilot agents, Azure AI Foundry agents, custom LLM pipelines, Slack bots. <strong>EU AI Act Article 14</strong> requires human oversight of AI systems. You cannot have oversight of agents you've never seen. Agent Discovery solves this.</p>
+
+      <h3>The Discovery Workflow</h3>
+      <div class="step-flow">
+        <div class="step-row"><div class="step-circle">1</div><div class="step-body"><strong>Sync (one click)</strong><span>Click "Sync now" — the platform calls connected systems (Azure AI Foundry, custom sources via plugins) and auto-discovers all AI agents. Returns counts: "Found 23 agents — 18 new, 5 updated."</span></div></div>
+        <div class="step-row"><div class="step-circle">2</div><div class="step-body"><strong>Review each agent</strong><span>Open the Review drawer for any discovered agent. See its source system, type, permissions (normalized into 10 categories), last activity, and stale status. Click Confirm or Reject.</span></div></div>
+        <div class="step-row"><div class="step-circle">3</div><div class="step-body"><strong>Link to Model Inventory</strong><span>Link a confirmed agent to its corresponding model. This creates the full chain: Use Case → Model → Agent → Permissions.</span></div></div>
+      </div>
+
+      <h3>Permission Categories (Normalized)</h3>
+      <table class="data-table">
+        <thead><tr><th>Category</th><th>Meaning</th><th>Risk Level</th></tr></thead>
+        <tbody>
+          <tr><td><code>ai:invoke</code></td><td>Can call AI model endpoints</td><td>Low</td></tr>
+          <tr><td><code>ai:manage</code></td><td>Can configure AI systems</td><td>Medium</td></tr>
+          <tr><td><code>data:read</code></td><td>Can read organizational data</td><td>Medium</td></tr>
+          <tr><td><code>data:write</code></td><td>Can write/modify organizational data</td><td>High</td></tr>
+          <tr><td><code>identity:read</code></td><td>Can read user identities</td><td>Medium</td></tr>
+          <tr><td><code>identity:manage</code></td><td>Can manage users and permissions</td><td>Critical</td></tr>
+          <tr><td><code>code:read</code></td><td>Can read source code repositories</td><td>Medium</td></tr>
+          <tr><td><code>code:write</code></td><td>Can write to source code repositories</td><td>High</td></tr>
+          <tr><td><code>comms:read</code></td><td>Can read communications (email, Slack)</td><td>High</td></tr>
+          <tr><td><code>comms:write</code></td><td>Can send communications</td><td>High</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Stale Agent Detection</h3>
+      <p>Agents with no activity for <strong>30+ days</strong> are automatically flagged as <span class="badge badge-orange">Stale</span>. This enables cleanup of abandoned AI deployments and helps with EU AI Act documentation accuracy.</p>
+
+      <div class="warn-box"><p><strong>Important:</strong> Stale agents are not automatically deactivated or deleted — they are flagged for your review. The governance team decides whether to confirm, reject, or unlink each stale agent.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- RISK MANAGEMENT -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="risk-management">
+      <div class="module-header">
+        <div class="module-icon" style="background:#FFE5D0;">⚠️</div>
+        <div class="module-header-text">
+          <h2>Risk Management</h2>
+          <p>The central AI risk register. Identify, import, assess, and track risks across all AI systems — with curated databases from IBM and MIT.</p>
+          <span class="route-tag">/risk-management</span>
+        </div>
+      </div>
+
+      <p>Most organizations start their AI risk program with a blank spreadsheet. Parkar GovernAI gives you two curated, research-backed databases to import from — so your risk register is populated in minutes, not weeks.</p>
+
+      <h3>Risk Level Calculation</h3>
+      <div class="info-box">
+        <p><strong>Risk Level = (Likelihood × 1) + (Severity × 3)</strong><br/>Severity is weighted 3× — a catastrophic but unlikely event still warrants high attention. This mirrors EU AI Act risk assessment methodology.</p>
+      </div>
+
+      <h3>Three Ways to Add Risks</h3>
+      <ul>
+        <li><strong>Manual entry</strong> — Full form with all fields: name, description, AI lifecycle phase, likelihood, severity, mitigation plan, framework linkages, and approval workflow.</li>
+        <li><strong>IBM AI Risk Database (Recommended)</strong> — 113 curated risks covering agentic AI, data privacy violations, inference attacks, and operational failures. Browse, select, review, and save.</li>
+        <li><strong>MIT AI Risk Repository</strong> — Academic research-based risks covering AI safety, fairness, accountability, transparency, and societal impact.</li>
+      </ul>
+
+      <h3>AI Lifecycle Phases</h3>
+      <p>Each risk is tagged to the phase where it manifests:</p>
+      <ol>
+        <li>Problem definition</li>
+        <li>Data collection and preparation</li>
+        <li>Model development</li>
+        <li>Model evaluation and testing</li>
+        <li>Deployment</li>
+        <li>Monitoring and maintenance</li>
+        <li>Decommissioning</li>
+      </ol>
+
+      <h3>Mitigation Statuses</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-grey">Not Started</span>
+        <span class="badge badge-blue">In Progress</span>
+        <span class="badge badge-green">Completed</span>
+        <span class="badge badge-orange">On Hold</span>
+        <span class="badge badge-grey">Deferred</span>
+        <span class="badge badge-red">Cancelled</span>
+        <span class="badge badge-orange">Requires Review</span>
+      </div>
+
+      <h3>Analytics Drawer</h3>
+      <p>Click the analytics icon to open a trend panel showing historical charts for severity, likelihood, mitigation status, and risk level distributions over configurable timeframes (7 days to 1 year). Track your governance posture improving over time.</p>
+
+      <h3>Risk Level Summary Tiles</h3>
+      <table class="data-table">
+        <thead><tr><th>Level</th><th>Score Range</th><th>Typical Response</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-red">Very High</span></td><td>16–20</td><td>Immediate action required — escalate to leadership</td></tr>
+          <tr><td><span class="badge badge-orange">High</span></td><td>11–15</td><td>Mitigation plan required within 30 days</td></tr>
+          <tr><td><span class="badge badge-blue">Medium</span></td><td>6–10</td><td>Address in next governance cycle</td></tr>
+          <tr><td><span class="badge badge-green">Low</span></td><td>3–5</td><td>Monitor — acceptable risk level</td></tr>
+          <tr><td><span class="badge badge-grey">Very Low</span></td><td>0–2</td><td>Accept — document and review annually</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- TRAINING REGISTRY -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="training-registry">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E8EAF6;">🎓</div>
+        <div class="module-header-text">
+          <h2>Training Registry</h2>
+          <p>Track AI literacy and governance training programs across the organization — the auditable record needed to satisfy EU AI Act Article 4.</p>
+          <span class="route-tag">/training-registry</span>
+        </div>
+      </div>
+
+      <p><strong>EU AI Act Article 4</strong> requires organizations to take measures to ensure sufficient AI literacy. <strong>ISO 42001</strong> requires documented training programs. The Training Registry is your auditable evidence that people across the organization have been trained.</p>
+
+      <h3>Two Tabs</h3>
+      <ul>
+        <li><strong>Trainings:</strong> All training programs with name, duration, provider, department, status, and participant count.</li>
+        <li><strong>Evidence Hub (Training scope):</strong> Completion certificates, attendance records, training materials, and assessment results linked to training programs.</li>
+      </ul>
+
+      <h3>Training Statuses</h3>
+      <table class="data-table">
+        <thead><tr><th>Status</th><th>Progress</th><th>Rules</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-grey">Planned</span></td><td>0%</td><td>Scheduled, not yet started. Participant count can be edited.</td></tr>
+          <tr><td><span class="badge badge-blue">In Progress</span></td><td>50%</td><td>Currently running. Participant count cannot be reduced.</td></tr>
+          <tr><td><span class="badge badge-green">Completed</span></td><td>100%</td><td>Finished. Status cannot revert to Planned. Count locked.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="warn-box"><p><strong>Audit trail protection:</strong> Once a training is Completed, you cannot reduce the participant count or revert the status. This ensures the record serves as a reliable audit trail rather than editable retrospective data.</p></div>
+
+      <h3>Department-Level Coverage Reporting</h3>
+      <p>By adding a Department field to each training, you get department-level coverage metrics visible on the Dashboard:</p>
+      <ul>
+        <li>"Legal team: 100% trained in EU AI Act fundamentals"</li>
+        <li>"Engineering team: 60% trained in AI Safety"</li>
+        <li>"Management: 100% completed AI Ethics awareness"</li>
+      </ul>
+
+      <h3>Certificate Expiry Tracking</h3>
+      <p>Evidence documents in the Training Evidence Hub have an <strong>expiry date</strong>. When a certification approaches its expiry, it appears in the Dashboard's "Files needing attention" section — so you never miss a renewal.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- EVIDENCE HUB -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="evidence-hub">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E8F5E9;">📁</div>
+        <div class="module-header-text">
+          <h2>Evidence Hub</h2>
+          <p>The compliance evidence vault — collect, organize, and track every governance document with 15 evidence types mapped directly to EU AI Act Annex IV.</p>
+        </div>
+      </div>
+
+      <p>Compliance requires extensive documentation — a Model Card for every deployed model, bias assessment reports, human oversight plans, third-party audit reports. The Evidence Hub is where all of that lives. When an auditor asks for documentation, you filter by model and evidence type, and download everything in seconds.</p>
+
+      <h3>15 Evidence Types (EU AI Act Annex IV Mapping)</h3>
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Evidence Type</th><th>Regulatory Requirement</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Model Card</td><td>EU AI Act Article 13 (Transparency)</td></tr>
+          <tr><td>2</td><td>Risk Assessment Report</td><td>EU AI Act Article 9 (Risk Management)</td></tr>
+          <tr><td>3</td><td>Bias and Fairness Report</td><td>EU AI Act Article 10 (Data Governance)</td></tr>
+          <tr><td>4</td><td>Security Assessment Report</td><td>EU AI Act Article 15 (Robustness)</td></tr>
+          <tr><td>5</td><td>Data Protection Impact Assessment</td><td>GDPR Article 35</td></tr>
+          <tr><td>6</td><td>Robustness and Stress Test Report</td><td>EU AI Act Article 15</td></tr>
+          <tr><td>7</td><td>Evaluation Metrics Summary</td><td>EU AI Act Article 9</td></tr>
+          <tr><td>8</td><td>Human Oversight Plan</td><td>EU AI Act Article 14</td></tr>
+          <tr><td>9</td><td>Post-Market Monitoring Plan</td><td>EU AI Act Article 72</td></tr>
+          <tr><td>10</td><td>Version Change Log</td><td>EU AI Act Article 12 (Record keeping)</td></tr>
+          <tr><td>11</td><td>Third-Party Audit Report</td><td>ISO 42001 Audit requirements</td></tr>
+          <tr><td>12</td><td>Conformity Assessment Report</td><td>EU AI Act Annex VI</td></tr>
+          <tr><td>13</td><td>Technical File / CE Documentation</td><td>EU AI Act Annex IV</td></tr>
+          <tr><td>14</td><td>Vendor Model Documentation</td><td>EU AI Act Article 28</td></tr>
+          <tr><td>15</td><td>Internal Approval Record</td><td>ISO 42001 Internal controls</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Document Review Workflow</h3>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-grey">Draft</span>
+        <span style="color:var(--text-muted);">→</span>
+        <span class="badge badge-blue">Pending Review</span>
+        <span style="color:var(--text-muted);">→</span>
+        <span class="badge badge-green">Approved</span>
+        <span style="color:var(--text-muted);">or</span>
+        <span class="badge badge-red">Expired</span>
+      </div>
+
+      <h3>File Access Logging</h3>
+      <p>Every time someone views or downloads a compliance document, it is logged: who accessed it, when, and what action they took. This provides a <strong>chain of custody</strong> — auditors can verify the document's integrity and confirm that the right people reviewed the right documents at the right time.</p>
+
+      <div class="info-box"><p><strong>Multi-entity linking:</strong> One evidence document can link to multiple models, training programs, policies, and framework controls simultaneously. No duplication — full traceability across all governance entities.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- REPORTING -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="reporting">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E3F2FD;">📄</div>
+        <div class="module-header-text">
+          <h2>Reporting</h2>
+          <p>Generate board-ready, regulator-ready compliance reports in PDF or DOCX — fully branded with your organization's logo and colors — in under 30 seconds.</p>
+          <span class="route-tag">/reporting</span>
+        </div>
+      </div>
+
+      <p>The Reporting module converts all governance data — risks, compliance controls, assessments, vendors, models, training, policies — into a professionally formatted document. What would take a consultant days to compile is generated in seconds.</p>
+
+      <h3>Report Scopes</h3>
+      <ul>
+        <li><strong>Use Case Report:</strong> All governance data for one specific AI system (e.g., "Fraud Detection AI"). Use when a regulator asks about a specific deployment.</li>
+        <li><strong>Organization Report:</strong> Cross-all-use-cases comprehensive view of the entire AI governance posture. Use for board reporting and annual governance reviews.</li>
+      </ul>
+
+      <h3>Generating a Report — Step by Step</h3>
+      <div class="step-flow">
+        <div class="step-row"><div class="step-circle">1</div><div class="step-body"><strong>Choose scope</strong><span>Use Case (specific system) or Organization (all systems).</span></div></div>
+        <div class="step-row"><div class="step-circle">2</div><div class="step-body"><strong>Select framework</strong><span>EU AI Act, ISO 42001, ISO 27001, or NIST AI RMF.</span></div></div>
+        <div class="step-row"><div class="step-circle">3</div><div class="step-body"><strong>Choose sections</strong><span>Risk Analysis (Use Case Risks, Vendor Risks, Model Risks), Compliance (Controls, Assessment Tracker, Clauses), Organization (Models, Vendors, Training, Policies, Incidents).</span></div></div>
+        <div class="step-row"><div class="step-circle">4</div><div class="step-body"><strong>Apply branding</strong><span>Upload your logo, set primary and secondary colors, enter your organization name.</span></div></div>
+        <div class="step-row"><div class="step-circle">5</div><div class="step-body"><strong>Choose format and generate</strong><span>PDF (non-editable, for regulators) or DOCX (editable, for internal stakeholders). Report generates in under 30 seconds.</span></div></div>
+      </div>
+
+      <h3>What the Report Contains</h3>
+      <ul>
+        <li>Branded cover page with your logo, organization name, framework, and report date</li>
+        <li>Table of contents</li>
+        <li>Executive summary with governance score and key metrics</li>
+        <li>Risk distribution charts (SVG-embedded horizontal bars and donuts)</li>
+        <li>Framework control status tables</li>
+        <li>Compliance progress per section</li>
+        <li>Evidence references</li>
+      </ul>
+
+      <div class="tip-box"><p><strong>Format guidance:</strong> Use <strong>PDF</strong> for regulatory submissions and external auditors — it is non-editable and preserves formatting exactly. Use <strong>DOCX</strong> for board presentations and internal stakeholders who need to add annotations or comments.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- AI TRUST CENTER -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="ai-trust-center">
+      <div class="module-header">
+        <div class="module-icon" style="background:#F3E5F5;">🛡️</div>
+        <div class="module-header-text">
+          <h2>AI Trust Center</h2>
+          <p>Your public-facing AI transparency page — publish compliance badges, governance policies, and subprocessor lists so customers, partners, and regulators can see how responsibly you use AI.</p>
+          <span class="route-tag">/ai-trust-centre</span>
+        </div>
+      </div>
+
+      <p>The AI Trust Center is a branded, public-facing webpage that every organization publishes to demonstrate AI governance transparency. It is the equivalent of a security trust center — but specifically for AI governance. Your customers and partners can visit it without logging in.</p>
+
+      <h3>Internal Configuration — 4 Tabs</h3>
+      <ul>
+        <li><strong>Overview:</strong> Toggle each section on/off and edit your mission statement, AI ethics statement, and compliance badge selections.</li>
+        <li><strong>Resources:</strong> Upload PDFs (AI Ethics Policy, Bias Assessment Summary, Conformity Declaration). Control per-document visibility — hidden documents remain in the system but are not publicly visible.</li>
+        <li><strong>Subprocessors:</strong> Maintain your complete list of third-party data processors — mandatory for GDPR Article 28 transparency.</li>
+        <li><strong>Settings:</strong> Upload your company logo, set header color, customize the page title, and toggle the Published/Unpublished switch.</li>
+      </ul>
+
+      <h3>Compliance Badges Available</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-blue">SOC 2 Type I</span>
+        <span class="badge badge-blue">SOC 2 Type II</span>
+        <span class="badge badge-green">ISO 27001</span>
+        <span class="badge badge-green">ISO 42001</span>
+        <span class="badge badge-orange">CCPA</span>
+        <span class="badge badge-orange">GDPR</span>
+        <span class="badge badge-red">HIPAA</span>
+        <span class="badge badge-purple">EU AI Act</span>
+      </div>
+
+      <h3>Public Page</h3>
+      <p>The public page lives at a unique, organization-specific URL — <code>/aiTrustCentre/:tenantHash</code>. No authentication is required for visitors. The URL is derived from the tenant hash, making each organization's trust center globally unique and unguessable.</p>
+
+      <div class="info-box"><p><strong>Published / Unpublished control:</strong> The trust center page is invisible to the public until you explicitly toggle it to Published in Settings. Configure it completely before going live.</p></div>
+
+      <h3>Public Page Tabs</h3>
+      <ul>
+        <li><strong>Overview:</strong> Mission statement, AI ethics statement, and compliance badges.</li>
+        <li><strong>Resources:</strong> Downloadable compliance documents you've made public.</li>
+        <li><strong>Subprocessors:</strong> Complete list of third-party data processors with their purpose and location.</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- VENDORS -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="vendors">
+      <div class="module-header">
+        <div class="module-icon" style="background:#FFF3E0;">🏢</div>
+        <div class="module-header-text">
+          <h2>Vendors</h2>
+          <p>Third-party AI risk management — assess, score, and track every AI vendor relationship. EU AI Act Article 28 requires documented oversight of third-party AI systems.</p>
+          <span class="route-tag">/vendors</span>
+        </div>
+      </div>
+
+      <p>If your organization uses third-party AI tools — OpenAI APIs, AWS Rekognition, Azure AI services, HuggingFace models — you have vendor governance obligations. <strong>EU AI Act Article 28</strong> imposes specific requirements on deployers who use third-party AI systems. This module provides the documented evidence trail.</p>
+
+      <h3>The Vendor Scorecard (0–100)</h3>
+      <p>When you create or update a vendor record, the scorecard automatically calculates a composite risk score based on four dimensions:</p>
+      <table class="data-table">
+        <thead><tr><th>Dimension</th><th>Options</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Data Sensitivity</strong></td><td>None / Internal only / PII / Financial data / Health data (HIPAA) / Model weights / Other sensitive</td></tr>
+          <tr><td><strong>Business Criticality</strong></td><td>Low (non-core) / Medium (replaceable) / High (critical to core services)</td></tr>
+          <tr><td><strong>Past Issues</strong></td><td>None / Minor incident / Major incident (data breach, legal issue)</td></tr>
+          <tr><td><strong>Regulatory Exposure</strong></td><td>None / GDPR / HIPAA / SOC 2 / ISO 27001 / EU AI Act / CCPA / Other</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Review Statuses</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-grey">Not Started</span>
+        <span class="badge badge-blue">In Review</span>
+        <span class="badge badge-green">Reviewed</span>
+        <span class="badge badge-orange">Requires Follow-up</span>
+      </div>
+
+      <h3>Vendor Risks Tab</h3>
+      <p>Each vendor can have multiple associated risks in the Vendor Risks sub-register. Key fields:</p>
+      <ul>
+        <li><strong>Risk description</strong> — what the risk is (e.g., "Data residency: EU customer data processed outside EU")</li>
+        <li><strong>Impact and likelihood</strong> — from Negligible to Catastrophic</li>
+        <li><strong>Action plan</strong> — mitigation strategy</li>
+        <li><strong>Action owner</strong> — the person responsible for executing the plan</li>
+        <li><strong>Use case links</strong> — which AI systems are affected by this vendor risk</li>
+      </ul>
+
+      <div class="tip-box"><p><strong>Example:</strong> If you use OpenAI's API and your users' data is sent to OpenAI's servers, create a vendor record for OpenAI with Data Sensitivity = PII, Business Criticality = High, and Regulatory Exposure = EU AI Act + GDPR. The scorecard will calculate a high risk score, triggering a mandatory review.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- POLICY MANAGER -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="policy-manager">
+      <div class="module-header">
+        <div class="module-icon" style="background:#E0F7FA;">📝</div>
+        <div class="module-header-text">
+          <h2>Policy Manager</h2>
+          <p>Write, version, review, and publish AI governance policies — with a rich text editor, 50+ professional templates, approval workflow, and 19 AI governance tags.</p>
+          <span class="route-tag">/policies</span>
+        </div>
+      </div>
+
+      <p>EU AI Act, ISO 42001, NIST AI RMF, and internal audit requirements all require written AI governance policies. The Policy Manager is where those policies are created, versioned, reviewed, and maintained. Everything from an AI Ethics Policy to a Model Risk Management Policy lives here.</p>
+
+      <h3>Two Tabs</h3>
+      <ul>
+        <li><strong>My Policies:</strong> All organization policies with status filtering, virtual folder organization, search, and export.</li>
+        <li><strong>Templates:</strong> Pre-built, professionally written policy templates organized by category — start from a compliant template rather than a blank page.</li>
+      </ul>
+
+      <h3>Template Categories</h3>
+      <ul>
+        <li>Core AI governance</li>
+        <li>Model lifecycle</li>
+        <li>Data and security</li>
+        <li>Legal and compliance</li>
+        <li>People and organization</li>
+        <li>Industry packs</li>
+      </ul>
+
+      <h3>The Policy Editor</h3>
+      <p>A full-screen rich text editor with a complete formatting toolbar (Bold, Italic, Tables, Images, Headings, Bullet lists, Code blocks) and DOCX import (paste in your existing Word policy documents). The right-side metadata panel manages:</p>
+      <ul>
+        <li><strong>Status:</strong> Draft → Under Review → Approved → Published → Archived / Deprecated</li>
+        <li><strong>Tags:</strong> Up to 19 AI governance tags for categorization</li>
+        <li><strong>Next review date:</strong> Triggers automated reminders before review deadline</li>
+        <li><strong>Policy owner and assigned reviewers</strong></li>
+      </ul>
+
+      <h3>The Approval Workflow</h3>
+      <div class="step-flow">
+        <div class="step-row"><div class="step-circle" style="background:#667085;">D</div><div class="step-body"><strong>Draft</strong><span>Author writes and saves the policy. Not yet submitted for review.</span></div></div>
+        <div class="step-row"><div class="step-circle" style="background:#1565C0;">R</div><div class="step-body"><strong>Under Review</strong><span>Author clicks "Request Review". Assigned reviewers are notified.</span></div></div>
+        <div class="step-row"><div class="step-circle" style="background:#138A5E;">A</div><div class="step-body"><strong>Approved</strong><span>Reviewer approves. Policy can now be Published or remain Approved for internal use.</span></div></div>
+        <div class="step-row"><div class="step-circle" style="background:#D32F2F;">✕</div><div class="step-body"><strong>Rejected</strong><span>Reviewer rejects with a comment. Policy returns to Draft status for revision.</span></div></div>
+      </div>
+
+      <h3>Linking Policies to Compliance</h3>
+      <p>Each policy can be linked to:</p>
+      <ul>
+        <li><strong>Controls</strong> — "This policy satisfies ISO 42001 Clause 6.1.2"</li>
+        <li><strong>Risks</strong> — "This policy mitigates Risk #14 (Demographic bias)"</li>
+        <li><strong>Evidence</strong> — "This policy is supported by this third-party audit report"</li>
+      </ul>
+      <div class="info-box"><p>This traceability chain is what auditors look for: a written policy that addresses a specific control, mitigates a documented risk, and is backed by evidence. All three links in one place.</p></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- INCIDENT MANAGEMENT -->
+    <!-- ══════════════════════════════════════ -->
+    <section class="module-section" id="incident-management">
+      <div class="module-header">
+        <div class="module-icon" style="background:#FFD6D6;">🚨</div>
+        <div class="module-header-text">
+          <h2>Incident Management</h2>
+          <p>EU AI Act Article 73 serious incident reporting — structured capture, harm category mapping, approval workflow, and CE Marking integration for complete regulatory compliance.</p>
+          <span class="route-tag">/ai-incident-management</span>
+        </div>
+      </div>
+
+      <p><strong>EU AI Act Article 73</strong> requires providers and deployers of High-Risk AI systems to report serious incidents to market surveillance authorities. Failure to report is a regulatory violation. This module provides the structured workflow for capturing, investigating, and reporting every AI incident.</p>
+
+      <h3>Incident Lifecycle</h3>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-red">Open</span>
+        <span style="color:var(--text-muted);">→</span>
+        <span class="badge badge-orange">Investigating</span>
+        <span style="color:var(--text-muted);">→</span>
+        <span class="badge badge-blue">Mitigated</span>
+        <span style="color:var(--text-muted);">→</span>
+        <span class="badge badge-green">Closed</span>
+      </div>
+
+      <h3>7 Incident Types</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        <span class="badge badge-grey">Malfunction</span>
+        <span class="badge badge-grey">Unexpected behavior</span>
+        <span class="badge badge-grey">Model drift</span>
+        <span class="badge badge-grey">Misuse</span>
+        <span class="badge badge-grey">Data corruption</span>
+        <span class="badge badge-grey">Security breach</span>
+        <span class="badge badge-grey">Performance degradation</span>
+      </div>
+
+      <h3>3 Severity Levels</h3>
+      <table class="data-table">
+        <thead><tr><th>Severity</th><th>Description</th><th>Reporting Obligation</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-grey">Minor</span></td><td>Limited impact, no significant harm</td><td>Internal documentation only</td></tr>
+          <tr><td><span class="badge badge-orange">Serious</span></td><td>Significant impact, potential harm</td><td>Regulatory reporting may be required</td></tr>
+          <tr><td><span class="badge badge-red">Very Serious</span></td><td>Major harm to people or society</td><td>EU AI Act Article 73 reporting obligation triggered</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Categories of Harm (EU AI Act Aligned)</h3>
+      <p>At least one harm category must be selected for every incident:</p>
+      <ul>
+        <li>Health</li>
+        <li>Safety</li>
+        <li>Fundamental Rights</li>
+        <li>Property</li>
+        <li>Environment</li>
+        <li>Financial Impact</li>
+        <li>Customer Trust / Reputation</li>
+        <li>Fairness / Ethical Concerns</li>
+      </ul>
+
+      <h3>The 4-Section Incident Form</h3>
+      <ul>
+        <li><strong>Section 1 — Incident Information:</strong> AI project, type, severity, status, occurred date, date detected, reporter, model version. <em>Note: date_detected must be ≥ occurred_date.</em></li>
+        <li><strong>Section 2 — Impact Assessment:</strong> Harm categories, affected persons/groups, description (5–1000 chars), relationship/causality analysis.</li>
+        <li><strong>Section 3 — Response and Actions:</strong> Immediate mitigations already taken, planned corrective actions.</li>
+        <li><strong>Section 4 — Approval and Reporting:</strong> Approval status, approver, approval notes, and the <strong>Interim Report toggle</strong> for ongoing incidents requiring periodic updates to regulators.</li>
+      </ul>
+
+      <h3>Auto-Generated Incident IDs</h3>
+      <p>Every incident receives an auto-generated ID (e.g., <code>INC-0047</code>). These IDs are immutable and provide unambiguous incident references for regulatory submissions, cross-referencing with change history, and CE Marking documentation.</p>
+
+      <div class="info-box"><p><strong>CE Marking Integration:</strong> Incidents can be linked directly to CE Marking conformity records — connecting incident reporting to regulatory filing in one system. This satisfies the documentation chain required for High-Risk AI system conformity declarations.</p></div>
+    </section>
+
+  </div><!-- /article -->
+</main>
+
+<footer class="site-footer">
+  © 2026 <strong>Parkar GovernAI</strong> · Built by Parkar Digital · <a href="index.html">User Guide Home</a> · <a href="ai-gateway.html">AI Gateway Guide</a>
+</footer>
+
+<script>
+  // Sidebar active state based on scroll position
+  const sections = document.querySelectorAll('.module-section');
+  const sidebarItems = document.querySelectorAll('.sidebar-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        sidebarItems.forEach(i => i.classList.remove('active'));
+        const link = document.querySelector(`.sidebar-item[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -75% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
