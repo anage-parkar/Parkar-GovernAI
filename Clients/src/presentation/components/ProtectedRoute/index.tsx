@@ -106,6 +106,11 @@ const ProtectedRoute = ({ Component, ...rest }: IProtectedRouteProps) => {
 
   // Check authentication for protected routes (including root '/')
   if (!authState.authToken && !isPublicRoute) {
+    // Logged-out visitors hitting the app root land on the marketing page;
+    // deep links to protected pages still go to login.
+    if (location.pathname === "/") {
+      return <Navigate to="/landing" replace />;
+    }
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 

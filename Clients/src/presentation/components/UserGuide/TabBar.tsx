@@ -1,5 +1,5 @@
 import React from "react";
-import { BookOpen, HelpCircle, MessageSquare, Sparkles } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { colors, typography } from "./styles/theme";
 import "./TabBar.css";
 
@@ -68,6 +68,9 @@ const TabItem: React.FC<TabItemProps> = ({ label, icon, isActive, onClick }) => 
 };
 
 const TabBar: React.FC<TabBarProps> = ({ activeTab, onTabChange, displayAdvisor }) => {
+  // "User guide", "What's new", and "Help" tabs removed per request (VerifyWise-branded).
+  // Only the AI advisor remains; if it's disabled there are no tabs, so hide the rail.
+  if (!displayAdvisor) return null;
   return (
     <div
       style={{
@@ -81,34 +84,11 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, onTabChange, displayAdvisor 
       }}
     >
       <TabItem
-        id="user-guide"
-        label="User guide"
-        icon={<BookOpen size={18} strokeWidth={1.5} />}
-        isActive={activeTab === "user-guide"}
-        onClick={() => onTabChange("user-guide")}
-      />
-      {displayAdvisor && (
-        <TabItem
-          id="advisor"
-          label="AI advisor"
-          icon={<MessageSquare size={18} strokeWidth={1.5} />}
-          isActive={activeTab === "advisor"}
-          onClick={() => onTabChange("advisor")}
-        />
-      )}
-      <TabItem
-        id="whats-new"
-        label="What's new"
-        icon={<Sparkles size={18} strokeWidth={1.5} />}
-        isActive={activeTab === "whats-new"}
-        onClick={() => onTabChange("whats-new")}
-      />
-      <TabItem
-        id="help"
-        label="Help"
-        icon={<HelpCircle size={18} strokeWidth={1.5} />}
-        isActive={activeTab === "help"}
-        onClick={() => onTabChange("help")}
+        id="advisor"
+        label="AI advisor"
+        icon={<MessageSquare size={18} strokeWidth={1.5} />}
+        isActive={activeTab === "advisor"}
+        onClick={() => onTabChange("advisor")}
       />
     </div>
   );

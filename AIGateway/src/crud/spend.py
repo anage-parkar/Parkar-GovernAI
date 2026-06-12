@@ -43,7 +43,9 @@ async def get_spend_summary(
             COALESCE(SUM(cost_usd), 0)           AS total_cost,
             COUNT(*)                              AS total_requests,
             COALESCE(SUM(total_tokens), 0)        AS total_tokens,
-            COALESCE(AVG(latency_ms), 0)          AS avg_latency_ms
+            COALESCE(AVG(latency_ms), 0)          AS avg_latency_ms,
+            COALESCE(PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms), 0) AS p95_latency_ms,
+            COALESCE(SUM(CASE WHEN status_code >= 400 THEN 1 ELSE 0 END), 0)      AS error_count
         FROM ai_gateway_spend_logs
         WHERE organization_id = :org_id
           AND created_at BETWEEN :start_date AND :end_date
@@ -59,8 +61,121 @@ async def get_spend_summary(
             "total_requests": 0,
             "total_tokens": 0,
             "avg_latency_ms": 0,
+            "p95_latency_ms": 0,
+            "error_count": 0,
         }
     return _row_to_dict(row)
+
+
+async def get_gateway_insights(
+    db: AsyncSession,
+    org_id: int,
+    start_date: str,
+    end_date: str,
+) -> dict:
+    """High-value operational insights computed from already-captured data:
+    cost-per-client, budget utilization, 429/402 rejections, PII detections by
+    type, per-agent tool latency/blocked, and a spend-anomaly flag."""
+    p = {"o": org_id, "s": start_date, "e": end_date}
+
+    # 1) Cost per client/agent (from metadata tags: agent → app → untagged)
+    cost_rows = (await db.execute(text("""
+        SELECT COALESCE(metadata->>'agent', metadata->>'app', 'untagged') AS client,
+               COALESCE(SUM(cost_usd), 0)    AS total_cost,
+               COUNT(*)                       AS total_requests,
+               COALESCE(SUM(total_tokens), 0) AS total_tokens
+        FROM ai_gateway_spend_logs
+        WHERE organization_id = :o AND created_at BETWEEN :s AND :e
+        GROUP BY 1 ORDER BY total_cost DESC LIMIT 20
+    """), p)).mappings().all()
+
+    # 2) Budget utilization per virtual key
+    budget_rows = (await db.execute(text("""
+        SELECT name, max_budget_usd, current_spend_usd
+        FROM ai_gateway_virtual_keys
+        WHERE organization_id = :o AND max_budget_usd IS NOT NULL AND max_budget_usd > 0
+        ORDER BY (current_spend_usd / NULLIF(max_budget_usd, 0)) DESC
+    """), {"o": org_id})).mappings().all()
+
+    # 3) Rejections: 429 (rate limited) and 402 (budget exceeded)
+    rej_rows = (await db.execute(text("""
+        SELECT status_code, COUNT(*) AS cnt
+        FROM ai_gateway_spend_logs
+        WHERE organization_id = :o AND created_at BETWEEN :s AND :e
+          AND status_code IN (402, 429)
+        GROUP BY status_code
+    """), p)).mappings().all()
+    rejections = {"rate_limited_429": 0, "budget_exceeded_402": 0}
+    for r in rej_rows:
+        if r["status_code"] == 429:
+            rejections["rate_limited_429"] = r["cnt"]
+        elif r["status_code"] == 402:
+            rejections["budget_exceeded_402"] = r["cnt"]
+
+    # 4) PII detections by entity type
+    pii_rows = (await db.execute(text("""
+        SELECT entity_type, COUNT(*) AS cnt
+        FROM ai_gateway_guardrail_logs
+        WHERE organization_id = :o AND created_at BETWEEN :s AND :e
+          AND guardrail_type = 'pii'
+        GROUP BY entity_type ORDER BY cnt DESC
+    """), p)).mappings().all()
+
+    # 5) Per-agent tool latency + blocked attempts (MCP)
+    tool_rows = (await db.execute(text("""
+        SELECT COALESCE(ak.name, 'unknown') AS agent,
+               COUNT(*)                                                       AS calls,
+               COALESCE(AVG(a.latency_ms), 0)                                 AS avg_latency_ms,
+               COALESCE(SUM(CASE WHEN a.result_status = 'blocked' THEN 1 ELSE 0 END), 0) AS blocked,
+               COALESCE(SUM(CASE WHEN a.is_error THEN 1 ELSE 0 END), 0)       AS errors
+        FROM ai_gateway_mcp_audit_logs a
+        LEFT JOIN ai_gateway_mcp_agent_keys ak ON ak.id = a.agent_key_id
+        WHERE a.organization_id = :o AND a.created_at BETWEEN :s AND :e
+        GROUP BY ak.name ORDER BY calls DESC LIMIT 20
+    """), p)).mappings().all()
+
+    # 6) Anomaly: latest day's spend vs trailing-day mean
+    day_rows = (await db.execute(text("""
+        SELECT date_trunc('day', created_at)::date AS day, COALESCE(SUM(cost_usd), 0) AS cost
+        FROM ai_gateway_spend_logs
+        WHERE organization_id = :o AND created_at BETWEEN :s AND :e
+        GROUP BY 1 ORDER BY 1
+    """), p)).mappings().all()
+    anomaly: dict = {"detected": False}
+    days = [{"day": str(d["day"]), "cost": float(d["cost"])} for d in day_rows]
+    if len(days) >= 3:
+        latest, prior = days[-1], days[:-1]
+        mean_cost = sum(d["cost"] for d in prior) / len(prior)
+        if mean_cost > 0 and latest["cost"] > 2 * mean_cost and latest["cost"] > 0.01:
+            anomaly = {
+                "detected": True, "day": latest["day"], "cost": round(latest["cost"], 6),
+                "baseline": round(mean_cost, 6), "ratio": round(latest["cost"] / mean_cost, 1),
+            }
+
+    return {
+        "cost_by_client": [
+            {"client": r["client"], "total_cost": float(r["total_cost"]),
+             "total_requests": r["total_requests"], "total_tokens": int(r["total_tokens"])}
+            for r in cost_rows
+        ],
+        "budget_utilization": [
+            {"name": b["name"],
+             "max_budget_usd": float(b["max_budget_usd"] or 0),
+             "current_spend_usd": float(b["current_spend_usd"] or 0),
+             "utilization_pct": round(float(b["current_spend_usd"] or 0) / float(b["max_budget_usd"]) * 100, 1)
+                if float(b["max_budget_usd"] or 0) > 0 else 0}
+            for b in budget_rows
+        ],
+        "rejections": rejections,
+        "pii_by_type": [{"entity_type": r["entity_type"], "count": r["cnt"]} for r in pii_rows],
+        "tools_by_agent": [
+            {"agent": r["agent"], "calls": r["calls"],
+             "avg_latency_ms": round(float(r["avg_latency_ms"]), 1),
+             "blocked": r["blocked"], "errors": r["errors"]}
+            for r in tool_rows
+        ],
+        "anomaly": anomaly,
+    }
 
 
 # ---------------------------------------------------------------------------

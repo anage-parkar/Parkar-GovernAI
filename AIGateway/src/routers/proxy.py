@@ -116,16 +116,34 @@ async def proxy_chat(request: Request, body: ProxyChatRequest):
     except ValueError as e:
         raise HTTPException(status_code=403, detail=str(e))
 
-    # Rate limit: per-endpoint + per-key
-    await enforce_rate_limits(endpoint, vk)
+    _reject_meta = {"virtual_key_id": str(vk["id"]), **vk.get("_extra_metadata", {})}
 
-    # Cost estimation + budget check
+    # Rate limit: per-endpoint + per-key (log the 429 rejection so it's countable)
+    try:
+        await enforce_rate_limits(endpoint, vk)
+    except HTTPException as e:
+        if e.status_code == 429:
+            await log_spend(
+                organization_id=org_id, endpoint_id=endpoint["id"], virtual_key_id=vk["id"],
+                provider=endpoint["provider"], model=endpoint["model"],
+                prompt_tokens=0, completion_tokens=0, total_tokens=0,
+                cost_usd=0.0, latency_ms=0, status_code=429, metadata=_reject_meta,
+            )
+        raise
+
+    # Cost estimation + budget check (log the 402 rejection so it's countable)
     estimated_cost = estimate_prompt_cost(
         model=endpoint["model"],
         messages=body.messages,
         max_tokens=body.max_tokens or endpoint.get("max_tokens") or 4096,
     )
     if not await check_org_budget(org_id, estimated_cost):
+        await log_spend(
+            organization_id=org_id, endpoint_id=endpoint["id"], virtual_key_id=vk["id"],
+            provider=endpoint["provider"], model=endpoint["model"],
+            prompt_tokens=0, completion_tokens=0, total_tokens=0,
+            cost_usd=0.0, latency_ms=0, status_code=402, metadata=_reject_meta,
+        )
         raise HTTPException(status_code=402, detail="Organization budget limit exceeded")
 
     # Guardrails

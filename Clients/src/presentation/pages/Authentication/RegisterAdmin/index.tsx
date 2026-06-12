@@ -261,8 +261,8 @@ const RegisterAdmin: React.FC<{ multiTenant: boolean }> = ({ multiTenant = false
                 fontSize: 40,
               }}
             >
-              Verify
-              <span style={{ color: singleTheme.textColors.theme }}>Wise</span>
+              Parkar
+              <span style={{ color: singleTheme.textColors.theme }}> GovernAI</span>
             </Typography>
             <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
               Create your organization
@@ -311,8 +311,8 @@ const RegisterAdmin: React.FC<{ multiTenant: boolean }> = ({ multiTenant = false
                 fontSize: 40,
               }}
             >
-              Verify
-              <span style={{ color: singleTheme.textColors.theme }}>Wise</span>
+              Parkar
+              <span style={{ color: singleTheme.textColors.theme }}> GovernAI</span>
             </Typography>
             <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
               {multiTenant ? "Create admin account" : "Create Parkar GovernAI admin account"}

@@ -66,7 +66,10 @@ import { sendSlackNotification } from "../services/slack/slackNotificationServic
 import { SlackNotificationRoutingType } from "../domain.layer/enums/slack.enum";
 import { getRoleByIdQuery } from "../utils/role.utils";
 import { uploadFile } from "../utils/fileUpload.utils";
-import { markInvitationAcceptedQuery } from "../utils/invitation.utils";
+import {
+  markInvitationAcceptedQuery,
+  getPendingInvitationQuery,
+} from "../utils/invitation.utils";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { getAzureADConfigForLoginQuery, isSSOFeatureEnabled } from "../utils/ssoConfig.utils";
 
@@ -624,11 +627,25 @@ async function loginUserWithMicrosoft(req: Request, res: Response): Promise<any>
     const roleClaim = ((tokenResponse.idTokenClaims as Record<string, any>)?.roles ?? [])[0] as
       | string
       | undefined;
-    const roleName = roleClaim && SSO_ROLE_MAP.has(roleClaim) ? roleClaim : "Editor";
-    const roleId = SSO_ROLE_MAP.get(roleName)!;
+    const hasExplicitRoleClaim = !!(roleClaim && SSO_ROLE_MAP.has(roleClaim));
+    let roleName = hasExplicitRoleClaim ? roleClaim! : "Editor";
+    let roleId = SSO_ROLE_MAP.get(roleName)!;
 
     let user = (await getUserByEmailQuery(email)) as UserModel | undefined;
     if (!user) {
+      // JIT provisioning: honor a pending invitation for this email/org.
+      // Role precedence: explicit Azure `roles` claim > invited role > Editor default.
+      const pendingInvitation = await getPendingInvitationQuery(Number(organizationId), email);
+      if (pendingInvitation && !hasExplicitRoleClaim) {
+        const invitedRole = [...SSO_ROLE_MAP.entries()].find(
+          ([, id]) => id === pendingInvitation.role_id,
+        );
+        if (invitedRole) {
+          roleName = invitedRole[0];
+          roleId = invitedRole[1];
+        }
+      }
+
       const userModel = await UserModel.createNewUser(
         userInfo.givenName || userInfo.displayName || "User",
         userInfo.surname || userInfo.givenName || userInfo.displayName || "User",
@@ -641,14 +658,28 @@ async function loginUserWithMicrosoft(req: Request, res: Response): Promise<any>
       );
       await userModel.validateUserData?.();
       user = await createNewUserQuery(userModel, transaction);
+
+      // Consume the invitation so it doesn't linger as pending.
+      if (pendingInvitation) {
+        await markInvitationAcceptedQuery(Number(organizationId), email);
+      }
     } else if (user.organization_id !== Number(organizationId)) {
       await transaction.rollback();
       return res
         .status(403)
         .json(STATUS_CODE[403]("User does not belong to the selected organization"));
-    } else if (user.role_id !== roleId) {
+    } else if (hasExplicitRoleClaim && user.role_id !== roleId) {
+      // Only sync the role when Azure sends an explicit `roles` claim —
+      // otherwise the Editor default would silently demote existing users.
       await updateUserByIdQuery(user.id!, { role_id: roleId }, transaction);
       user.role_id = roleId;
+    } else if (!hasExplicitRoleClaim) {
+      // Keep the user's stored role; reflect it in the issued JWT.
+      const stored = [...SSO_ROLE_MAP.entries()].find(([, id]) => id === user!.role_id);
+      if (stored) {
+        roleName = stored[0];
+        roleId = stored[1];
+      }
     }
 
     const { accessToken } = generateUserTokens(

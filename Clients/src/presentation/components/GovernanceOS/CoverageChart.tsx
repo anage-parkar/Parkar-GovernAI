@@ -11,8 +11,84 @@ const CoverageChart = ({ coverage }: ICoverageChartProps) => {
     );
   }
 
+  // Portfolio rollup across all frameworks (computed from the data already provided)
+  const totalMapped = coverage.reduce((s, fw) => s + (fw.mapped_controls || 0), 0);
+  const totalControls = coverage.reduce((s, fw) => s + (fw.total_controls || 0), 0);
+  const totalGaps = coverage.reduce(
+    (s, fw) => s + (fw.gap_details?.unmapped_controls?.length || 0),
+    0,
+  );
+  const totalSynergies = coverage.reduce(
+    (s, fw) => s + (fw.synergy_details?.multi_framework_controls?.length || 0),
+    0,
+  );
+  const overallPct = totalControls > 0 ? Math.round((totalMapped / totalControls) * 100) : 0;
+
   return (
     <Stack spacing={2}>
+      {/* Overall portfolio coverage summary */}
+      <Box
+        sx={{
+          border: `1px solid ${borderPalette.dark}`,
+          borderRadius: 2,
+          p: 2,
+          background: background.accent,
+        }}
+      >
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+          <Typography sx={{ fontSize: 13, fontWeight: 700, color: text.primary }}>
+            Overall coverage
+          </Typography>
+          <Typography sx={{ fontSize: 16, fontWeight: 700, color: brand.primary }}>
+            {overallPct}%
+          </Typography>
+        </Stack>
+        <LinearProgress
+          variant="determinate"
+          value={overallPct}
+          sx={{
+            "height": 8,
+            "borderRadius": 4,
+            "mb": 1,
+            "backgroundColor": background.hover,
+            "& .MuiLinearProgress-bar": { backgroundColor: brand.primary, borderRadius: 4 },
+          }}
+        />
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography sx={{ fontSize: 11, color: text.muted }}>
+            {totalMapped}/{totalControls} controls mapped across {coverage.length} framework
+            {coverage.length === 1 ? "" : "s"}
+          </Typography>
+          <Box sx={{ flex: 1 }} />
+          {totalGaps > 0 && (
+            <Chip
+              label={`${totalGaps} gaps`}
+              size="small"
+              sx={{
+                fontSize: 10,
+                height: 20,
+                backgroundColor: status.warning.bg,
+                color: status.warning.text,
+                border: `1px solid ${status.warning.border}`,
+              }}
+            />
+          )}
+          {totalSynergies > 0 && (
+            <Chip
+              label={`${totalSynergies} synergies`}
+              size="small"
+              sx={{
+                fontSize: 10,
+                height: 20,
+                backgroundColor: status.success.bg,
+                color: status.success.text,
+                border: `1px solid ${status.success.border}`,
+              }}
+            />
+          )}
+        </Stack>
+      </Box>
+
       {coverage.map((fw) => (
         <Box
           key={fw.framework_id}

@@ -309,8 +309,8 @@ const RegisterMultiTenant: React.FC = () => {
                 fontSize: 40,
               }}
             >
-              Verify
-              <span style={{ color: singleTheme.textColors.theme }}>Wise</span>
+              Parkar
+              <span style={{ color: singleTheme.textColors.theme }}> GovernAI</span>
             </Typography>
             <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
               Create your organization
@@ -374,8 +374,8 @@ const RegisterMultiTenant: React.FC = () => {
                 fontSize: 40,
               }}
             >
-              Verify
-              <span style={{ color: singleTheme.textColors.theme }}>Wise</span>
+              Parkar
+              <span style={{ color: singleTheme.textColors.theme }}> GovernAI</span>
             </Typography>
             <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>Create admin account</Typography>
             <Typography

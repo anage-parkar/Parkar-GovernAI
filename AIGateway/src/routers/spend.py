@@ -199,6 +199,23 @@ async def spend_by_tag(
 
 
 # ---------------------------------------------------------------------------
+# GET /spend/insights — consolidated operational insights
+# ---------------------------------------------------------------------------
+
+@router.get("/insights", summary="High-value operational insights")
+async def spend_insights(
+    request: Request,
+    period: str = Query("30d", description="Time period: 1d | 7d | 30d | 90d"),
+):
+    verify_internal_key(request)
+    org_id = get_org_id(request)
+    start_date, end_date = get_date_range(period)
+    async with get_db() as db:
+        data = await spend_crud.get_gateway_insights(db, org_id, start_date, end_date)
+    return {"period": period, **data}
+
+
+# ---------------------------------------------------------------------------
 # GET /spend/logs
 # ---------------------------------------------------------------------------
 

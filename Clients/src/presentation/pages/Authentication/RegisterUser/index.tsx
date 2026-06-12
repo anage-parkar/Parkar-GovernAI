@@ -1,4 +1,4 @@
-import { Button, Stack, Typography, useTheme, Box } from "@mui/material";
+import { Button, Stack, Typography, useTheme, Box, Divider } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { ReactComponent as Background } from "../../../assets/imgs/background-grid.svg";
 import { Check } from "../../../components/Checks";
@@ -15,6 +15,9 @@ import { useSearchParams } from "react-router-dom";
 import { handleAlert } from "../../../../application/tools/alertUtils";
 import { background } from "../../../themes/palette";
 import Alert from "../../../components/Alert";
+import { MicrosoftSignIn } from "../../../components/MicrosoftSignIn";
+import { useSsoFeatureEnabled } from "../../../../application/hooks/useSsoFeatureEnabled";
+import { CheckSsoStatus } from "../../../../application/repository/ssoConfig.repository";
 
 export interface AlertType {
   variant: "success" | "info" | "warning" | "error";
@@ -49,6 +52,39 @@ const RegisterUser: React.FC = () => {
 
   //disabled overlay modal state
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Microsoft SSO: offered on the invite page when the invited org has SSO configured.
+  const ssoFeatureEnabled = useSsoFeatureEnabled();
+  const [ssoSubmitting, setSsoSubmitting] = useState(false);
+  const [ssoConfig, setSsoConfig] = useState<{
+    tenantId?: string;
+    clientId?: string;
+    organizationId?: number;
+  }>({});
+
+  useEffect(() => {
+    const orgId = Number(values.organizationId);
+    if (!ssoFeatureEnabled || !orgId) {
+      setSsoConfig({});
+      return;
+    }
+    CheckSsoStatus(orgId, "AzureAD")
+      .then((status) => {
+        if (status?.isEnabled && status?.hasConfig) {
+          setSsoConfig({
+            tenantId: status.tenantId,
+            clientId: status.clientId,
+            organizationId: status.organizationId ?? orgId,
+          });
+        } else {
+          setSsoConfig({});
+        }
+      })
+      .catch(() => setSsoConfig({}));
+  }, [ssoFeatureEnabled, values.organizationId]);
+
+  const showMicrosoftSignUp =
+    isInvitationValid && !!ssoConfig.tenantId && !!ssoConfig.clientId && !!ssoConfig.organizationId;
 
   // Handle input field changes
   const handleChange = (prop: keyof FormValues) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -216,8 +252,8 @@ const RegisterUser: React.FC = () => {
               fontSize: 40,
             }}
           >
-            Verify
-            <span style={{ color: singleTheme.textColors.theme }}>Wise</span>
+            Parkar
+            <span style={{ color: singleTheme.textColors.theme }}> GovernAI</span>
           </Typography>
           {isInvitationValid === true ? (
             <Typography sx={{ fontSize: 16, fontWeight: "bold" }}>
@@ -321,6 +357,26 @@ const RegisterUser: React.FC = () => {
             >
               Get started
             </Button>
+            {showMicrosoftSignUp && (
+              <>
+                <Divider sx={{ fontSize: 12, color: "text.secondary" }}>or</Divider>
+                <MicrosoftSignIn
+                  isSubmitting={ssoSubmitting}
+                  setIsSubmitting={setSsoSubmitting}
+                  tenantId={ssoConfig.tenantId}
+                  clientId={ssoConfig.clientId}
+                  organizationId={ssoConfig.organizationId}
+                  text="Sign up with Microsoft"
+                  onError={(message) =>
+                    handleAlert({
+                      variant: "error",
+                      body: message,
+                      setAlert,
+                    })
+                  }
+                />
+              </>
+            )}
           </Stack>
         </Stack>
       </form>

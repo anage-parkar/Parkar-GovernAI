@@ -13,10 +13,13 @@ import {
   Info,
   Zap,
   BadgeDollarSign,
+  Gauge,
+  AlertTriangle,
 } from "lucide-react";
 import { Tooltip as MuiTooltip } from "@mui/material";
 import Select from "../../../components/Inputs/Select";
 import { StatCard } from "../../../components/Cards/StatCard";
+import GatewayInsights from "./GatewayInsights";
 import {
   ResponsiveContainer,
   BarChart,
@@ -210,6 +213,11 @@ export default function SpendDashboardPage() {
   const totalRequests = String(summary?.total_requests ?? 0);
   const totalTokens = summary ? Number(summary.total_tokens).toLocaleString() : "0";
   const avgLatency = summary ? `${Math.round(summary.avg_latency_ms || 0)}ms` : "0ms";
+  const p95Latency = summary ? `${Math.round(summary.p95_latency_ms || 0)}ms` : "0ms";
+  const errorRate =
+    summary && Number(summary.total_requests) > 0
+      ? `${((Number(summary.error_count || 0) / Number(summary.total_requests)) * 100).toFixed(1)}%`
+      : "0%";
 
   const hasData =
     byDay.length > 0 || byModel.length > 0 || byEndpoint.length > 0 || summary?.total_requests > 0;
@@ -290,8 +298,7 @@ export default function SpendDashboardPage() {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns:
-              cacheStats?.total_entries > 0 ? "repeat(6, 1fr)" : "repeat(4, 1fr)",
+            gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
             gap: "16px",
           }}
         >
@@ -318,6 +325,18 @@ export default function SpendDashboardPage() {
             value={avgLatency}
             Icon={Clock}
             tooltip="Average round-trip time from request to complete response"
+          />
+          <StatCard
+            title="P95 latency"
+            value={p95Latency}
+            Icon={Gauge}
+            tooltip="95th-percentile round-trip latency — the slow-tail experience most users won't exceed"
+          />
+          <StatCard
+            title="Error rate"
+            value={errorRate}
+            Icon={AlertTriangle}
+            tooltip="Share of requests that failed (HTTP status 400+) — provider errors, guardrail blocks, rate limits"
           />
           {cacheStats?.total_entries > 0 && (
             <>
@@ -361,6 +380,9 @@ export default function SpendDashboardPage() {
           />
         </EmptyState>
       )}
+
+      {/* Operational insights (cost-per-client, budgets, rejections, PII, agent tools, anomaly) */}
+      {!loading && hasData && <GatewayInsights period={period} reloadKey={reloadKey} />}
 
       {/* Cost over time chart */}
       {!loading && (

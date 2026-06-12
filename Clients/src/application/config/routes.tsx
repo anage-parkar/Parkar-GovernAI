@@ -8,6 +8,7 @@ import ProtectedRoute from "../../presentation/components/ProtectedRoute";
 
 // ── Authentication routes ─────────────────────────────────────────────
 const Login = lazyRoute(() => import("../../presentation/pages/Authentication/Login"));
+const Landing = lazyRoute(() => import("../../presentation/pages/Landing"));
 const ForgotPassword = lazyRoute(
   () => import("../../presentation/pages/Authentication/ForgotPassword"),
 );
@@ -951,6 +952,15 @@ export const createRoutes = (
     element={
       <Suspense fallback={<LazyFallback />}>
         <ProtectedRoute Component={Login} />
+      </Suspense>
+    }
+  />,
+  <Route
+    key="landing"
+    path="/landing"
+    element={
+      <Suspense fallback={<LazyFallback />}>
+        <Landing />
       </Suspense>
     }
   />,

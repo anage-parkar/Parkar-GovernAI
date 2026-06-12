@@ -150,6 +150,25 @@ export const updateInvitationExpiryQuery = async (
 };
 
 /**
+ * Get the pending invitation (if any) for the given email in an organization.
+ * Used by SSO JIT provisioning to honor the invited role and consume the invite.
+ */
+export const getPendingInvitationQuery = async (
+  organizationId: number,
+  email: string,
+): Promise<InvitationRow | null> => {
+  const result = (await sequelize.query(
+    `SELECT * FROM invitations
+     WHERE organization_id = :organizationId AND email = :email AND status = 'pending'
+       AND expires_at > CURRENT_TIMESTAMP
+     LIMIT 1`,
+    { replacements: { organizationId, email } },
+  )) as [InvitationRow[], number];
+
+  return result[0][0] ?? null;
+};
+
+/**
  * Check if a pending invitation exists for the given email.
  * Used during registration to verify the invitation wasn't revoked.
  */
