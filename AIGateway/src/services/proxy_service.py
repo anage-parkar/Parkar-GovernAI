@@ -228,6 +228,23 @@ async def enforce_rate_limits(endpoint: dict, vk: dict):
 
 # ─── Spend Logging ───────────────────────────────────────────────────────────
 
+_BODY_MSG_LIMIT = 30          # keep at most the last N messages
+_BODY_CONTENT_LIMIT = 6000    # chars per message / response text
+
+
+def _trim_messages_for_log(messages: Optional[list[dict]]) -> Optional[str]:
+    """Compact request messages for audit logging (valid JSON, bounded size)."""
+    if not messages:
+        return None
+    trimmed = []
+    for m in messages[-_BODY_MSG_LIMIT:]:
+        content = m.get("content")
+        if isinstance(content, str) and len(content) > _BODY_CONTENT_LIMIT:
+            content = content[:_BODY_CONTENT_LIMIT] + " …[truncated]"
+        trimmed.append({"role": m.get("role", "user"), "content": content})
+    return json.dumps(trimmed)
+
+
 async def log_spend(
     organization_id: int,
     endpoint_id: int,
@@ -241,8 +258,16 @@ async def log_spend(
     latency_ms: int,
     status_code: int = 200,
     metadata: Optional[dict] = None,
+    request_messages: Optional[list[dict]] = None,
+    response_text: Optional[str] = None,
 ):
-    """Insert a spend log entry and update virtual key spend."""
+    """Insert a spend log entry and update virtual key spend.
+
+    request_messages/response_text power the expandable conversation view in
+    the Logs UI. Callers pass the guardrail-scanned (PII-masked) messages.
+    """
+    if response_text and len(response_text) > _BODY_CONTENT_LIMIT:
+        response_text = response_text[:_BODY_CONTENT_LIMIT] + " …[truncated]"
     try:
         async with get_db() as db:
             await db.execute(
@@ -250,11 +275,13 @@ async def log_spend(
                     INSERT INTO ai_gateway_spend_logs
                         (organization_id, endpoint_id, provider, model,
                          prompt_tokens, completion_tokens, total_tokens,
-                         cost_usd, latency_ms, status_code, metadata, virtual_key_id)
+                         cost_usd, latency_ms, status_code, metadata, virtual_key_id,
+                         request_messages, response_text)
                     VALUES
                         (:org_id, :endpoint_id, :provider, :model,
                          :prompt_tokens, :completion_tokens, :total_tokens,
-                         :cost_usd, :latency_ms, :status_code, CAST(:metadata AS jsonb), :vk_id)
+                         :cost_usd, :latency_ms, :status_code, CAST(:metadata AS jsonb), :vk_id,
+                         CAST(:request_messages AS jsonb), :response_text)
                 """),
                 {
                     "org_id": organization_id,
@@ -269,6 +296,8 @@ async def log_spend(
                     "status_code": status_code,
                     "metadata": json.dumps(metadata or {}),
                     "vk_id": virtual_key_id,
+                    "request_messages": _trim_messages_for_log(request_messages),
+                    "response_text": response_text,
                 },
             )
             if cost_usd > 0:

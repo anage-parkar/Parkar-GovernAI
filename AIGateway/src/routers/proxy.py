@@ -244,6 +244,7 @@ async def _handle_completion(
         usage = result.get("usage", {})
         cost = result.get("cost_usd", 0)
 
+        choices = result.get("choices") or [{}]
         await log_spend(
             organization_id=org_id,
             endpoint_id=endpoint["id"],
@@ -256,6 +257,9 @@ async def _handle_completion(
             cost_usd=cost,
             latency_ms=latency_ms,
             metadata={"virtual_key_id": str(vk["id"]), **vk.get("_extra_metadata", {})},
+            # messages are post-guardrail (PII already masked) — safe to audit
+            request_messages=messages,
+            response_text=(choices[0].get("message") or {}).get("content"),
         )
         await reconcile_budget(org_id, estimated_cost, cost)
 
@@ -315,6 +319,7 @@ async def _handle_stream(
         total_completion = 0
         total_cost = 0.0
         final_model = endpoint["model"]
+        response_parts: list[str] = []
 
         try:
             async for chunk_str in stream_chat_completion(
@@ -336,6 +341,9 @@ async def _handle_stream(
                             total_cost = chunk["cost_usd"]
                         if "model" in chunk:
                             final_model = chunk["model"]
+                        delta = (chunk.get("choices") or [{}])[0].get("delta") or {}
+                        if isinstance(delta.get("content"), str):
+                            response_parts.append(delta["content"])
                     except (json.JSONDecodeError, KeyError):
                         pass
 
@@ -352,6 +360,8 @@ async def _handle_stream(
                 total_tokens=total_prompt + total_completion,
                 cost_usd=total_cost, latency_ms=latency_ms,
                 metadata={"virtual_key_id": str(vk["id"]), **vk.get("_extra_metadata", {})},
+                request_messages=messages,
+                response_text="".join(response_parts) or None,
             )
             await reconcile_budget(org_id, estimated_cost, total_cost)
 

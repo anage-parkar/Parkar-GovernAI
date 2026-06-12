@@ -100,24 +100,33 @@ function getDayKey(dateStr: string): string {
 
 function ConversationView({ messages }: { messages: RequestMessage[] }) {
   const roleLabelColor: Record<string, string> = {
-    system: palette.text.disabled,
     user: palette.brand.primary,
     assistant: palette.text.secondary,
   };
 
+  // System prompts are noise in the audit view — show the actual conversation only.
+  const visible = messages.filter((m) => m.role !== "system");
+  if (visible.length === 0) {
+    return (
+      <Typography sx={{ fontSize: 11, color: palette.text.disabled }}>
+        No user messages in this request.
+      </Typography>
+    );
+  }
+
   return (
-    <Stack gap="8px">
-      {messages.map((msg, i) => (
+    <Stack gap="6px">
+      {visible.map((msg, i) => (
         <Box key={`${msg.role}-${i}`}>
           <Typography
             component="span"
             sx={{
-              fontSize: 11,
+              fontSize: 10.5,
               fontWeight: 600,
               color: roleLabelColor[msg.role] ?? palette.text.secondary,
               textTransform: "capitalize",
               display: "block",
-              mb: "4px",
+              mb: "2px",
             }}
           >
             {msg.role}
@@ -129,7 +138,7 @@ function ConversationView({ messages }: { messages: RequestMessage[] }) {
               whiteSpace: "pre-wrap",
               wordBreak: "break-word",
               color: palette.text.primary,
-              lineHeight: 1.6,
+              lineHeight: 1.45,
             }}
           >
             {typeof msg.content === "string" ? msg.content : JSON.stringify(msg.content, null, 2)}
@@ -500,7 +509,7 @@ export default function LogsPage() {
                   {expandedId === log.id && (
                     <Box
                       sx={{
-                        p: "12px 16px",
+                        p: "8px 12px",
                         ml: 3,
                         mt: 0.5,
                         border: `1px solid ${palette.border.light}`,
@@ -511,8 +520,8 @@ export default function LogsPage() {
                       {!!log.request_messages && (
                         <Box
                           sx={{
-                            mb: 1.5,
-                            p: "16px",
+                            mb: 1,
+                            p: "8px 12px",
                             borderRadius: "4px",
                             backgroundColor: palette.background.main,
                             border: `1px solid ${palette.border.light}`,
@@ -523,13 +532,15 @@ export default function LogsPage() {
                               fontSize: 11,
                               fontWeight: 600,
                               color: palette.text.tertiary,
-                              mb: 1.5,
+                              mb: 0.75,
                             }}
                           >
                             Request
                           </Typography>
                           {isMessageArray(log.request_messages) ? (
-                            <ConversationView messages={log.request_messages} />
+                            <Box sx={{ maxHeight: 160, overflow: "auto", pr: 1 }}>
+                              <ConversationView messages={log.request_messages} />
+                            </Box>
                           ) : (
                             <Box
                               sx={{
@@ -550,8 +561,8 @@ export default function LogsPage() {
                       {log.response_text && (
                         <Box
                           sx={{
-                            mb: 1.5,
-                            p: "16px",
+                            mb: 1,
+                            p: "8px 12px",
                             borderRadius: "4px",
                             backgroundColor: palette.background.main,
                             border: `1px solid ${palette.border.light}`,
@@ -562,12 +573,12 @@ export default function LogsPage() {
                               fontSize: 11,
                               fontWeight: 600,
                               color: palette.text.tertiary,
-                              mb: 1,
+                              mb: 0.5,
                             }}
                           >
                             Response
                           </Typography>
-                          <Box sx={{ fontSize: 12, whiteSpace: "pre-wrap", maxHeight: 200, overflow: "auto" }}>
+                          <Box sx={{ fontSize: 11.5, lineHeight: 1.45, whiteSpace: "pre-wrap", maxHeight: 140, overflow: "auto" }}>
                             {log.response_text}
                           </Box>
                         </Box>
