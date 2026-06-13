@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Governance — Deep Dive Guide | Parkar GovernAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1B3A6B;--primary-h:#152E54;--primary-l:#E7ECF5;
+  --green:#13715B;--green-l:#E6F4F0;--green-d:#0A4A3A;
+  --text:#1c2130;--text2:#344054;--muted:#667085;
+  --border:#eaecf0;--bg:#fff;--bg2:#FCFCFD;--hover:#F9FAFB;
+  --warn-bg:#FFF8E1;--warn-b:#F59E0B;--warn-t:#78350F;
+  --info-bg:#EFF6FF;--info-b:#3B82F6;--info-t:#1e40af;
+  --tip-bg:#E6F4F0;--tip-b:#13715B;--tip-t:#0A4A3A;
+  --red-bg:#FFD6D6;--red:#D32F2F;
+  --orange-bg:#FFE5D0;--orange:#E64A19;
+  --sidebar:272px;--header:60px;--radius:10px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+
+/* HEADER */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--header);background:var(--primary);display:flex;align-items:center;padding:0 24px;gap:12px;box-shadow:0 1px 0 rgba(255,255,255,.1)}
+.hdr-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.hdr-mark{width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,#13715B,#1B8A6B);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:12px}
+.hdr-name{color:#fff;font-weight:600;font-size:14px}
+.hdr-badge{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);padding:2px 8px;border-radius:20px}
+.hdr-nav{margin-left:auto;display:flex;gap:4px}
+.hdr-nav a{color:rgba(255,255,255,.75);text-decoration:none;padding:5px 12px;border-radius:6px;font-size:13px;font-weight:500;transition:.15s}
+.hdr-nav a:hover,.hdr-nav a.on{color:#fff;background:rgba(255,255,255,.12)}
+
+/* SIDEBAR */
+.sb{position:fixed;top:var(--header);left:0;bottom:0;width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;z-index:200;padding:16px 10px}
+.sb::-webkit-scrollbar{width:4px}.sb::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.sb-sec{margin-bottom:4px}
+.sb-sec-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);padding:10px 10px 4px}
+.sb-item{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:7px;text-decoration:none;color:var(--text2);font-size:13px;font-weight:500;transition:.15s;cursor:pointer}
+.sb-item:hover{background:var(--hover);color:var(--text)}
+.sb-item.on{background:var(--green-l);color:var(--green);font-weight:600}
+.sb-item .ic{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+
+/* CONTENT */
+.page{margin-left:var(--sidebar);margin-top:var(--header);min-height:calc(100vh - var(--header))}
+
+/* HERO */
+.hero{background:linear-gradient(155deg,#1B3A6B 0%,#13715B 100%);padding:56px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4z'/%3E%3C/g%3E%3C/svg%3E")}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:18px;position:relative}
+.hero h1{font-size:38px;font-weight:800;color:#fff;letter-spacing:-.5px;margin-bottom:14px;line-height:1.2;position:relative}
+.hero p{font-size:16px;color:rgba(255,255,255,.78);max-width:640px;position:relative;line-height:1.7}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;position:relative}
+.hero-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.88);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:500}
+
+/* ARTICLE */
+.art{padding:48px 60px;max-width:920px}
+.sec{margin-bottom:80px;scroll-margin-top:calc(var(--header) + 20px)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--green);margin-bottom:8px}
+.sec h2{font-size:28px;font-weight:700;color:var(--text);letter-spacing:-.4px;margin-bottom:10px}
+.sec-intro{font-size:15px;color:var(--text2);margin-bottom:28px;line-height:1.75;max-width:780px}
+h3{font-size:16px;font-weight:600;color:var(--text);margin:28px 0 10px}
+h4{font-size:14px;font-weight:600;color:var(--text);margin:18px 0 8px}
+p{font-size:14px;color:var(--text2);margin-bottom:12px;line-height:1.75}
+ul,ol{padding-left:20px;margin-bottom:14px}
+li{font-size:14px;color:var(--text2);margin-bottom:7px;line-height:1.65}
+li strong{color:var(--text)}
+code{background:var(--primary-l);color:var(--primary);padding:1px 6px;border-radius:4px;font-size:12px;font-family:monospace}
+.divider{height:1px;background:var(--border);margin:56px 0}
+
+/* CALLOUTS */
+.box{border-radius:var(--radius);padding:14px 18px;margin:18px 0}
+.box p{margin:0;font-size:13px}
+.box-green{background:var(--tip-bg);border:1px solid #b8dcd5;border-left:4px solid var(--green)}
+.box-green p{color:var(--tip-t)}
+.box-blue{background:var(--info-bg);border:1px solid #BFDBFE;border-left:4px solid var(--info-b)}
+.box-blue p{color:var(--info-t)}
+.box-warn{background:var(--warn-bg);border:1px solid #F5E6B8;border-left:4px solid var(--warn-b)}
+.box-warn p{color:var(--warn-t)}
+.box-primary{background:var(--primary-l);border:1px solid #c5d6f0;border-left:4px solid var(--primary)}
+.box-primary p{color:var(--primary-h)}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:13px}
+.tbl th{background:var(--bg2);text-align:left;font-weight:600;color:var(--text);padding:9px 14px;border-bottom:2px solid var(--border);font-size:12px}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--hover)}
+
+/* BADGE */
+.b{display:inline-block;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600}
+.b-green{background:#E6F4EA;color:#138A5E}
+.b-blue{background:#E3F2FD;color:#1565C0}
+.b-orange{background:var(--orange-bg);color:var(--orange)}
+.b-red{background:var(--red-bg);color:var(--red)}
+.b-grey{background:#F3F4F6;color:#6B7280}
+.b-purple{background:#F3E5F5;color:#7B1FA2}
+
+/* MODULE HEADER */
+.mod-hdr{display:flex;align-items:flex-start;gap:18px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.mod-ic{width:52px;height:52px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px}
+.mod-hdr-text h2{font-size:22px;font-weight:700;letter-spacing:-.3px;margin-bottom:6px}
+.mod-hdr-text p{font-size:14px;color:var(--muted);margin:0;line-height:1.6}
+.route{display:inline-block;font-size:11px;font-weight:500;background:var(--primary-l);color:var(--primary);padding:2px 10px;border-radius:4px;font-family:monospace;margin-top:8px}
+
+/* STEP FLOW */
+.steps{margin:18px 0}
+.step{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.step-body strong{font-size:14px;color:var(--text);display:block;margin-bottom:2px}
+.step-body span{font-size:13px;color:var(--muted)}
+
+/* ── FLOWCHARTS (pure CSS) ── */
+.flow-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;margin:22px 0;overflow-x:auto}
+.flow-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:20px;text-align:center}
+
+/* Horizontal flow */
+.flow-h{display:flex;align-items:center;gap:0;flex-wrap:nowrap;justify-content:center}
+.fbox{background:#fff;border:2px solid var(--border);border-radius:8px;padding:10px 14px;text-align:center;min-width:110px;max-width:140px;flex-shrink:0}
+.fbox-green{border-color:var(--green);background:var(--green-l)}
+.fbox-blue{border-color:#1565C0;background:#E3F2FD}
+.fbox-orange{border-color:var(--orange);background:var(--orange-bg)}
+.fbox-red{border-color:var(--red);background:var(--red-bg)}
+.fbox-purple{border-color:#7B1FA2;background:#F3E5F5}
+.fbox-primary{border-color:var(--primary);background:var(--primary-l)}
+.fbox .ft{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px}
+.fbox .fs{font-size:10px;color:var(--muted)}
+.farrow{color:var(--muted);font-size:18px;padding:0 6px;flex-shrink:0}
+
+/* Vertical flow */
+.flow-v{display:flex;flex-direction:column;align-items:center;gap:0}
+.fbox-v{background:#fff;border:2px solid var(--border);border-radius:8px;padding:10px 20px;text-align:center;width:260px}
+.farrow-v{color:var(--muted);font-size:18px;line-height:1;margin:2px 0}
+
+/* Grid flow */
+.flow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin:18px 0}
+.fgrid-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
+.fgrid-item .fi-ic{font-size:22px;margin-bottom:6px}
+.fgrid-item .fi-t{font-size:12px;font-weight:600;color:var(--text)}
+.fgrid-item .fi-s{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* Relationship diagram */
+.rel-wrap{position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:22px 0}
+.rel-center{background:var(--primary);color:#fff;border-radius:10px;padding:12px 20px;text-align:center;font-weight:700;font-size:14px;width:180px;margin:0 auto 8px}
+.rel-spokes{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}
+.rel-spoke{background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:500;color:var(--text);text-align:center}
+.rel-spoke.green{border-color:var(--green);background:var(--green-l);color:var(--green-d)}
+.rel-spoke.blue{border-color:#1565C0;background:#E3F2FD;color:#0d47a1}
+.rel-spoke.orange{border-color:var(--orange);background:var(--orange-bg);color:#BF360C}
+.rel-spoke.purple{border-color:#7B1FA2;background:#F3E5F5;color:#4a0072}
+.rel-spoke.red{border-color:var(--red);background:var(--red-bg);color:#b71c1c}
+
+/* BIG PICTURE diagram */
+.arch-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin:22px 0}
+.arch-row{display:flex;gap:10px;margin-bottom:10px;align-items:stretch}
+.arch-label{writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);padding:0 6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;min-width:28px}
+.arch-cards{display:flex;gap:8px;flex:1;flex-wrap:wrap}
+.arch-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 12px;flex:1;min-width:110px;text-align:center}
+.arch-card .ac-ic{font-size:18px;margin-bottom:4px}
+.arch-card .ac-t{font-size:12px;font-weight:600;color:var(--text)}
+.arch-card .ac-s{font-size:10px;color:var(--muted)}
+.arch-card.primary{border-color:var(--primary);background:var(--primary-l)}
+.arch-card.green{border-color:var(--green);background:var(--green-l)}
+.arch-card.orange{border-color:var(--orange);background:var(--orange-bg)}
+.arch-card.purple{border-color:#7B1FA2;background:#F3E5F5}
+.arch-card.blue{border-color:#1565C0;background:#E3F2FD}
+
+/* Lifecycle diagram */
+.lifecycle{display:flex;gap:0;margin:18px 0;overflow-x:auto}
+.lc-item{flex:1;min-width:100px;text-align:center;padding:12px 8px;background:#fff;border:1px solid var(--border);position:relative}
+.lc-item:not(:last-child)::after{content:'›';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--muted);z-index:1}
+.lc-item .lc-n{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.lc-item .lc-t{font-size:12px;font-weight:600;color:var(--text)}
+.lc-item .lc-s{font-size:10px;color:var(--muted);margin-top:2px}
+.lc-item.on{background:var(--green-l);border-color:var(--green)}
+.lc-item.on .lc-t{color:var(--green-d)}
+
+/* Reg cards */
+.reg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:18px 0}
+.reg-card{border-radius:8px;padding:16px;border:1px solid var(--border)}
+.reg-card .rc-flag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.reg-card .rc-t{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.reg-card .rc-s{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* SCORE BOX */
+.score-wrap{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+.score-box{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 18px;flex:1;min-width:140px;text-align:center}
+.score-box .sb-val{font-size:28px;font-weight:800;margin-bottom:2px}
+.score-box .sb-t{font-size:12px;color:var(--muted)}
+
+/* FOOTER */
+.foot{text-align:center;padding:28px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;margin-left:var(--sidebar)}
+.foot a{color:var(--green);text-decoration:none}
+
+/* TOC on landing */
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:28px 0}
+.toc-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-decoration:none;color:inherit;transition:.2s;display:block}
+.toc-item:hover{border-color:#b3c4e8;box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px)}
+.toc-item .ti-ic{font-size:22px;margin-bottom:8px}
+.toc-item .ti-t{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.toc-item .ti-s{font-size:12px;color:var(--muted);line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <a href="index.html" class="hdr-logo">
+    <div class="hdr-mark">PG</div>
+    <span class="hdr-name">Parkar GovernAI</span>
+  </a>
+  <span class="hdr-badge">AI Governance — Deep Dive</span>
+  <nav class="hdr-nav">
+    <a href="index.html">Home</a>
+    <a href="governance.html">Quick Guide</a>
+    <a href="ai-governance-deep-dive.html" class="on">Deep Dive</a>
+  </nav>
+</header>
+
+<!-- SIDEBAR -->
+<aside class="sb">
+  <div class="sb-sec">
+    <div class="sb-sec-title">Foundation</div>
+    <a href="#what-is" class="sb-item"><span class="ic">🌐</span>What Is AI Governance?</a>
+    <a href="#why-it-exists" class="sb-item"><span class="ic">⚖️</span>Why It Exists</a>
+    <a href="#regulations" class="sb-item"><span class="ic">📜</span>Regulations Explained</a>
+    <a href="#big-picture" class="sb-item"><span class="ic">🗺️</span>The Big Picture</a>
+    <a href="#journey" class="sb-item"><span class="ic">🔄</span>The Governance Journey</a>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">Platform Modules</div>
+    <a href="#start-here" class="sb-item"><span class="ic">🏠</span>Start Here</a>
+    <a href="#dashboard" class="sb-item"><span class="ic">📊</span>Dashboard</a>
+    <a href="#use-cases" class="sb-item"><span class="ic">🗂️</span>Use Cases</a>
+    <a href="#model-inventory" class="sb-item"><span class="ic">🤖</span>Model Inventory</a>
+    <a href="#datasets" class="sb-item"><span class="ic">🗄️</span>Datasets</a>
+    <a href="#agent-discovery" class="sb-item"><span class="ic">🔍</span>Agent Discovery</a>
+    <a href="#frameworks" class="sb-item"><span class="ic">🏛️</span>Frameworks</a>
+    <a href="#risk-management" class="sb-item"><span class="ic">⚠️</span>Risk Management</a>
+    <a href="#training" class="sb-item"><span class="ic">🎓</span>Training Registry</a>
+    <a href="#evidence" class="sb-item"><span class="ic">📁</span>Evidence Hub</a>
+    <a href="#reporting" class="sb-item"><span class="ic">📄</span>Reporting</a>
+    <a href="#trust-center" class="sb-item"><span class="ic">🛡️</span>AI Trust Center</a>
+    <a href="#vendors" class="sb-item"><span class="ic">🏢</span>Vendors</a>
+    <a href="#policies" class="sb-item"><span class="ic">📝</span>Policy Manager</a>
+    <a href="#incidents" class="sb-item"><span class="ic">🚨</span>Incident Management</a>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-sec-title">Reference</div>
+    <a href="#demo-script" class="sb-item"><span class="ic">🎬</span>Demo Script</a>
+    <a href="#glossary" class="sb-item"><span class="ic">📖</span>Glossary</a>
+  </div>
+</aside>
+
+<!-- PAGE -->
+<main class="page">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">📘 Complete Deep-Dive Documentation</div>
+  <h1>Understanding AI Governance</h1>
+  <p>Everything you need to know about the Parkar GovernAI Governance section — from first principles to every module, every field, and how it all fits together. Written for someone starting from zero.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">EU AI Act</span>
+    <span class="hero-pill">ISO 42001</span>
+    <span class="hero-pill">ISO 27001</span>
+    <span class="hero-pill">NIST AI RMF</span>
+    <span class="hero-pill">15 Modules</span>
+    <span class="hero-pill">End-to-End Flow</span>
+  </div>
+</div>
+
+<div class="art">
+
+<!-- CONTENTS -->
+<div class="toc-grid">
+  <a href="#what-is" class="toc-item"><div class="ti-ic">🌐</div><div class="ti-t">What Is AI Governance?</div><div class="ti-s">The concept, the problem it solves, and why every organisation needs it.</div></a>
+  <a href="#regulations" class="toc-item"><div class="ti-ic">📜</div><div class="ti-t">Regulations Explained Simply</div><div class="ti-s">EU AI Act, ISO 42001, NIST AI RMF — what they mean in plain language.</div></a>
+  <a href="#big-picture" class="toc-item"><div class="ti-ic">🗺️</div><div class="ti-t">The Big Picture</div><div class="ti-s">How all 15 modules connect and why nothing works in isolation.</div></a>
+  <a href="#use-cases" class="toc-item"><div class="ti-ic">🗂️</div><div class="ti-t">Use Cases — Step by Step</div><div class="ti-s">How to register an AI system, what each field means, and what happens after.</div></a>
+  <a href="#risk-management" class="toc-item"><div class="ti-ic">⚠️</div><div class="ti-t">Risk Management Deep Dive</div><div class="ti-s">IBM database, risk scoring formula, mitigation lifecycle.</div></a>
+  <a href="#demo-script" class="toc-item"><div class="ti-ic">🎬</div><div class="ti-t">Demo Script</div><div class="ti-s">The complete 18-minute demo narrative with exact talking points.</div></a>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ WHAT IS AI GOVERNANCE ═══════════════════════════ -->
+<section class="sec" id="what-is">
+  <div class="sec-label">Foundation — Section 1</div>
+  <h2>What Is AI Governance?</h2>
+  <p class="sec-intro">Before touching any software, understand the concept. AI Governance is the answer to a very specific business problem that every organisation using AI faces today.</p>
+
+  <h3>The Problem in Plain Terms</h3>
+  <p>Imagine your company uses AI in 10 different places — a chatbot, a fraud detector, a hiring tool, a loan approval system, a medical diagnosis aid. Each one makes decisions that affect real people. Now ask yourself these questions:</p>
+  <ul>
+    <li>Can you tell a regulator <strong>exactly what AI systems you run</strong> and what they do?</li>
+    <li>If one of them discriminates against a minority group, do you know about it?</li>
+    <li>If your AI makes a wrong decision and someone is harmed — who is responsible?</li>
+    <li>Can you prove, with documents and evidence, that you assessed the risks before deploying?</li>
+    <li>Is there a written policy governing how your team builds and uses AI?</li>
+    <li>When something goes wrong, do you have a process to report it to regulators?</li>
+  </ul>
+
+  <div class="box box-warn">
+    <p><strong>The harsh reality:</strong> Most organisations today cannot answer YES to most of these questions. They use AI extensively but have zero documented governance. Under the EU AI Act, that is now a legal violation with fines up to €35 million or 7% of global annual turnover.</p>
+  </div>
+
+  <h3>What AI Governance Actually Is</h3>
+  <p>AI Governance is the set of <strong>processes, policies, controls, and evidence</strong> that prove your organisation is using AI responsibly. Think of it like financial accounting — just as you track every dollar and prove to auditors that your finances are sound, AI governance tracks every AI system and proves to regulators that your AI is safe, fair, and compliant.</p>
+
+  <div class="flow-wrap">
+    <div class="flow-title">What AI Governance Covers</div>
+    <div class="flow-grid">
+      <div class="fgrid-item"><div class="fi-ic">🗂️</div><div class="fi-t">Inventory</div><div class="fi-s">Know every AI system you run</div></div>
+      <div class="fgrid-item"><div class="fi-ic">⚠️</div><div class="fi-t">Risk</div><div class="fi-s">Identify what could go wrong</div></div>
+      <div class="fgrid-item"><div class="fi-ic">📋</div><div class="fi-t">Compliance</div><div class="fi-s">Meet regulatory requirements</div></div>
+      <div class="fgrid-item"><div class="fi-ic">📝</div><div class="fi-t">Policy</div><div class="fi-s">Written rules for your team</div></div>
+      <div class="fgrid-item"><div class="fi-ic">📁</div><div class="fi-t">Evidence</div><div class="fi-s">Prove what you claim</div></div>
+      <div class="fgrid-item"><div class="fi-ic">🚨</div><div class="fi-t">Incidents</div><div class="fi-s">React when things go wrong</div></div>
+      <div class="fgrid-item"><div class="fi-ic">🔍</div><div class="fi-t">Oversight</div><div class="fi-s">Humans stay in control</div></div>
+      <div class="fgrid-item"><div class="fi-ic">🛡️</div><div class="fi-t">Transparency</div><div class="fi-s">Tell the world your posture</div></div>
+    </div>
+  </div>
+
+  <h3>Who Needs This?</h3>
+  <table class="tbl">
+    <thead><tr><th>Role</th><th>What They Care About</th><th>What They Use</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CISO / Chief AI Officer</strong></td><td>Overall governance posture, risk exposure, regulatory status</td><td>Dashboard, AI Governance Score, Reports</td></tr>
+      <tr><td><strong>Compliance Manager</strong></td><td>Controls status, evidence collection, audit readiness</td><td>Frameworks, Evidence Hub, Policies</td></tr>
+      <tr><td><strong>Risk Manager</strong></td><td>Risk register, mitigation tracking, vendor risks</td><td>Risk Management, Vendors, Model Risks</td></tr>
+      <tr><td><strong>Data Scientist / ML Engineer</strong></td><td>Model approvals, dataset documentation</td><td>Model Inventory, Datasets, Agent Discovery</td></tr>
+      <tr><td><strong>Legal Team</strong></td><td>Policy approvals, incident reporting</td><td>Policy Manager, Incident Management</td></tr>
+      <tr><td><strong>Regulator / Auditor</strong></td><td>Evidence, controls, incident records</td><td>Reports, AI Trust Center (public)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ WHY IT EXISTS ═══════════════════════════ -->
+<section class="sec" id="why-it-exists">
+  <div class="sec-label">Foundation — Section 2</div>
+  <h2>Why Parkar GovernAI Exists</h2>
+  <p class="sec-intro">The problem is not new — but the urgency is. Three things converged to make AI governance a business-critical priority right now.</p>
+
+  <h3>1. Regulation Has Arrived</h3>
+  <p>The <strong>EU AI Act</strong> came into force in August 2024 — the world's first comprehensive AI law. It applies to ANY organisation that deploys AI systems affecting EU citizens, regardless of where the organisation is based. Penalties are severe and enforcement is already beginning.</p>
+
+  <h3>2. AI Is Everywhere and Out of Control</h3>
+  <p>The average enterprise runs <strong>hundreds of AI systems</strong> — many deployed by individual teams without central oversight. Nobody knows the full inventory. Nobody tracks the risks. Nobody has the evidence. This is the shadow AI problem.</p>
+
+  <h3>3. Spreadsheets Don't Work at Scale</h3>
+  <p>The traditional approach is spreadsheets — one for risk, one for models, one for policies. They get outdated, they're not connected, they produce no evidence trail, and they fail every audit. Parkar GovernAI replaces the entire spreadsheet ecosystem with a single, connected platform.</p>
+
+  <div class="box box-green">
+    <p><strong>What Parkar GovernAI solves:</strong> It gives organisations a single system of record for every AI governance activity — from registering an AI system to generating a regulator-ready compliance report — eliminating spreadsheets, email chains, and the risk of non-compliance.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ REGULATIONS EXPLAINED ═══════════════════════════ -->
+<section class="sec" id="regulations">
+  <div class="sec-label">Foundation — Section 3</div>
+  <h2>Regulatory Frameworks Explained Simply</h2>
+  <p class="sec-intro">You don't need to be a lawyer to understand these. Here is what each framework actually means in plain English — and how Parkar GovernAI maps to each one.</p>
+
+  <div class="reg-grid">
+    <div class="reg-card" style="background:#FFF3E0;border-color:#FB8C00">
+      <div class="rc-flag" style="color:#E65100">🇪🇺 EU Law</div>
+      <div class="rc-t">EU AI Act</div>
+      <div class="rc-s">The world's first binding AI law. Classifies AI systems by risk level. High-risk systems (loans, hiring, medical) must be documented, risk-assessed, and transparent. Serious incidents must be reported to regulators.</div>
+    </div>
+    <div class="reg-card" style="background:#E8F5E9;border-color:#43A047">
+      <div class="rc-flag" style="color:#2E7D32">🌐 ISO Standard</div>
+      <div class="rc-t">ISO 42001</div>
+      <div class="rc-s">The international standard for AI Management Systems. Like ISO 9001 for quality — it tells you HOW to build an AI governance program. 38 clauses + 93 annex controls covering everything from leadership commitment to incident management.</div>
+    </div>
+    <div class="reg-card" style="background:#E3F2FD;border-color:#1E88E5">
+      <div class="rc-flag" style="color:#0d47a1">🌐 ISO Standard</div>
+      <div class="rc-t">ISO 27001</div>
+      <div class="rc-s">The international standard for Information Security Management. AI systems process sensitive data — ISO 27001 ensures that data is protected. Often required alongside ISO 42001 for complete AI governance.</div>
+    </div>
+    <div class="reg-card" style="background:#F3E5F5;border-color:#AB47BC">
+      <div class="rc-flag" style="color:#6A1B9A">🇺🇸 US Framework</div>
+      <div class="rc-t">NIST AI RMF</div>
+      <div class="rc-s">The US National Institute of Standards voluntary AI Risk Management Framework. 4 functions: Govern (set up the program), Map (identify AI risks), Measure (analyse them), Manage (treat and monitor). Widely adopted globally.</div>
+    </div>
+  </div>
+
+  <h3>How They Relate to Each Other</h3>
+  <div class="flow-wrap">
+    <div class="flow-title">Regulatory Framework Relationship</div>
+    <div class="flow-h" style="flex-wrap:wrap;gap:10px">
+      <div class="fbox fbox-orange" style="max-width:160px"><div class="ft">EU AI Act</div><div class="fs">Legal obligation — must comply or face fines</div></div>
+      <div class="farrow">+</div>
+      <div class="fbox fbox-green" style="max-width:160px"><div class="ft">ISO 42001</div><div class="fs">Certification — shows HOW you comply</div></div>
+      <div class="farrow">+</div>
+      <div class="fbox fbox-blue" style="max-width:160px"><div class="ft">NIST AI RMF</div><div class="fs">Risk framework — operationalises risk management</div></div>
+      <div class="farrow">=</div>
+      <div class="fbox fbox-primary" style="max-width:160px"><div class="ft">Complete AI Governance</div><div class="fs">Legal + Certified + Operationalised</div></div>
+    </div>
+  </div>
+
+  <h3>EU AI Act Risk Classification (The Most Important Concept)</h3>
+  <p>The EU AI Act classifies every AI system into one of four risk levels. The risk level determines your compliance obligations:</p>
+  <table class="tbl">
+    <thead><tr><th>Risk Level</th><th>Examples</th><th>Obligation</th></tr></thead>
+    <tbody>
+      <tr><td><span class="b b-red">Prohibited</span></td><td>Social scoring by governments, subliminal manipulation</td><td>Cannot be deployed at all</td></tr>
+      <tr><td><span class="b b-orange">High Risk</span></td><td>Loan approvals, hiring decisions, medical diagnosis, biometric ID</td><td>Full documentation, risk assessment, human oversight, incident reporting</td></tr>
+      <tr><td><span class="b b-blue">Limited Risk</span></td><td>Chatbots, deepfakes, emotion recognition</td><td>Transparency — users must know they're interacting with AI</td></tr>
+      <tr><td><span class="b b-green">Minimal Risk</span></td><td>Spam filters, recommendation engines, video games</td><td>Voluntary codes of practice only</td></tr>
+    </tbody>
+  </table>
+  <div class="box box-warn">
+    <p><strong>Key insight for the demo:</strong> The Loan Approval AI is classified as <strong>High Risk</strong> because it makes creditworthiness decisions affecting people financially. This triggers the full compliance obligation — which is exactly what Parkar GovernAI helps you meet.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ BIG PICTURE ═══════════════════════════ -->
+<section class="sec" id="big-picture">
+  <div class="sec-label">Foundation — Section 4</div>
+  <h2>The Big Picture — How Everything Connects</h2>
+  <p class="sec-intro">Nothing in AI governance works in isolation. Every module feeds into others. Understanding the connections is what makes the demo compelling.</p>
+
+  <div class="arch-wrap">
+    <div class="flow-title">Parkar GovernAI — Module Architecture</div>
+    <div class="arch-row">
+      <div class="arch-label">INVENTORY</div>
+      <div class="arch-cards">
+        <div class="arch-card primary"><div class="ac-ic">🗂️</div><div class="ac-t">Use Cases</div><div class="ac-s">Central anchor</div></div>
+        <div class="arch-card primary"><div class="ac-ic">🤖</div><div class="ac-t">Model Inventory</div><div class="ac-s">What models run</div></div>
+        <div class="arch-card primary"><div class="ac-ic">🗄️</div><div class="ac-t">Datasets</div><div class="ac-s">What data was used</div></div>
+        <div class="arch-card primary"><div class="ac-ic">🔍</div><div class="ac-t">Agent Discovery</div><div class="ac-s">Hidden AI agents</div></div>
+      </div>
+    </div>
+    <div class="arch-row" style="margin-top:8px">
+      <div class="arch-label">ASSURANCE</div>
+      <div class="arch-cards">
+        <div class="arch-card green"><div class="ac-ic">⚠️</div><div class="ac-t">Risk Mgmt</div><div class="ac-s">What can go wrong</div></div>
+        <div class="arch-card green"><div class="ac-ic">🏛️</div><div class="ac-t">Frameworks</div><div class="ac-s">ISO/NIST controls</div></div>
+        <div class="arch-card green"><div class="ac-ic">📁</div><div class="ac-t">Evidence Hub</div><div class="ac-s">Proof it's done</div></div>
+        <div class="arch-card green"><div class="ac-ic">📄</div><div class="ac-t">Reporting</div><div class="ac-s">Board/regulator output</div></div>
+        <div class="arch-card green"><div class="ac-ic">🛡️</div><div class="ac-t">Trust Center</div><div class="ac-s">Public transparency</div></div>
+      </div>
+    </div>
+    <div class="arch-row" style="margin-top:8px">
+      <div class="arch-label">GOVERNANCE</div>
+      <div class="arch-cards">
+        <div class="arch-card orange"><div class="ac-ic">🏢</div><div class="ac-t">Vendors</div><div class="ac-s">3rd party risk</div></div>
+        <div class="arch-card orange"><div class="ac-ic">📝</div><div class="ac-t">Policies</div><div class="ac-s">Written rules</div></div>
+        <div class="arch-card orange"><div class="ac-ic">🚨</div><div class="ac-t">Incidents</div><div class="ac-s">When things break</div></div>
+      </div>
+    </div>
+    <div class="arch-row" style="margin-top:8px">
+      <div class="arch-label">OPERATIONS</div>
+      <div class="arch-cards">
+        <div class="arch-card blue"><div class="ac-ic">✅</div><div class="ac-t">Tasks</div><div class="ac-s">Who does what</div></div>
+        <div class="arch-card blue"><div class="ac-ic">🎓</div><div class="ac-t">Training</div><div class="ac-s">Team competence</div></div>
+        <div class="arch-card blue"><div class="ac-ic">📊</div><div class="ac-t">Dashboard</div><div class="ac-s">Live metrics</div></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>The Central Object: The Use Case</h3>
+  <p>Everything in the platform revolves around the <strong>Use Case</strong>. A Use Case represents one AI system (e.g., "Loan Approval AI"). Every other object links back to it:</p>
+
+  <div class="rel-wrap">
+    <div class="rel-center">Use Case (AI System)</div>
+    <div style="text-align:center;font-size:20px;color:var(--muted)">↕</div>
+    <div class="rel-spokes">
+      <div class="rel-spoke green">🤖 Models (what runs it)</div>
+      <div class="rel-spoke blue">🗄️ Datasets (what trained it)</div>
+      <div class="rel-spoke orange">⚠️ Risks (what could go wrong)</div>
+      <div class="rel-spoke purple">🏛️ Frameworks (what laws apply)</div>
+      <div class="rel-spoke green">📁 Evidence (proof of compliance)</div>
+      <div class="rel-spoke blue">🏢 Vendors (3rd party suppliers)</div>
+      <div class="rel-spoke orange">🚨 Incidents (when it fails)</div>
+      <div class="rel-spoke red">👥 Members (who owns it)</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ GOVERNANCE JOURNEY ═══════════════════════════ -->
+<section class="sec" id="journey">
+  <div class="sec-label">Foundation — Section 5</div>
+  <h2>The Complete Governance Journey</h2>
+  <p class="sec-intro">This is the end-to-end flow — what you do first, what flows from what, and why the order matters.</p>
+
+  <div class="flow-wrap">
+    <div class="flow-title">End-to-End AI Governance Flow</div>
+    <div class="flow-v">
+      <div class="fbox-v fbox-primary"><div class="ft" style="font-weight:700">STEP 1: Discover</div><div class="fs" style="font-size:11px">Register every AI system as a Use Case. Classify its EU AI Act risk level.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v fbox-primary"><div class="ft" style="font-weight:700">STEP 2: Document</div><div class="fs" style="font-size:11px">Add the Model, Dataset, and Agent used by the AI system.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v fbox-green"><div class="ft" style="font-weight:700">STEP 3: Assess</div><div class="fs" style="font-size:11px">Import risks from IBM/MIT databases. Score and assign owners.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v fbox-green"><div class="ft" style="font-weight:700">STEP 4: Control</div><div class="fs" style="font-size:11px">Map compliance controls in Frameworks (ISO 42001, NIST AI RMF). Assign owners to each control.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v fbox-blue"><div class="ft" style="font-weight:700">STEP 5: Govern</div><div class="fs" style="font-size:11px">Write policies, assess vendors, train your team.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v fbox-blue"><div class="ft" style="font-weight:700">STEP 6: Evidence</div><div class="fs" style="font-size:11px">Upload compliance documents. Link them to models and controls.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v" style="border-color:#E64A19;background:#FFE5D0"><div class="ft" style="font-weight:700">STEP 7: Monitor &amp; Respond</div><div class="fs" style="font-size:11px">Log incidents. Track tasks. Monitor the Dashboard daily.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v fbox-green"><div class="ft" style="font-weight:700">STEP 8: Report &amp; Publish</div><div class="fs" style="font-size:11px">Generate PDF reports. Publish AI Trust Center for public transparency.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ START HERE ═══════════════════════════ -->
+<section class="sec" id="start-here">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#E7ECF5">🏠</div>
+    <div class="mod-hdr-text">
+      <h2>Start Here</h2>
+      <p>The personalised onboarding hub. First thing every user sees after login.</p>
+      <span class="route">/start-here</span>
+    </div>
+  </div>
+
+  <p>The Start Here page exists to <strong>orient new users</strong> and show them exactly what to do next. It is personalised — the platform greets you by name with a time-aware message ("Good morning, Kamlesh") and tracks your setup progress.</p>
+
+  <h3>What's on This Page</h3>
+  <ul>
+    <li><strong>5-Step Onboarding Checklist</strong> (right sidebar) — tracks from account creation to first risk assessment. A progress ring shows completion %. When all 5 are done, confetti fires!</li>
+    <li><strong>Getting Started cards (4)</strong> — Welcome video, Quick start guide, Navigating the dashboard, Installation guide</li>
+    <li><strong>Explore GovernAI carousel (10 cards)</strong> — each opens a feature video</li>
+    <li><strong>Shortcuts grid (8 icons)</strong> — one-click navigation to Use Cases, Risks, Models, Vendors, Tasks, Reporting, Policies, Settings</li>
+    <li><strong>Our Developers</strong> — Parkar team contacts</li>
+    <li><strong>About Parkar</strong> — company information (replaces the old "What's new" section)</li>
+    <li><strong>Resources sidebar</strong> — User Guide, Blog, API docs, Community</li>
+  </ul>
+
+  <div class="box box-blue">
+    <p><strong>Demo tip:</strong> Open this page first. Point out the 5-step checklist and say "by the end of this demo, all 5 steps will be checked off automatically as we work through the platform."</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ DASHBOARD ═══════════════════════════ -->
+<section class="sec" id="dashboard">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#E7ECF5">📊</div>
+    <div class="mod-hdr-text">
+      <h2>Dashboard</h2>
+      <p>The real-time command centre. Two views for two audiences.</p>
+      <span class="route">/overview</span>
+    </div>
+  </div>
+
+  <p>The Dashboard is the most data-dense screen in the platform. It answers the question every CISO asks every Monday morning: <em>"Are we compliant? Are there new risks? Are incidents being handled?"</em></p>
+
+  <h3>Two Views — Toggle with One Button</h3>
+  <table class="tbl">
+    <thead><tr><th>Executive View</th><th>Operations View</th></tr></thead>
+    <tbody>
+      <tr><td>For: CISOs, AI Officers, Board members</td><td>For: Compliance managers, daily operators</td></tr>
+      <tr><td>AI Governance Score (0–100)</td><td>Task Radar (Overdue/Due/Upcoming) shown first</td></tr>
+      <tr><td>Framework completion donuts</td><td>Incident Status (Open/Investigating/Mitigated/Closed)</td></tr>
+      <tr><td>Risk distribution charts</td><td>Evidence Coverage (how many models have docs)</td></tr>
+      <tr><td>Recent Activity feed</td><td>Model Lifecycle distribution</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The AI Governance Score</h3>
+  <p>This is the flagship metric — a single number (0–100) that represents how mature your AI governance program is. It is calculated by aggregating progress across all modules: framework controls completion, risk mitigation progress, evidence coverage, policy status, training completion, and more. The higher the score, the more governed your AI program is.</p>
+
+  <h3>Four Dashboard Tabs</h3>
+  <ul>
+    <li><strong>Overview</strong> — all cards above</li>
+    <li><strong>Audit Readiness</strong> — per-control readiness scores for EU AI Act</li>
+    <li><strong>AI Content Review</strong> — reviews of AI-generated content (EU AI Act Article 52)</li>
+    <li><strong>AI Audit</strong> — immutable audit trail of every AI action (EU AI Act Article 12)</li>
+  </ul>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ USE CASES ═══════════════════════════ -->
+<section class="sec" id="use-cases">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#E8F5E9">🗂️</div>
+    <div class="mod-hdr-text">
+      <h2>Use Cases — AI System Registry</h2>
+      <p>The most important module. Every AI system in the organisation gets a Use Case. Everything else links to it.</p>
+      <span class="route">/home</span>
+    </div>
+  </div>
+
+  <div class="box box-primary">
+    <p><strong>Core concept:</strong> A Use Case (internally called a "Project") is the central governance container. It answers: "What AI system is this? How risky is it? Who owns it? Which regulations apply? What evidence do we have?" Every other module — risks, models, datasets, vendors, policies, incidents — links back to a Use Case.</p>
+  </div>
+
+  <h3>Creating a Use Case — Step by Step</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Click "New use case"</strong><span>Top right button on the Use Cases page. A creation modal opens.</span></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Fill the basic information</strong><span>Title, description, goal, target industry, geography, start date.</span></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Set the EU AI Act risk classification</strong><span>This is critical — choose Prohibited, High Risk, Limited Risk, or Minimal Risk based on what the AI does.</span></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Choose your role</strong><span>Deployer (you use the AI), Provider (you build and sell it), Distributor, Importer, etc. Different roles = different legal obligations.</span></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><strong>Assign frameworks</strong><span>Select which regulations apply: EU AI Act, ISO 42001, ISO 27001, NIST AI RMF. This creates compliance control tracking for those frameworks.</span></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><strong>Assign owner and members</strong><span>Who is responsible for governing this AI system?</span></div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body"><strong>Save</strong><span>A UC-ID is auto-generated (UC-1, UC-2…) — this is the immutable reference number for this system.</span></div></div>
+  </div>
+
+  <h3>All Fields Explained</h3>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>What It Means</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>UC-ID</strong></td><td>Auto-generated, immutable reference number</td><td>UC-1</td></tr>
+      <tr><td><strong>Title</strong></td><td>Name of the AI system</td><td>Loan Approval AI</td></tr>
+      <tr><td><strong>Description</strong></td><td>What the AI does</td><td>Evaluates loan applications and recommends approve/reject</td></tr>
+      <tr><td><strong>Goal</strong></td><td>Business reason for using AI</td><td>Reduce manual processing time while maintaining fair lending</td></tr>
+      <tr><td><strong>AI Risk Classification</strong></td><td>EU AI Act risk level</td><td>High Risk</td></tr>
+      <tr><td><strong>Role</strong></td><td>Your legal role under EU AI Act</td><td>Deployer</td></tr>
+      <tr><td><strong>Target industry</strong></td><td>Sector context</td><td>Financial Services</td></tr>
+      <tr><td><strong>Geography</strong></td><td>Where it's deployed</td><td>European Union</td></tr>
+      <tr><td><strong>Linked Frameworks</strong></td><td>Which regulations apply</td><td>EU AI Act, ISO 42001, NIST AI RMF</td></tr>
+      <tr><td><strong>Owner</strong></td><td>Primary responsible person</td><td>Yourself</td></tr>
+      <tr><td><strong>Members</strong></td><td>Team members with access</td><td>Risk manager, data scientist, legal</td></tr>
+      <tr><td><strong>Status</strong></td><td>Lifecycle stage</td><td>In Progress</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Inside a Use Case — 5 Tabs</h3>
+  <p>After creating a use case, click on it to open its detail view. There are 5 tabs:</p>
+  <ul>
+    <li><strong>Overview</strong> — Compliance progress per framework (% complete), risk count by severity, linked models/vendors/datasets/members</li>
+    <li><strong>Risks</strong> — All risks specifically for this AI system (filtered view of global risk register)</li>
+    <li><strong>Project Settings</strong> — Edit frameworks, member roles, FRIA (Fundamental Rights Impact Assessment for EU AI Act Article 27), CE Marking documentation</li>
+    <li><strong>Activity</strong> — Full immutable change history — every field change, status transition, member addition with timestamp</li>
+    <li><strong>Post-Market Monitoring</strong> — Ongoing monitoring questions for deployed AI systems (EU AI Act Article 72)</li>
+  </ul>
+
+  <h3>Use Case Lifecycle</h3>
+  <div class="lifecycle">
+    <div class="lc-item"><div class="lc-n">Stage 1</div><div class="lc-t">Not Started</div><div class="lc-s">Registered, not yet active</div></div>
+    <div class="lc-item on"><div class="lc-n">Stage 2</div><div class="lc-t">In Progress</div><div class="lc-s">Actively being governed</div></div>
+    <div class="lc-item"><div class="lc-n">Stage 3</div><div class="lc-t">Under Review</div><div class="lc-s">Awaiting approval</div></div>
+    <div class="lc-item"><div class="lc-n">Stage 4</div><div class="lc-t">Completed</div><div class="lc-s">Governance finalised</div></div>
+    <div class="lc-item"><div class="lc-n">Alt</div><div class="lc-t">On Hold / Rejected / Closed</div><div class="lc-s">Paused or ended</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ MODEL INVENTORY ═══════════════════════════ -->
+<section class="sec" id="model-inventory">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#FFF8E1">🤖</div>
+    <div class="mod-hdr-text">
+      <h2>Model Inventory</h2>
+      <p>Registry of every AI/ML model — with an approval gate before any model can be used.</p>
+      <span class="route">/model-inventory</span>
+    </div>
+  </div>
+
+  <p>The Model Inventory answers: <em>"What AI models are we using, who approved them, and what risks do they carry?"</em> Every model must be <strong>explicitly approved</strong> before it can be used in production. This is the governance gate.</p>
+
+  <h3>Model Approval Flow</h3>
+  <div class="flow-wrap">
+    <div class="flow-title">Model Approval Lifecycle</div>
+    <div class="flow-h">
+      <div class="fbox fbox-grey" style="border-color:#9CA3AF;background:#F3F4F6"><div class="ft">Register Model</div><div class="fs">Status: Pending</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-blue"><div class="ft">Upload Security Assessment</div><div class="fs">Required evidence</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-blue"><div class="ft">Approver Reviews</div><div class="fs">Designated person</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-green"><div class="ft">Approved ✓</div><div class="fs">Cleared for use</div></div>
+    </div>
+    <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--muted)">OR if fails review → <span class="b b-red">Blocked</span> / <span class="b b-orange">Restricted</span></div>
+  </div>
+
+  <h3>Four Tabs in Model Inventory</h3>
+  <ul>
+    <li><strong>Models tab</strong> — Main registry table. Columns: Provider | Model | Version | Approver | Security Assessment | Risk count | Status | Status date. Click any row to open and edit.</li>
+    <li><strong>Model Risks tab</strong> — Risks specific to AI models (e.g., "demographic bias", "model drift"). Each risk has an owner, risk level, status, and next review date.</li>
+    <li><strong>Evaluations tab</strong> — LLM evaluation results (performance benchmarks, safety scores, bias tests) from automated testing.</li>
+    <li><strong>Evidence Hub tab</strong> — Compliance documents linked to this model (Model Card, Security Assessment, Bias Report, etc.)</li>
+  </ul>
+
+  <h3>Key Fields When Adding a Model</h3>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>Why It Matters</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Provider</strong></td><td>OpenAI, Anthropic, AWS, Internal — determines vendor risk</td></tr>
+      <tr><td><strong>Model + Version</strong></td><td>Specific model for traceability — "GPT-4o v2024-11" not just "OpenAI"</td></tr>
+      <tr><td><strong>Security Assessment</strong></td><td>Toggle ON + upload PDF — the gate to Approved status</td></tr>
+      <tr><td><strong>Approver</strong></td><td>Who is legally responsible for this model being used</td></tr>
+      <tr><td><strong>Hosting Provider</strong></td><td>Cloud/On-prem/SaaS — critical for GDPR data residency</td></tr>
+      <tr><td><strong>Known Biases</strong></td><td>Required by EU AI Act Article 13 transparency obligation</td></tr>
+      <tr><td><strong>Linked Use Cases</strong></td><td>Which AI systems use this model — traceability chain</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ DATASETS ═══════════════════════════ -->
+<section class="sec" id="datasets">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#E0F2F1">🗄️</div>
+    <div class="mod-hdr-text">
+      <h2>Datasets</h2>
+      <p>Data governance and AI training data lineage tracking.</p>
+      <span class="route">/datasets</span>
+    </div>
+  </div>
+
+  <div class="box box-primary">
+    <p><strong>EU AI Act Article 10</strong> requires high-risk AI systems to have documented data governance practices for training, validation, and testing data. This module is the evidence for that requirement.</p>
+  </div>
+
+  <h3>All Fields Explained</h3>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>What to Enter</th><th>Why Required</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Name</strong></td><td>Clear name of the dataset</td><td>Identification</td></tr>
+      <tr><td><strong>Description</strong></td><td>What data it contains</td><td>Traceability</td></tr>
+      <tr><td><strong>Version</strong></td><td>e.g., v2.1</td><td>Change management</td></tr>
+      <tr><td><strong>Owner</strong></td><td>Team or person responsible</td><td>Accountability</td></tr>
+      <tr><td><strong>Type</strong></td><td>Training / Validation / Testing / Production / Reference</td><td>Compliance mapping</td></tr>
+      <tr><td><strong>Function</strong></td><td>What role this dataset plays in model development — e.g., "Used to train the model to classify loan applications"</td><td>Required field — explains WHY this data was used</td></tr>
+      <tr><td><strong>Source</strong></td><td>Where data came from — e.g., "Internal CRM"</td><td>Data provenance</td></tr>
+      <tr><td><strong>Classification</strong></td><td>Public / Internal / Confidential / Restricted</td><td>Data protection level</td></tr>
+      <tr><td><strong>Contains PII</strong></td><td>Toggle Yes/No — if Yes, specify PII types</td><td>Triggers GDPR obligations</td></tr>
+      <tr><td><strong>Known Biases</strong></td><td>Document any bias sources in the data</td><td>EU AI Act Article 10</td></tr>
+      <tr><td><strong>Bias Mitigation</strong></td><td>Steps taken to address biases</td><td>Proving governance actions</td></tr>
+      <tr><td><strong>Collection Method</strong></td><td>How data was gathered</td><td>Data provenance</td></tr>
+      <tr><td><strong>Preprocessing Steps</strong></td><td>Transformations applied</td><td>Reproducibility</td></tr>
+      <tr><td><strong>Linked Models</strong></td><td>Which models use this data</td><td>Creates lineage: Dataset → Model → Use Case</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ AGENT DISCOVERY ═══════════════════════════ -->
+<section class="sec" id="agent-discovery">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#FCE4EC">🔍</div>
+    <div class="mod-hdr-text">
+      <h2>Agent Discovery</h2>
+      <p>Automatically find every AI agent running in your environment. Eliminate shadow AI.</p>
+      <span class="route">/agent-discovery</span>
+    </div>
+  </div>
+
+  <p>Most enterprises don't know all the AI agents running in their environment — GitHub Copilot, Azure AI agents, custom LLM pipelines. <strong>You cannot govern what you don't know about.</strong> EU AI Act Article 14 requires human oversight of AI systems — impossible if you've never seen them.</p>
+
+  <h3>The Discovery Flow</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Click "Sync now"</strong><span>Platform calls connected systems (Azure AI Foundry, custom sources) and auto-discovers all AI agents. Returns: "Found 23 agents — 18 new, 5 updated."</span></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Review each agent</strong><span>Click any row → Review drawer opens. See: source system, type, normalized permissions (ai:invoke, data:write, identity:manage, etc.), last activity, stale flag.</span></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Confirm or Reject</strong><span>Confirmed = approved agent. Rejected = agent should not be running (gets flagged for removal).</span></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Link to Model Inventory</strong><span>Connect the agent to its model record. Creates the full chain: Use Case → Model → Agent → Permissions.</span></div></div>
+  </div>
+
+  <p>Agents not seen for 30+ days are automatically flagged as <span class="b b-orange">Stale</span> — enabling cleanup of abandoned deployments.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ FRAMEWORKS ═══════════════════════════ -->
+<section class="sec" id="frameworks">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#E3F2FD">🏛️</div>
+    <div class="mod-hdr-text">
+      <h2>Frameworks</h2>
+      <p>The compliance control room. Map every governance activity to ISO 42001, ISO 27001, and NIST AI RMF controls.</p>
+      <span class="route">/framework</span>
+    </div>
+  </div>
+
+  <div class="box box-warn">
+    <p><strong>First-time setup required:</strong> When you first visit the Frameworks page, it will say "No Organisational Project Found". Click "New Project" to create the master organisational governance project. This is a one-time setup — fill in a title like "Parkar GovernAI — Organisational Governance" and save. After that, all three frameworks become available.</p>
+  </div>
+
+  <h3>Five Tabs</h3>
+  <ul>
+    <li><strong>Dashboard</strong> — Framework completion donuts, assignment status %, control status breakdown, per-category progress bars. Shows the Governance Score contribution from frameworks.</li>
+    <li><strong>Framework Risks</strong> — Risks identified at organisational level, linked to specific controls.</li>
+    <li><strong>Linked Models</strong> — Models from Model Inventory mapped to this framework's requirements.</li>
+    <li><strong>Requirements and Controls (the core work area)</strong> — Every clause, annex, and subcategory with inline editing of status, owner, reviewer, due date, evidence. This is where compliance work happens.</li>
+    <li><strong>Settings</strong> — Enable/disable frameworks.</li>
+  </ul>
+
+  <h3>ISO 42001 — Clause Structure</h3>
+  <table class="tbl">
+    <thead><tr><th>Clause</th><th>Topic</th><th>What You Do</th></tr></thead>
+    <tbody>
+      <tr><td>4</td><td>Context of the Organisation</td><td>Define scope of AI management system, stakeholders, internal/external context</td></tr>
+      <tr><td>5</td><td>Leadership</td><td>Get management commitment, write AI policy, define roles</td></tr>
+      <tr><td>6</td><td>Planning</td><td>Risk-based planning, set AI objectives, plan for changes</td></tr>
+      <tr><td>7</td><td>Support</td><td>Allocate resources, train staff, manage documentation</td></tr>
+      <tr><td>8</td><td>Operation</td><td>Day-to-day AI governance — risk assessments, impact assessments, lifecycle management</td></tr>
+      <tr><td>9</td><td>Performance Evaluation</td><td>Monitor KPIs, internal audits, management reviews</td></tr>
+      <tr><td>10</td><td>Improvement</td><td>Continual improvement, corrective actions for incidents</td></tr>
+    </tbody>
+  </table>
+
+  <h3>NIST AI RMF — 4 Functions</h3>
+  <div class="flow-wrap">
+    <div class="flow-title">NIST AI RMF Functions</div>
+    <div class="flow-h">
+      <div class="fbox fbox-purple"><div class="ft">GOVERN</div><div class="fs">Set up the program — policies, roles, culture</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-blue"><div class="ft">MAP</div><div class="fs">Identify and categorise AI risks</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-orange"><div class="ft">MEASURE</div><div class="fs">Analyse and quantify risks</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-green"><div class="ft">MANAGE</div><div class="fs">Treat, monitor, improve</div></div>
+    </div>
+  </div>
+
+  <h3>Control Statuses</h3>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+    <span class="b b-grey">Not Started</span>
+    <span class="b b-blue">Draft</span>
+    <span class="b b-orange">In Progress</span>
+    <span class="b b-purple">Awaiting Review</span>
+    <span class="b b-orange">Awaiting Approval</span>
+    <span class="b b-green">Implemented</span>
+    <span class="b b-red">Needs Rework</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ RISK MANAGEMENT ═══════════════════════════ -->
+<section class="sec" id="risk-management">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#FFE5D0">⚠️</div>
+    <div class="mod-hdr-text">
+      <h2>Risk Management</h2>
+      <p>The central AI risk register. Import from IBM/MIT databases, score, assign, and track mitigation.</p>
+      <span class="route">/risk-management</span>
+    </div>
+  </div>
+
+  <p>Most organisations start AI risk assessment with a blank spreadsheet. Parkar GovernAI gives you <strong>two curated databases</strong> — IBM (113 risks) and MIT (academic research) — so your risk register is populated in minutes, not weeks.</p>
+
+  <h3>Risk Level Calculation Formula</h3>
+  <div class="box box-primary">
+    <p><strong>Risk Level = (Likelihood × 1) + (Severity × 3)</strong><br/>Severity is weighted 3× because a catastrophic but rare event must still be prioritised over a frequent low-severity one. This mirrors EU AI Act risk methodology.</p>
+  </div>
+
+  <div class="score-wrap">
+    <div class="score-box"><div class="sb-val" style="color:#D32F2F">16–20</div><div class="sb-t">Very High</div></div>
+    <div class="score-box"><div class="sb-val" style="color:#E64A19">11–15</div><div class="sb-t">High</div></div>
+    <div class="score-box"><div class="sb-val" style="color:#795548">6–10</div><div class="sb-t">Medium</div></div>
+    <div class="score-box"><div class="sb-val" style="color:#138A5E">3–5</div><div class="sb-t">Low</div></div>
+    <div class="score-box"><div class="sb-val" style="color:#00695C">0–2</div><div class="sb-t">Very Low</div></div>
+  </div>
+
+  <h3>How to Import from IBM Risk Database</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Click "Add new risk" → "Import from IBM AI Risk Database"</strong><span>A modal opens with all 113 risks in a searchable table.</span></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Search by name, category, or description</strong><span>Type "bias" to find bias risks, "privacy" for data privacy risks, "hallucin" for hallucination risks.</span></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Select ONE risk (radio button)</strong><span>Only one risk can be selected at a time — it is a radio button, not checkboxes.</span></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Click "Use selected risk and edit"</strong><span>The IBM modal closes. The full risk form opens, pre-filled with the IBM risk data.</span></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><strong>Fill the Risk Details tab</strong><span>Review the pre-filled name, description, category, severity, likelihood. Adjust if needed.</span></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><strong>Go to the Mitigation tab and fill:</strong><span>Mitigation Status, Current Risk Level, Deadline, Mitigation Plan, Implementation Strategy, Approver, Approval Status, Assessment Date.</span></div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body"><strong>Save</strong><span>Risk appears in the table. Repeat from step 1 for each additional risk.</span></div></div>
+  </div>
+
+  <h3>Mitigation Tab Fields Explained</h3>
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>What It Means</th><th>Example Value</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Mitigation Status</strong></td><td>Where mitigation effort is right now</td><td>In Progress</td></tr>
+      <tr><td><strong>Current Risk Level</strong></td><td>Your assessed risk level after considering context</td><td>High</td></tr>
+      <tr><td><strong>Deadline</strong></td><td>Target date for completing mitigation</td><td>30 days from today</td></tr>
+      <tr><td><strong>Mitigation Plan</strong></td><td>Specific steps being taken to reduce this risk</td><td>"Applied stratified sampling, removed demographic identifiers"</td></tr>
+      <tr><td><strong>Implementation Strategy</strong></td><td>How the plan will be executed in practice</td><td>"Data science team re-runs fairness audit before each release"</td></tr>
+      <tr><td><strong>Approver</strong></td><td>Who has authority to approve this risk assessment</td><td>Yourself</td></tr>
+      <tr><td><strong>Approval Status</strong></td><td>Has the risk been formally approved</td><td>Approved</td></tr>
+      <tr><td><strong>Assessment Date</strong></td><td>Date when risk was formally reviewed</td><td>Today's date</td></tr>
+    </tbody>
+  </table>
+
+  <h3>7 Mitigation Statuses</h3>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
+    <span class="b b-grey">Not Started</span>
+    <span class="b b-blue">In Progress</span>
+    <span class="b b-green">Completed</span>
+    <span class="b b-orange">On Hold</span>
+    <span class="b b-grey">Deferred</span>
+    <span class="b b-red">Cancelled</span>
+    <span class="b b-orange">Requires Review</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ TRAINING ═══════════════════════════ -->
+<section class="sec" id="training">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#E8EAF6">🎓</div>
+    <div class="mod-hdr-text">
+      <h2>Training Registry</h2>
+      <p>Track AI literacy programs — the auditable proof that your team is trained.</p>
+      <span class="route">/training-registry</span>
+    </div>
+  </div>
+
+  <p><strong>EU AI Act Article 4</strong> requires organisations to ensure AI literacy. ISO 42001 Clause 7.2 requires documented competence. The Training Registry is your auditable evidence that people are trained and competent in AI governance.</p>
+
+  <h3>Two Tabs</h3>
+  <ul>
+    <li><strong>Trainings</strong> — All training programs: name, duration, provider, department, status (Planned/In Progress/Completed), number of participants</li>
+    <li><strong>Evidence Hub (Training scope)</strong> — Training certificates, attendance records, assessment results linked to programs</li>
+  </ul>
+
+  <h3>Important Business Rules</h3>
+  <ul>
+    <li>Once a training is <span class="b b-green">Completed</span>, you <strong>cannot reduce the participant count</strong> — the record is locked as an audit trail</li>
+    <li>You <strong>cannot revert Completed back to Planned</strong> — prevents retroactive manipulation</li>
+    <li>Evidence documents have an <strong>expiry date</strong> — the Dashboard flags renewals before they lapse</li>
+  </ul>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ EVIDENCE ═══════════════════════════ -->
+<section class="sec" id="evidence">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#E8F5E9">📁</div>
+    <div class="mod-hdr-text">
+      <h2>Evidence Hub</h2>
+      <p>The compliance evidence vault. 15 document types mapped to EU AI Act Annex IV.</p>
+    </div>
+  </div>
+
+  <p>Compliance requires extensive documentation — a Model Card for every deployed model, bias assessment reports, human oversight plans, third-party audit reports. The Evidence Hub is where all of that lives, linked to the models and controls it proves.</p>
+
+  <h3>15 Evidence Types (EU AI Act Annex IV Mapping)</h3>
+  <table class="tbl">
+    <thead><tr><th>#</th><th>Evidence Type</th><th>Regulatory Requirement</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Model Card</td><td>EU AI Act Article 13 — Transparency</td></tr>
+      <tr><td>2</td><td>Risk Assessment Report</td><td>EU AI Act Article 9</td></tr>
+      <tr><td>3</td><td>Bias and Fairness Report</td><td>EU AI Act Article 10</td></tr>
+      <tr><td>4</td><td>Security Assessment Report</td><td>EU AI Act Article 15</td></tr>
+      <tr><td>5</td><td>Data Protection Impact Assessment</td><td>GDPR Article 35</td></tr>
+      <tr><td>6</td><td>Robustness and Stress Test Report</td><td>EU AI Act Article 15</td></tr>
+      <tr><td>7</td><td>Evaluation Metrics Summary</td><td>EU AI Act Article 9</td></tr>
+      <tr><td>8</td><td>Human Oversight Plan</td><td>EU AI Act Article 14</td></tr>
+      <tr><td>9</td><td>Post-Market Monitoring Plan</td><td>EU AI Act Article 72</td></tr>
+      <tr><td>10</td><td>Version Change Log</td><td>EU AI Act Article 12</td></tr>
+      <tr><td>11</td><td>Third-Party Audit Report</td><td>ISO 42001 Audit requirements</td></tr>
+      <tr><td>12</td><td>Conformity Assessment Report</td><td>EU AI Act Annex VI</td></tr>
+      <tr><td>13</td><td>Technical File / CE Documentation</td><td>EU AI Act Annex IV</td></tr>
+      <tr><td>14</td><td>Vendor Model Documentation</td><td>EU AI Act Article 28</td></tr>
+      <tr><td>15</td><td>Internal Approval Record</td><td>ISO 42001 Internal controls</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ REPORTING ═══════════════════════════ -->
+<section class="sec" id="reporting">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#E3F2FD">📄</div>
+    <div class="mod-hdr-text">
+      <h2>Reporting</h2>
+      <p>Generate board-ready, regulator-ready PDF or DOCX reports in under 30 seconds.</p>
+      <span class="route">/reporting</span>
+    </div>
+  </div>
+
+  <p>Everything you have done — risks, controls, models, vendors, incidents, policies — gets compiled into a professional branded document automatically.</p>
+
+  <h3>Report Generation Steps</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Choose scope</strong><span>Use Case (one AI system) or Organisation (all AI systems).</span></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Select framework</strong><span>EU AI Act, ISO 42001, ISO 27001, or NIST AI RMF.</span></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Choose sections to include</strong><span>Risk Analysis, Compliance Controls, Assessment Tracker, Models, Vendors, Training, Policies, Incidents.</span></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Apply branding</strong><span>Upload logo, set primary colour (#1B3A6B), enter organisation name.</span></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><strong>Choose format and click Generate</strong><span>PDF (non-editable, for regulators) or DOCX (editable, for internal stakeholders). Ready in ~30 seconds.</span></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ TRUST CENTER ═══════════════════════════ -->
+<section class="sec" id="trust-center">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#F3E5F5">🛡️</div>
+    <div class="mod-hdr-text">
+      <h2>AI Trust Center</h2>
+      <p>Your public-facing AI transparency page — no login required for visitors.</p>
+      <span class="route">/ai-trust-centre</span>
+    </div>
+  </div>
+
+  <p>The AI Trust Center is a branded public webpage that shows the world how responsibly you use AI. It is the equivalent of a security trust center — but specifically for AI governance. Share the URL with customers, partners, and regulators.</p>
+
+  <h3>What the Public Page Shows</h3>
+  <ul>
+    <li><strong>Overview tab</strong> — Your AI governance mission statement, ethics statement, and compliance badges (EU AI Act, ISO 42001, GDPR, HIPAA, SOC 2, CCPA)</li>
+    <li><strong>Resources tab</strong> — Downloadable compliance documents (policies, conformity declarations, bias reports)</li>
+    <li><strong>Subprocessors tab</strong> — List of third-party vendors processing data on your behalf (required by GDPR Article 28)</li>
+  </ul>
+
+  <div class="box box-green">
+    <p><strong>The URL is unique per organisation</strong> — <code>/aiTrustCentre/:tenantHash</code>. No authentication required for visitors. The page is invisible until you explicitly toggle it to Published in Settings.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ VENDORS ═══════════════════════════ -->
+<section class="sec" id="vendors">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#FFF3E0">🏢</div>
+    <div class="mod-hdr-text">
+      <h2>Vendors</h2>
+      <p>Third-party AI risk management — assess and score every AI vendor relationship.</p>
+      <span class="route">/vendors</span>
+    </div>
+  </div>
+
+  <p><strong>EU AI Act Article 28</strong> imposes specific obligations on organisations that deploy third-party AI systems. If you use OpenAI, AWS AI, or any external AI API, you have vendor governance obligations. This module provides the documented evidence trail.</p>
+
+  <h3>The Vendor Scorecard (Auto-Calculated 0–100)</h3>
+  <table class="tbl">
+    <thead><tr><th>Dimension</th><th>Options</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Data Sensitivity</strong></td><td>None / Internal only / PII / Financial / Health (HIPAA) / Model weights / Other</td></tr>
+      <tr><td><strong>Business Criticality</strong></td><td>Low / Medium / High (critical to core services)</td></tr>
+      <tr><td><strong>Past Issues</strong></td><td>None / Minor incident / Major incident (data breach)</td></tr>
+      <tr><td><strong>Regulatory Exposure</strong></td><td>GDPR / HIPAA / SOC 2 / ISO 27001 / EU AI Act / CCPA / None</td></tr>
+    </tbody>
+  </table>
+  <p>The scorecard auto-calculates. A high score = urgent review needed. This instantly shows the compliance team which vendors carry the most risk.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ POLICIES ═══════════════════════════ -->
+<section class="sec" id="policies">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#E0F7FA">📝</div>
+    <div class="mod-hdr-text">
+      <h2>Policy Manager</h2>
+      <p>Write, version, review, and approve AI governance policies.</p>
+      <span class="route">/policies</span>
+    </div>
+  </div>
+
+  <p>EU AI Act, ISO 42001, NIST AI RMF all require written AI governance policies. This is where those policies live — written, versioned, reviewed, and approved in a structured workflow.</p>
+
+  <h3>Policy Approval Workflow</h3>
+  <div class="flow-wrap">
+    <div class="flow-title">Policy Lifecycle</div>
+    <div class="flow-h">
+      <div class="fbox" style="border-color:#9CA3AF;background:#F3F4F6"><div class="ft">Draft</div><div class="fs">Author writes</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-blue"><div class="ft">Under Review</div><div class="fs">Reviewer notified</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-green"><div class="ft">Approved</div><div class="fs">Ready to publish</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-primary"><div class="ft">Published</div><div class="fs">Live on Trust Center</div></div>
+    </div>
+    <div style="margin-top:10px;text-align:center;font-size:12px;color:var(--muted)">If reviewer rejects → policy returns to Draft with rejection comment</div>
+  </div>
+
+  <h3>19 AI Governance Tags</h3>
+  <p>Tag policies for searchability and mapping: AI ethics, Fairness, Transparency, Explainability, Bias mitigation, Privacy, Data governance, Model risk, Accountability, Security, LLM, Human oversight, EU AI Act, ISO 42001, NIST RMF, Red teaming, Audit, Monitoring, Vendor management.</p>
+
+  <div class="box box-blue">
+    <p><strong>Templates available:</strong> Instead of writing from scratch, use the pre-built templates tab — professionally written, framework-aligned policy templates across 6 categories. Select one, click "Use template", and start editing in seconds.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ INCIDENTS ═══════════════════════════ -->
+<section class="sec" id="incidents">
+  <div class="mod-hdr">
+    <div class="mod-ic" style="background:#FFD6D6">🚨</div>
+    <div class="mod-hdr-text">
+      <h2>Incident Management</h2>
+      <p>EU AI Act Article 73 serious incident reporting — the legal obligation when AI goes wrong.</p>
+      <span class="route">/ai-incident-management</span>
+    </div>
+  </div>
+
+  <div class="box box-warn">
+    <p><strong>Legal requirement:</strong> EU AI Act Article 73 requires providers and deployers of High-Risk AI systems to REPORT serious incidents to market surveillance authorities. Failure to report is a regulatory violation. This module provides the structured workflow and evidence trail for that obligation.</p>
+  </div>
+
+  <h3>Incident Lifecycle</h3>
+  <div class="flow-wrap">
+    <div class="flow-title">Incident Status Flow</div>
+    <div class="flow-h">
+      <div class="fbox fbox-red"><div class="ft">Open</div><div class="fs">Just reported</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-orange"><div class="ft">Investigating</div><div class="fs">Root cause analysis</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-blue"><div class="ft">Mitigated</div><div class="fs">Fix deployed</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-green"><div class="ft">Closed</div><div class="fs">Resolved &amp; documented</div></div>
+    </div>
+  </div>
+
+  <h3>3 Severity Levels</h3>
+  <table class="tbl">
+    <thead><tr><th>Severity</th><th>Meaning</th><th>EU AI Act Obligation</th></tr></thead>
+    <tbody>
+      <tr><td><span class="b b-grey">Minor</span></td><td>Limited impact, no significant harm</td><td>Internal documentation only</td></tr>
+      <tr><td><span class="b b-orange">Serious</span></td><td>Significant impact, potential harm to people</td><td>Regulatory reporting may be required</td></tr>
+      <tr><td><span class="b b-red">Very Serious</span></td><td>Major harm — death, serious injury, fundamental rights violation</td><td>Article 73 mandatory reporting triggered</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The 4-Section Incident Form</h3>
+  <ul>
+    <li><strong>Section 1 — Incident Information:</strong> AI project, type (7 options: Malfunction, Unexpected behavior, Model drift, Misuse, Data corruption, Security breach, Performance degradation), severity, status, occurred date, detected date, reporter name, model version</li>
+    <li><strong>Section 2 — Impact Assessment:</strong> Harm categories (Health, Safety, Fundamental Rights, Property, Environment, Financial, Reputation, Fairness), affected persons, description, causality analysis</li>
+    <li><strong>Section 3 — Response:</strong> Immediate mitigations taken, planned corrective actions</li>
+    <li><strong>Section 4 — Approval:</strong> Approval status, approver, notes, interim report toggle for ongoing multi-phase incidents</li>
+  </ul>
+  <p>Every incident gets an auto-generated <code>INC-XXXX</code> ID — the immutable reference for regulatory submissions.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ DEMO SCRIPT ═══════════════════════════ -->
+<section class="sec" id="demo-script">
+  <div class="sec-label">Reference</div>
+  <h2>The Demo Script — 18-Minute Walkthrough</h2>
+  <p class="sec-intro">Use this exact narrative for demos. The scenario: a bank deploying a Loan Approval AI system under EU AI Act. Every screen connects back to this story.</p>
+
+  <div class="box box-primary">
+    <p><strong>The story:</strong> "You're the Chief AI Officer at a bank. You're deploying an AI system that evaluates loan applications. Under EU AI Act, this is High Risk. You need to prove — with documentation and evidence — that you've governed it responsibly. Let me show you how Parkar GovernAI makes that possible."</p>
+  </div>
+
+  <h3>Step-by-Step with Talking Points</h3>
+
+  <h4>Step 1 — Start Here (1 min)</h4>
+  <p>Open the Start Here page. Say: <em>"When anyone joins the team, this is their guide. The 5-step checklist will auto-complete as we work through the demo. Watch."</em></p>
+
+  <h4>Step 2 — Create Use Case (2 min)</h4>
+  <p>New use case → Title: "Loan Approval AI" → Classification: High Risk → Role: Deployer → Frameworks: EU AI Act + ISO 42001 → Save. <em>"UC-1 is auto-generated — this is the immutable reference for regulatory submissions. Everything we do next links back to this record."</em></p>
+
+  <h4>Step 3 — Register Model (2 min)</h4>
+  <p>Model Inventory → Add model → Provider: OpenAI, Model: GPT-4o → Upload security assessment → Status: Approved → Link to Loan Approval AI. <em>"No model can be used in production without passing through this approval gate. The security assessment is the evidence."</em></p>
+
+  <h4>Step 4 — Add Dataset (1 min)</h4>
+  <p>Datasets → Add → Name: "Customer Loan History 2019–2024" → Type: Training → Classification: Restricted → Contains PII: Yes → Known Biases: document → Link to GPT-4o. <em>"EU AI Act Article 10 requires we document training data governance. PII flag triggers GDPR obligations automatically."</em></p>
+
+  <h4>Step 5 — ISO 42001 Framework Controls (2 min)</h4>
+  <p>Frameworks → Requirements and Controls → ISO 42001 → Open Clause 7.2 (Competence) → set Implemented → Open Clause 8.2 (Risk Assessment) → set In Progress → Open Annex A.7 (Data for AI) → set Implemented. <em>"Notice the completion percentage on the Dashboard increases in real time. Auditors can see — for every control — who owns it, what was done, and what evidence proves it."</em></p>
+
+  <h4>Step 6 — Import Risks (2 min)</h4>
+  <p>Risk Management → Add risk → IBM Database → search "bias" → select "Embedded dataset bias" → Use selected risk and edit → fill Mitigation tab (Deadline: 30 days, Mitigation Plan, Approver, Assessment Date: today). Repeat for "Biased decision outputs" and "Hallucinatory incorrect output". <em>"113 curated, research-backed risks from IBM. We imported 3 relevant risks in under 2 minutes. Risk Level auto-calculates: Severity Major × 3 + Likelihood Likely = Very High. This surfaces at the top of the register automatically."</em></p>
+
+  <h4>Step 7 — Add Vendor (1 min)</h4>
+  <p>Vendors → Add → OpenAI → Data Sensitivity: PII → Criticality: High → Regulatory: EU AI Act + GDPR → Save. <em>"Watch the scorecard. Because PII + High Criticality + EU AI Act exposure, the score is high — immediately flagging this vendor needs formal review before go-live."</em></p>
+
+  <h4>Step 8 — Write Policy (1 min)</h4>
+  <p>Policies → Templates → "AI Risk Management Policy" → Use template → Fill metadata → Request Review → Approve. <em>"An auditor will ask: where is your AI Risk Management Policy? Right here — approved, versioned, with full change history."</em></p>
+
+  <h4>Step 9 — Training Record (1 min)</h4>
+  <p>Training Registry → New training → "EU AI Act Compliance for Financial Services" → 24 people → Completed → Save. <em>"EU AI Act Article 4 requires AI literacy. This record proves 24 people in Legal are trained."</em></p>
+
+  <h4>Step 10 — Evidence (1 min)</h4>
+  <p>Model Inventory → GPT-4o → Evidence Hub tab → Add evidence → Type: Security Assessment Report → upload PDF → Expiry: 12 months. <em>"These 15 types map directly to EU AI Act Annex IV. One filter, everything downloads."</em></p>
+
+  <h4>Step 11 — Log Incident (1 min)</h4>
+  <p>Incident Management → Add → Type: Unexpected behavior → Severity: Serious → Harm: Fundamental Rights + Financial Impact → fill form → Save → INC-0001 appears. <em>"Severity Serious triggers EU AI Act Article 73 — mandatory regulatory reporting. INC-0001 is the regulatory filing reference."</em></p>
+
+  <h4>Step 12 — Generate Report (1 min)</h4>
+  <p>Reporting → Generate → Loan Approval AI → EU AI Act → all sections → upload logo → PDF → Generate. 30 seconds → branded PDF downloads. <em>"Everything we just did — compiled automatically. Board meeting tomorrow, regulator audit next week — one click."</em></p>
+
+  <h4>Step 13 — AI Trust Center (1 min)</h4>
+  <p>AI Trust Center → Settings → Published ON → Overview tab → select EU AI Act + ISO 42001 + GDPR badges → Resources → upload policy PDF → Subprocessors → add OpenAI + AWS → open public URL. <em>"This is what you send to enterprise customers. No login. Transparency as a competitive advantage."</em></p>
+
+  <div class="box box-green">
+    <p><strong>Closing line:</strong> "In 18 minutes we registered an AI system, documented its model and training data, imported and scored 3 risks, mapped compliance controls, assessed a vendor, wrote and approved a policy, trained the team, collected evidence, reported an incident, generated a regulator-ready PDF report, and published a public trust page. That would have taken weeks with spreadsheets and email. That's Parkar GovernAI."</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ GLOSSARY ═══════════════════════════ -->
+<section class="sec" id="glossary">
+  <div class="sec-label">Reference</div>
+  <h2>Glossary of Key Terms</h2>
+  <p class="sec-intro">Plain-English definitions for every term you'll encounter during the demo.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Term</th><th>Plain English Definition</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Use Case</strong></td><td>One AI system registered in the platform (e.g., "Loan Approval AI"). The central governance object — everything else links to it.</td></tr>
+      <tr><td><strong>EU AI Act</strong></td><td>The world's first binding AI law (EU, 2024). Classifies AI by risk level. High-risk systems need full documentation. Fines up to €35M.</td></tr>
+      <tr><td><strong>ISO 42001</strong></td><td>International standard for AI Management Systems. Certification you can earn to prove your AI governance program is structured correctly.</td></tr>
+      <tr><td><strong>NIST AI RMF</strong></td><td>US voluntary framework for AI risk management. 4 functions: Govern, Map, Measure, Manage. Widely adopted globally.</td></tr>
+      <tr><td><strong>High Risk AI</strong></td><td>EU AI Act category for AI that affects people significantly (loans, hiring, medical, biometrics). Requires full compliance documentation.</td></tr>
+      <tr><td><strong>Compliance Control</strong></td><td>A specific requirement from a framework (e.g., ISO 42001 Clause 8.2 = "Conduct AI risk assessment"). You assign an owner and track status.</td></tr>
+      <tr><td><strong>Risk Register</strong></td><td>The list of all identified risks — what could go wrong, how likely, how severe, who is responsible, and what is being done.</td></tr>
+      <tr><td><strong>Evidence</strong></td><td>A document that proves you did what you claim (e.g., a Security Assessment Report proves you assessed the model's security).</td></tr>
+      <tr><td><strong>Model Card</strong></td><td>A standard document describing an AI model — what it does, its limitations, known biases, training data. Required by EU AI Act Article 13.</td></tr>
+      <tr><td><strong>Mitigation</strong></td><td>Actions taken to reduce a risk. A bias risk might be mitigated by removing demographic identifiers from training data.</td></tr>
+      <tr><td><strong>Organisational Project</strong></td><td>The single master project in the Frameworks module that holds all ISO/NIST controls for the whole organisation. One-time setup required.</td></tr>
+      <tr><td><strong>Vendor Scorecard</strong></td><td>Auto-calculated 0–100 risk score for a third-party AI vendor based on data sensitivity, business criticality, past incidents, and regulatory exposure.</td></tr>
+      <tr><td><strong>INC-XXXX</strong></td><td>Auto-generated incident ID (e.g., INC-0001). Immutable reference used in EU AI Act Article 73 regulatory reports.</td></tr>
+      <tr><td><strong>FRIA</strong></td><td>Fundamental Rights Impact Assessment. Required by EU AI Act Article 27 for High-Risk AI deployed by public authorities.</td></tr>
+      <tr><td><strong>Shadow AI</strong></td><td>AI systems running in an organisation that the governance team doesn't know about. Agent Discovery finds and inventories these.</td></tr>
+      <tr><td><strong>AI Trust Center</strong></td><td>Public-facing webpage showing your AI governance posture, compliance badges, and published policies. No login required for visitors.</td></tr>
+      <tr><td><strong>Residual Risk</strong></td><td>The risk level that remains AFTER mitigation actions have been taken. Lower than the initial risk level if mitigation is effective.</td></tr>
+      <tr><td><strong>Post-Market Monitoring</strong></td><td>Ongoing surveillance of a deployed AI system to detect performance degradation, new risks, or regulatory changes. EU AI Act Article 72.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</div><!-- /art -->
+</main>
+
+<footer class="foot">
+  © 2026 <strong>Parkar GovernAI</strong> · Built by Parkar Digital · <a href="index.html">User Guide Home</a> · <a href="governance.html">Quick Reference</a> · <a href="ai-gateway.html">AI Gateway Guide</a>
+</footer>
+
+<script>
+const items = document.querySelectorAll('.sb-item');
+const secs = document.querySelectorAll('.sec');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      items.forEach(i => i.classList.remove('on'));
+      const a = document.querySelector(`.sb-item[href="#${e.target.id}"]`);
+      if (a) a.classList.add('on');
+    }
+  });
+}, {rootMargin:'-20% 0px -75% 0px'});
+secs.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
