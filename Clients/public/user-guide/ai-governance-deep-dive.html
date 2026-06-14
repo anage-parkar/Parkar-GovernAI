@@ -19,7 +19,48 @@
   --orange-bg:#FFE5D0;--orange:#E64A19;
   --sidebar:272px;--header:60px;--radius:10px;
 }
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+/* DARK MODE VARIABLES */
+html.dark{
+  --text:#e6edf3;--text2:#c9d1d9;--muted:#8b949e;
+  --border:#30363d;--bg:#0d1117;--bg2:#161b22;--hover:#21262d;
+  --primary-l:#162032;--green-l:#0d2818;--green-d:#7ee787;
+  --warn-bg:#2d2306;--warn-b:#d29922;--warn-t:#e3b341;
+  --info-bg:#0d1926;--info-b:#388bfd;--info-t:#79c0ff;
+  --tip-bg:#0d2818;--tip-b:#238636;--tip-t:#7ee787;
+  --red-bg:#2d0f0f;--orange-bg:#2d1a0f;
+}
+html.dark .hdr{background:#161b22;border-bottom:1px solid #30363d}
+html.dark .sb{background:#0d1117;border-color:#30363d}
+html.dark .sb-item.on{background:#0d2818;color:#7ee787}
+html.dark .tbl th{background:#161b22}
+html.dark .flow-wrap,.dark .arch-wrap,.dark .rel-wrap{background:#161b22;border-color:#30363d}
+html.dark .fbox,.dark .fbox-v,.dark .arch-card,.dark .rel-spoke,.dark .score-box,.dark .reg-card,.dark .toc-item,.dark .lc-item{background:#21262d;border-color:#30363d}
+html.dark .fbox-green,.dark .arch-card.green{background:#0d2818;border-color:#238636}
+html.dark .fbox-blue,.dark .arch-card.blue{background:#0d1926;border-color:#388bfd}
+html.dark .fbox-orange,.dark .arch-card.orange{background:#2d1a0f;border-color:#d18616}
+html.dark .fbox-purple,.dark .arch-card.purple{background:#1e0f2d;border-color:#8957e5}
+html.dark .fbox-primary,.dark .arch-card.primary{background:#162032;border-color:#388bfd}
+html.dark .rel-center{background:#1B3A6B}
+html.dark code{background:#162032;color:#79c0ff}
+html.dark .b-grey{background:#21262d;color:#8b949e}
+html.dark .b-blue{background:#0d1926;color:#79c0ff}
+html.dark .b-green{background:#0d2818;color:#7ee787}
+html.dark .b-orange{background:#2d1a0f;color:#ffa657}
+html.dark .b-red{background:#2d0f0f;color:#ff7b72}
+html.dark .b-purple{background:#1e0f2d;color:#d2a8ff}
+html.dark .hero{background:linear-gradient(155deg,#0d1f3c 0%,#0d2818 100%)}
+html.dark .step-num{background:#1B3A6B}
+html.dark .rel-spoke.green{background:#0d2818;border-color:#238636;color:#7ee787}
+html.dark .rel-spoke.blue{background:#0d1926;border-color:#388bfd;color:#79c0ff}
+html.dark .rel-spoke.orange{background:#2d1a0f;border-color:#d18616;color:#ffa657}
+html.dark .rel-spoke.purple{background:#1e0f2d;border-color:#8957e5;color:#d2a8ff}
+html.dark .rel-spoke.red{background:#2d0f0f;border-color:#f85149;color:#ff7b72}
+
+/* THEME TOGGLE BUTTON */
+.theme-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;transition:.2s;white-space:nowrap;margin-left:8px}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;transition:background .25s,color .25s}
 
 /* HEADER */
 .hdr{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--header);background:var(--primary);display:flex;align-items:center;padding:0 24px;gap:12px;box-shadow:0 1px 0 rgba(255,255,255,.1)}
@@ -215,6 +256,10 @@ code{background:var(--primary-l);color:var(--primary);padding:1px 6px;border-rad
     <a href="governance.html">Quick Guide</a>
     <a href="ai-governance-deep-dive.html" class="on">Deep Dive</a>
   </nav>
+  <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()">
+    <span id="theme-icon">🌙</span>
+    <span id="theme-label">Dark</span>
+  </button>
 </header>
 
 <!-- SIDEBAR -->
@@ -1236,6 +1281,30 @@ code{background:var(--primary-l);color:var(--primary);padding:1px 6px;border-rad
 </footer>
 
 <script>
+// ── THEME TOGGLE ──
+function applyTheme(dark) {
+  if (dark) {
+    document.documentElement.classList.add('dark');
+    document.getElementById('theme-icon').textContent = '☀️';
+    document.getElementById('theme-label').textContent = 'Light';
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.getElementById('theme-icon').textContent = '🌙';
+    document.getElementById('theme-label').textContent = 'Dark';
+  }
+}
+function toggleTheme() {
+  const isDark = document.documentElement.classList.contains('dark');
+  localStorage.setItem('pg-theme', isDark ? 'light' : 'dark');
+  applyTheme(!isDark);
+}
+// Apply saved preference on load (default: dark if saved, else light)
+(function() {
+  const saved = localStorage.getItem('pg-theme');
+  applyTheme(saved === 'dark');
+})();
+
+// ── SIDEBAR ACTIVE STATE ──
 const items = document.querySelectorAll('.sb-item');
 const secs = document.querySelectorAll('.sec');
 const obs = new IntersectionObserver(entries => {
