@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Parkar GovernAI — AI Gateway Setup Guide</title>
+  <style>
+    :root {
+      --ink: #0b1220; --soft: #4a5468; --muted: #6b7686; --line: #e3e6ea;
+      --bg: #f6f7f9; --surface: #ffffff; --surface-2: #eef1f5;
+      --accent: #1b3a6b; --accent-soft: #e7ecf5; --glow: #2563eb;
+      --ok: #16a34a; --warn: #d97706; --bad: #dc2626;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --radius: 12px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #e8ecf3; --soft: #aab3c5; --muted: #8893a6; --line: rgba(255,255,255,.1);
+        --bg: #0b1220; --surface: #121b2d; --surface-2: #182338;
+        --accent: #5b8def; --accent-soft: #19233b; --glow: #5b8def;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: Inter, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px; line-height: 1.65;
+    }
+    a { color: var(--glow); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { display: grid; grid-template-columns: 260px 1fr; max-width: 1180px; margin: 0 auto; }
+
+    /* Sidebar */
+    aside {
+      position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+      padding: 28px 18px; border-right: 1px solid var(--line);
+    }
+    aside .brand { font-weight: 700; font-size: 16px; margin-bottom: 2px; }
+    aside .brand span { color: var(--accent); }
+    aside .sub { font-size: 12px; color: var(--muted); margin-bottom: 22px; }
+    aside nav a {
+      display: block; color: var(--soft); font-size: 13.5px; padding: 6px 10px;
+      border-radius: 7px; border-left: 2px solid transparent;
+    }
+    aside nav a:hover { background: var(--surface-2); text-decoration: none; }
+    aside nav .grp { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin: 18px 0 6px 10px; }
+
+    /* Content */
+    main { padding: 40px 48px 120px; max-width: 860px; }
+    h1 { font-size: 34px; font-weight: 700; letter-spacing: -.02em; margin: 0 0 8px; }
+    h2 { font-size: 22px; font-weight: 600; margin: 48px 0 12px; padding-top: 10px;
+      border-top: 1px solid var(--line); letter-spacing: -.01em; }
+    h2:first-of-type { border-top: 0; }
+    h3 { font-size: 16px; font-weight: 600; margin: 26px 0 8px; }
+    p { margin: 10px 0; color: var(--soft); }
+    main p strong, li strong { color: var(--ink); }
+    ul, ol { color: var(--soft); padding-left: 22px; }
+    li { margin: 5px 0; }
+    code { font-family: var(--mono); font-size: 12.5px; background: var(--surface-2);
+      padding: 1px 6px; border-radius: 5px; color: var(--ink); }
+    pre { background: #0d1526; color: #d6e2f5; border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 16px 18px; overflow-x: auto; font-size: 12.5px;
+      line-height: 1.6; font-family: var(--mono); }
+    pre code { background: none; padding: 0; color: inherit; font-size: 12.5px; }
+    .lead { font-size: 17px; color: var(--soft); margin: 14px 0 8px; }
+
+    .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--accent); }
+
+    .step { display: flex; gap: 14px; align-items: baseline; margin: 40px 0 4px; }
+    .step .n { flex: 0 0 32px; height: 32px; border-radius: 8px; background: var(--accent);
+      color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center;
+      font-size: 15px; }
+    .step h2 { margin: 0; border: 0; padding: 0; }
+
+    .card { background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 18px 20px; margin: 14px 0; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .note { border-left: 3px solid var(--glow); background: var(--accent-soft);
+      padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; }
+    .warn { border-left: 3px solid var(--warn); background: rgba(217,119,6,.08);
+      padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; }
+    .note .t, .warn .t { font-weight: 600; color: var(--ink); display:block; margin-bottom: 2px; }
+
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13.5px; }
+    th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    td code { font-size: 12px; }
+
+    .pill { font-family: var(--mono); font-size: 11px; padding: 2px 8px; border-radius: 999px;
+      border: 1px solid var(--line); color: var(--soft); white-space: nowrap; }
+    .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 18px 0; }
+    .flow .b { font-family: var(--mono); font-size: 11.5px; padding: 6px 10px; border-radius: 999px;
+      border: 1px solid var(--line); background: var(--surface); }
+    .flow .arr { color: var(--muted); }
+    footer { color: var(--muted); font-size: 12.5px; margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); }
+    @media (max-width: 880px) { .wrap { grid-template-columns: 1fr; } aside { display: none; } main { padding: 28px 20px 80px; } .grid2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <aside>
+    <div class="brand">Parkar <span>GovernAI</span></div>
+    <div class="sub">AI Gateway — Setup &amp; Usage Guide</div>
+    <nav>
+      <div class="grp">Overview</div>
+      <a href="#what">What the gateway does</a>
+      <a href="#flow">The end-to-end flow</a>
+      <a href="#prereq">Prerequisites</a>
+      <div class="grp">Configure (LLM)</div>
+      <a href="#s1">1 · Add a provider API key</a>
+      <a href="#s2">2 · Create an endpoint</a>
+      <a href="#s3">3 · Create a virtual key</a>
+      <a href="#s4">4 · Connect your app</a>
+      <a href="#s5">5 · Add guardrails</a>
+      <a href="#s6">6 · Budgets &amp; rate limits</a>
+      <div class="grp">Configure (Tools)</div>
+      <a href="#s7">7 · Register an MCP server</a>
+      <a href="#s8">8 · Create an agent key</a>
+      <a href="#s9">9 · Connect agent tools</a>
+      <div class="grp">Operate</div>
+      <a href="#observe">Logs, metrics &amp; insights</a>
+      <a href="#identity">Tracking the requester</a>
+      <a href="#gotchas">Gotchas &amp; troubleshooting</a>
+    </nav>
+  </aside>
+
+  <main>
+    <span class="eyebrow">ai gateway</span>
+    <h1>AI Gateway — Setup &amp; Usage Guide</h1>
+    <p class="lead">How to route every LLM and agent-tool call through Parkar GovernAI — from adding a provider key to seeing governed traffic, cost, and audit logs. This guide follows the exact order you set things up in.</p>
+
+    <h2 id="what">What the gateway does</h2>
+    <p>The AI Gateway is a single <strong>governed endpoint</strong> your apps and agents send traffic to instead of calling model providers directly. On every call it enforces policy, runs guardrails (PII / content filters), tracks spend and rate limits, and logs the full request — so you get control and an audit trail without changing how your app is built.</p>
+    <div class="grid2">
+      <div class="card"><strong>LLM traffic</strong><p style="margin:6px 0 0">OpenAI-compatible <code>/v1/chat/completions</code> endpoint, authenticated with a <em>virtual key</em>. Works with any OpenAI-style SDK.</p></div>
+      <div class="card"><strong>Tool / MCP traffic</strong><p style="margin:6px 0 0">Streamable-HTTP <code>/v1/mcp</code> endpoint, authenticated with an <em>agent key</em>. Proxies and audits every tool call.</p></div>
+    </div>
+
+    <h2 id="flow">The end-to-end flow</h2>
+    <p>Set things up in this order. Steps 1–6 govern <strong>model calls</strong>; steps 7–9 govern <strong>tool calls</strong>.</p>
+    <div class="flow">
+      <span class="b">Provider API key</span><span class="arr">→</span>
+      <span class="b">Endpoint (slug)</span><span class="arr">→</span>
+      <span class="b">Virtual key (sk-vw-…)</span><span class="arr">→</span>
+      <span class="b">Connect app</span><span class="arr">→</span>
+      <span class="b">Guardrails</span>
+    </div>
+    <div class="flow">
+      <span class="b">MCP server</span><span class="arr">→</span>
+      <span class="b">Discover tools</span><span class="arr">→</span>
+      <span class="b">Agent key (sk-mcp-…)</span><span class="arr">→</span>
+      <span class="b">Connect agent</span><span class="arr">→</span>
+      <span class="b">Logs &amp; metrics</span>
+    </div>
+
+    <h2 id="prereq">Prerequisites</h2>
+    <ul>
+      <li>The stack running (frontend on <code>:5173</code>, gateway reachable on <code>:8100</code>).</li>
+      <li>Logged in as an <strong>org Admin</strong> (the AI Gateway config requires the <code>Admin</code> role).</li>
+      <li>A provider API key to govern (OpenAI / Anthropic / Gemini / Mistral / xAI / OpenRouter).</li>
+    </ul>
+    <div class="note"><span class="t">Where you do this</span> Everything below is under <strong>AI Gateway</strong> in the left module switcher. The UI calls the backend, which proxies to the gateway — you don't touch the gateway directly.</div>
+
+    <!-- STEP 1 -->
+    <div class="step"><div class="n">1</div><h2 id="s1">Add a provider API key</h2></div>
+    <p>Store the upstream provider credential the gateway will use to actually call the model. It's encrypted at rest (AES-256) and never shown again.</p>
+    <p><strong>UI:</strong> AI Gateway → <strong>Settings → API keys</strong> → <em>Add API key</em>.</p>
+    <table>
+      <tr><th>Field</th><th>Example</th><th>Notes</th></tr>
+      <tr><td>Key name</td><td><code>Anthropic-Prod</code></td><td>A label for your reference.</td></tr>
+      <tr><td>Provider</td><td><code>anthropic</code></td><td>One of: openai, anthropic, gemini, xai, mistral, openrouter.</td></tr>
+      <tr><td>API key</td><td><code>sk-ant-…</code></td><td>Your real provider key. Stored encrypted.</td></tr>
+    </table>
+    <div class="warn"><span class="t">Encryption key matters</span> The provider key is encrypted with the backend's <code>ENCRYPTION_KEY</code>. If that env value changes later, previously-saved keys become unreadable — set it once and re-save keys only if you rotate it.</div>
+
+    <!-- STEP 2 -->
+    <div class="step"><div class="n">2</div><h2 id="s2">Create an endpoint</h2></div>
+    <p>An <strong>endpoint</strong> binds a provider + model + your API key under a short <strong>slug</strong>. The slug is what your app sends as the <code>model</code> field — clients never see the real model name or key.</p>
+    <p><strong>UI:</strong> AI Gateway → <strong>Endpoints</strong> → <em>Create endpoint</em>.</p>
+    <table>
+      <tr><th>Field</th><th>Example</th><th>Notes</th></tr>
+      <tr><td>Slug</td><td><code>claude-sonnet</code></td><td>Lowercase, hyphens. This is the "model" clients call.</td></tr>
+      <tr><td>Display name</td><td><code>Claude Sonnet</code></td><td>For the UI.</td></tr>
+      <tr><td>Provider</td><td><code>anthropic</code></td><td>Must match the API key's provider.</td></tr>
+      <tr><td>Model</td><td><code>anthropic/claude-sonnet-4-6</code></td><td><strong>LiteLLM format</strong> — see the warning below.</td></tr>
+      <tr><td>API key</td><td>Anthropic-Prod</td><td>The key from step 1.</td></tr>
+    </table>
+    <div class="warn"><span class="t">Model name format — the #1 mistake</span> The model must be in <strong>LiteLLM provider/model form</strong>:
+      <ul style="margin:6px 0 0">
+        <li>Anthropic → <code>anthropic/claude-sonnet-4-6</code></li>
+        <li>Gemini → <code>gemini/gemini-2.5-flash</code> (note the <code>gemini/</code> prefix — a bare <code>gemini-…</code> or a doubled <code>gemini/gemini/…</code> will fail)</li>
+        <li>OpenAI → <code>gpt-4o</code> or <code>openai/gpt-4o</code></li>
+      </ul>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step"><div class="n">3</div><h2 id="s3">Create a virtual key</h2></div>
+    <p>A <strong>virtual key</strong> (<code>sk-vw-…</code>) is the credential your app authenticates with. It's decoupled from the provider key — you can revoke it, scope it, budget it, and rate-limit it independently. One key per app/client/agent is the clean pattern.</p>
+    <p><strong>UI:</strong> AI Gateway → <strong>Virtual keys</strong> → <em>Create key</em>.</p>
+    <table>
+      <tr><th>Field</th><th>Example</th><th>Notes</th></tr>
+      <tr><td>Name</td><td><code>AIONIQ Agent Key</code></td><td>Label.</td></tr>
+      <tr><td>Allowed endpoints</td><td>claude-sonnet, gemini-api</td><td>Which endpoints this key may call.</td></tr>
+      <tr><td>Monthly budget (USD)</td><td><code>50</code></td><td>Optional cap; calls return 402 when exceeded.</td></tr>
+      <tr><td>Rate limit (RPM)</td><td><code>60</code></td><td>Optional; calls return 429 when exceeded.</td></tr>
+    </table>
+    <div class="note"><span class="t">Copy it now</span> The full <code>sk-vw-…</code> value is shown <strong>only once</strong> at creation. Store it where your app reads its config.</div>
+
+    <!-- STEP 4 -->
+    <div class="step"><div class="n">4</div><h2 id="s4">Connect your app</h2></div>
+    <p>Point your app at the gateway's OpenAI-compatible URL, use the <strong>virtual key</strong>, and set <code>model</code> to your <strong>endpoint slug</strong>. That's the whole change — no provider SDK swap needed.</p>
+    <h3>OpenAI SDK (Python)</h3>
+    <pre><code>from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://localhost:8100/v1",     # the gateway
+    api_key="sk-vw-…",                        # your virtual key
+)
+resp = client.chat.completions.create(
+    model="claude-sonnet",                    # the endpoint SLUG, not the real model
+    messages=[{"role": "user", "content": "Hello"}],
+    extra_headers={"x-vw-metadata": '{"app":"aioniq","user":"alice@acme.com"}'},
+)
+print(resp.choices[0].message.content)</code></pre>
+    <h3>LangChain</h3>
+    <pre><code>from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(
+    base_url="http://localhost:8100/v1",
+    api_key="sk-vw-…",
+    model="claude-sonnet",                    # endpoint slug
+    default_headers={"x-vw-metadata": '{"app":"aioniq","user":"alice@acme.com"}'},
+)</code></pre>
+    <h3>Google ADK (LiteLlm)</h3>
+    <pre><code>from google.adk.models.lite_llm import LiteLlm
+
+model = LiteLlm(
+    model="openai/claude-sonnet",             # openai/ + endpoint slug
+    api_base="http://localhost:8100/v1",
+    api_key="sk-vw-…",
+    extra_headers={"x-vw-metadata": '{"app":"aioniq","user":"alice@acme.com"}'},
+)</code></pre>
+    <div class="note"><span class="t">Anthropic via the OpenAI shape</span> Even though the model is Claude, your client talks <strong>OpenAI wire format</strong> to the gateway — the gateway translates to the real provider. So use an OpenAI-style client (or LiteLLM's <code>openai/</code> prefix), not the native Anthropic SDK.</div>
+
+    <!-- STEP 5 -->
+    <div class="step"><div class="n">5</div><h2 id="s5">Add guardrails</h2></div>
+    <p>Guardrails inspect each request <strong>before</strong> it reaches the model and can <strong>block</strong> or <strong>mask</strong>. This is where governance becomes active, not just observational.</p>
+    <p><strong>UI:</strong> AI Gateway → <strong>Guardrails</strong> → create a rule.</p>
+    <table>
+      <tr><th>Type</th><th>Config</th><th>Action</th></tr>
+      <tr><td><code>content_filter</code></td><td>keyword or regex (e.g. block <code>nightfall</code>)</td><td><code>block</code></td></tr>
+      <tr><td><code>pii</code></td><td>entity types (EMAIL, SSN, …)</td><td><code>mask</code> or <code>block</code></td></tr>
+    </table>
+    <p>When a request is blocked, the gateway returns <strong>HTTP 400</strong> with a reason, and a row is written to the guardrail log. Example block message:</p>
+    <pre><code>400 — {"detail": "Request blocked by guardrail: content_filter: &lt;rule&gt; detected"}</code></pre>
+    <p>View blocks under <strong>Logs → Guardrails</strong> tab, and aggregate counts on the dashboard.</p>
+
+    <!-- STEP 6 -->
+    <div class="step"><div class="n">6</div><h2 id="s6">Budgets &amp; rate limits</h2></div>
+    <p>Set these per virtual key (step 3) or per endpoint. They enforce automatically:</p>
+    <ul>
+      <li><strong>Budget exceeded</strong> → request rejected with <strong>402</strong>.</li>
+      <li><strong>Rate limit exceeded</strong> → request rejected with <strong>429</strong>.</li>
+    </ul>
+    <p>Both rejections are logged and surface as counters on the dashboard (capacity / upsell signal). Budgets reset monthly.</p>
+
+    <!-- STEP 7 -->
+    <div class="step"><div class="n">7</div><h2 id="s7">Register an MCP server</h2></div>
+    <p>To govern an agent's <strong>tools</strong>, the gateway proxies to upstream <strong>MCP servers</strong>. The gateway doesn't host tools itself — you register a server that exposes them over Streamable HTTP.</p>
+    <p><strong>UI:</strong> AI Gateway → <strong>MCP → Servers</strong> → add a server.</p>
+    <table>
+      <tr><th>Field</th><th>Example</th></tr>
+      <tr><td>Name / slug</td><td><code>AIONIQ Tools</code> / <code>aioniq-tools</code></td></tr>
+      <tr><td>URL</td><td><code>http://host.docker.internal:3001/mcp</code> <span class="pill">if gateway is in Docker and server on host</span></td></tr>
+      <tr><td>Auth type</td><td><code>none</code> / <code>bearer</code> / <code>api_key</code></td></tr>
+    </table>
+    <p>Then click <strong>Discover</strong> on the server — the gateway calls <code>tools/list</code> and imports each tool (e.g. <code>web_search</code>, <code>calculator</code>).</p>
+    <div class="note"><span class="t">The server must speak Streamable HTTP</span> An <code>npx</code>/stdio-only MCP server can't be registered directly — host it over HTTP (e.g. a small FastMCP server: <code>mcp.run(transport="streamable-http")</code>) and the gateway proxies to its URL.</div>
+
+    <!-- STEP 8 -->
+    <div class="step"><div class="n">8</div><h2 id="s8">Create an agent key</h2></div>
+    <p>An <strong>agent key</strong> (<code>sk-mcp-…</code>) is what your agent uses to reach the MCP gateway. Like virtual keys, you can scope it (allowed tools / servers) and rate-limit it.</p>
+    <p><strong>UI:</strong> AI Gateway → <strong>MCP → Agent keys</strong> → create. Copy the <code>sk-mcp-…</code> (shown once).</p>
+
+    <!-- STEP 9 -->
+    <div class="step"><div class="n">9</div><h2 id="s9">Connect your agent's tools</h2></div>
+    <p>Point your agent's MCP client at the gateway's <code>/v1/mcp</code> endpoint with the agent key. Every <code>tools/call</code> is then proxied and audited.</p>
+    <h3>Google ADK</h3>
+    <pre><code>from google.adk.tools.mcp_tool.mcp_toolset import (
+    MCPToolset, StreamableHTTPConnectionParams,
+)
+
+toolset = MCPToolset(
+    connection_params=StreamableHTTPConnectionParams(
+        url="http://localhost:8100/v1/mcp",
+        headers={"Authorization": "Bearer sk-mcp-…"},
+    )
+)
+# pass tools=[toolset] to your Agent(...)</code></pre>
+    <h3>LangChain / LangGraph</h3>
+    <pre><code>from langchain_mcp_adapters.client import MultiServerMCPClient
+
+client = MultiServerMCPClient({
+    "parkar": {
+        "transport": "streamable_http",
+        "url": "http://localhost:8100/v1/mcp",
+        "headers": {"Authorization": "Bearer sk-mcp-…"},
+    }
+})
+tools = await client.get_tools()   # feed into your agent</code></pre>
+    <div class="warn"><span class="t">Tools the LLM can use must reach the LLM</span> The model only calls a tool if the tool definitions are sent in the LLM request. When routing through the gateway, ensure your endpoint/model supports tool-calling and the request includes <code>tools</code>. Local LangChain <code>@tool</code> functions that run in-process are <em>not</em> seen by the gateway — expose them via MCP to govern/audit them.</div>
+
+    <!-- OBSERVE -->
+    <h2 id="observe">Logs, metrics &amp; insights</h2>
+    <p>Once traffic flows, everything is visible under <strong>AI Gateway</strong>:</p>
+    <table>
+      <tr><th>Where</th><th>What you see</th></tr>
+      <tr><td><strong>Logs</strong></td><td>Per request: provider, model, tokens, <strong>cost</strong>, latency, status, metadata tags. Expand a row for the <strong>prompt &amp; response</strong> (system prompts hidden) and the requester.</td></tr>
+      <tr><td><strong>Logs → Guardrails</strong></td><td>Every block/mask event, by type.</td></tr>
+      <tr><td><strong>Dashboard</strong></td><td>Total cost / requests / tokens, <strong>avg &amp; P95 latency</strong>, <strong>error rate</strong>, cache hit rate.</td></tr>
+      <tr><td><strong>Dashboard → Operational insights</strong></td><td>Cost per client/agent, budget utilization + alerts, 429/402 counts, PII detections by type, per-agent tool latency &amp; blocks, spend anomaly flag.</td></tr>
+      <tr><td><strong>MCP → Audit</strong></td><td>Every tool call: by tool, by agent, success/error/blocked, latency.</td></tr>
+    </table>
+
+    <h2 id="identity">Tracking the requester (per-user)</h2>
+    <p>The gateway authenticates a <em>key</em>, not a person — so attach the end-user's identity per request via the <code>x-vw-metadata</code> header:</p>
+    <pre><code>x-vw-metadata: {"app":"aioniq","agent":"sales-bot","user":"alice@acme.com"}</code></pre>
+    <ul>
+      <li>The <code>user</code> (and any tags) appear on each <strong>Logs</strong> row.</li>
+      <li>Break down spend by anyone: <strong>Dashboard</strong> → cost-by-tag, e.g. <code>tag=user</code> or <code>tag=app</code>.</li>
+    </ul>
+    <div class="note"><span class="t">Trust note</span> Tags are <em>asserted</em> by your app, not enforced by the gateway — perfect for tracking/chargeback. For per-user <em>enforcement</em> (budgets/blocking per person), issue one virtual key per user instead.</div>
+
+    <!-- GOTCHAS -->
+    <h2 id="gotchas">Gotchas &amp; troubleshooting</h2>
+    <table>
+      <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
+      <tr><td><code>404 model not found</code> from provider</td><td>Wrong model name on the endpoint. Use exact provider model IDs in LiteLLM form (e.g. <code>anthropic/claude-sonnet-4-6</code>, <code>gemini/gemini-2.5-flash</code>).</td></tr>
+      <tr><td>Agent "has no tools"</td><td>Tool defs didn't reach the LLM, or the MCP toolset failed to connect. Check the agent key, the <code>/v1/mcp</code> URL, and that the MCP server is running &amp; discovered.</td></tr>
+      <tr><td><code>402</code> on every call</td><td>Virtual-key or org budget exhausted. Raise the budget or wait for monthly reset.</td></tr>
+      <tr><td><code>429</code> bursts</td><td>Rate limit hit — raise <code>rate_limit_rpm</code> on the key/endpoint.</td></tr>
+      <tr><td>Request blocked (400)</td><td>A guardrail matched. Check Logs → Guardrails for the rule and matched text.</td></tr>
+      <tr><td>Cost shows <code>$NaN</code> / 0</td><td>Model not in the cost DB (cost falls back to 0) — calls still work; pick a known model for accurate costing.</td></tr>
+      <tr><td>Empty Gemini reply</td><td>Thinking models can consume a low <code>max_tokens</code> before emitting text — raise <code>max_tokens</code>.</td></tr>
+    </table>
+
+    <div class="card" style="margin-top:28px">
+      <strong>Quick reference</strong>
+      <table style="margin:8px 0 0">
+        <tr><td>LLM endpoint</td><td><code>POST http://localhost:8100/v1/chat/completions</code> · auth <code>Bearer sk-vw-…</code></td></tr>
+        <tr><td>MCP endpoint</td><td><code>POST http://localhost:8100/v1/mcp</code> · auth <code>Bearer sk-mcp-…</code></td></tr>
+        <tr><td><code>model</code> field</td><td>your endpoint <strong>slug</strong> (not the real model name)</td></tr>
+        <tr><td>Identity / tags</td><td>header <code>x-vw-metadata: {"user":"…","app":"…"}</code></td></tr>
+      </table>
+    </div>
+
+    <footer>
+      Parkar GovernAI — AI Gateway Setup &amp; Usage Guide · for internal reference.
+    </footer>
+  </main>
+</div>
+</body>
+</html>
