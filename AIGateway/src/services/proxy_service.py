@@ -381,8 +381,11 @@ async def _log_guardrail_detection(
     matched_text: str,
     entity_type: str,
     execution_time_ms: int,
+    requester: Optional[str] = None,
+    virtual_key_id: Optional[int] = None,
 ):
-    """Log a single guardrail detection."""
+    """Log a single guardrail detection, with who triggered it (requester +
+    virtual key) for the abuse/security trail."""
     try:
         async with get_db() as db:
             await db.execute(
@@ -390,11 +393,11 @@ async def _log_guardrail_detection(
                     INSERT INTO ai_gateway_guardrail_logs
                         (organization_id, guardrail_id, endpoint_id,
                          guardrail_type, action_taken, matched_text,
-                         entity_type, execution_time_ms)
+                         entity_type, execution_time_ms, requester, virtual_key_id)
                     VALUES
                         (:org_id, :guardrail_id, :endpoint_id,
                          :guardrail_type, :action_taken, :matched_text,
-                         :entity_type, :exec_time)
+                         :entity_type, :exec_time, :requester, :vk_id)
                 """),
                 {
                     "org_id": organization_id,
@@ -405,6 +408,8 @@ async def _log_guardrail_detection(
                     "matched_text": matched_text,
                     "entity_type": entity_type,
                     "exec_time": execution_time_ms,
+                    "requester": requester,
+                    "vk_id": virtual_key_id,
                 },
             )
             await db.commit()
@@ -416,14 +421,25 @@ async def run_guardrails(
     organization_id: int,
     messages: list[dict],
     endpoint_id: int,
+    vk: Optional[dict] = None,
 ) -> list[dict]:
     """
     Scan all user messages through guardrails. Returns possibly-masked messages.
     Raises HTTPException(400) if any message is blocked.
+
+    `vk` (the authenticated virtual key) is used to attribute each detection to a
+    requester — the x-vw-metadata `user` tag and the virtual key id.
     """
     rules, guardrail_settings = await get_guardrail_config(organization_id)
     if not rules:
         return messages
+
+    # Who is triggering the guardrail (for the abuse/security trail)
+    requester = None
+    virtual_key_id = None
+    if vk:
+        virtual_key_id = vk.get("id")
+        requester = (vk.get("_extra_metadata") or {}).get("user")
 
     updated = list(messages)
     for i, msg in enumerate(updated):
@@ -450,6 +466,8 @@ async def run_guardrails(
                 matched_text=getattr(detection, "matched_text", ""),
                 entity_type=getattr(detection, "entity_type", ""),
                 execution_time_ms=result.execution_time_ms or 0,
+                requester=requester,
+                virtual_key_id=virtual_key_id,
             )
 
         if result.blocked:

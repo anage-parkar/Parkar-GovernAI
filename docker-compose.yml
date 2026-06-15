@@ -1,4 +1,7 @@
-version: "3.9"
+# Pin the Compose project name so it stays the same regardless of the folder
+# name — this keeps the existing containers/volumes (e.g. verifywise_db with all
+# your data) attached even if the root directory is renamed.
+name: verifywise
 
 services:
   postgresdb:

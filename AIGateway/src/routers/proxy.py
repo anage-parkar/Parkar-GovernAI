@@ -147,7 +147,7 @@ async def proxy_chat(request: Request, body: ProxyChatRequest):
         raise HTTPException(status_code=402, detail="Organization budget limit exceeded")
 
     # Guardrails
-    scanned_messages = await run_guardrails(org_id, body.messages, endpoint["id"])
+    scanned_messages = await run_guardrails(org_id, body.messages, endpoint["id"], vk=vk)
 
     # --- Cache check (exact match, after guardrails for security) ---
     prompt_hash = None
@@ -399,7 +399,7 @@ async def proxy_embeddings(request: Request, body: ProxyEmbeddingRequest):
     scanned_texts = []
     for text_item in input_texts:
         scanned = await run_guardrails(
-            org_id, [{"role": "user", "content": text_item}], endpoint["id"],
+            org_id, [{"role": "user", "content": text_item}], endpoint["id"], vk=vk,
         )
         scanned_texts.append(scanned[0].get("content", text_item))
 

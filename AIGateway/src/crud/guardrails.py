@@ -274,10 +274,13 @@ async def get_guardrail_logs(
                 """
                 SELECT
                     l.*,
-                    g.name AS guardrail_name
+                    g.name AS guardrail_name,
+                    vk.name AS virtual_key_name
                 FROM ai_gateway_guardrail_logs l
                 LEFT JOIN ai_gateway_guardrails g
                     ON l.guardrail_id = g.id
+                LEFT JOIN ai_gateway_virtual_keys vk
+                    ON l.virtual_key_id = vk.id
                 WHERE l.organization_id = :org_id
                 ORDER BY l.created_at DESC
                 LIMIT :limit OFFSET :offset

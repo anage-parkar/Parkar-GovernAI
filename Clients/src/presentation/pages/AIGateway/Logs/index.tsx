@@ -749,6 +749,7 @@ export default function LogsPage() {
                     <Typography sx={{ flex: 0.6, fontSize: 11, fontWeight: 600, color: palette.text.tertiary }}>ACTION</Typography>
                     <Typography sx={{ flex: 1, fontSize: 11, fontWeight: 600, color: palette.text.tertiary }}>ENTITY</Typography>
                     <Typography sx={{ flex: 1.2, fontSize: 11, fontWeight: 600, color: palette.text.tertiary }}>MATCHED</Typography>
+                    <Typography sx={{ flex: 1.1, fontSize: 11, fontWeight: 600, color: palette.text.tertiary }}>REQUESTER</Typography>
                     <Typography sx={{ flex: 0.8, fontSize: 11, fontWeight: 600, color: palette.text.tertiary }}>ENDPOINT</Typography>
                     <Typography sx={{ flex: 0.5, fontSize: 11, fontWeight: 600, color: palette.text.tertiary }}>RULE</Typography>
                   </Stack>
@@ -779,6 +780,12 @@ export default function LogsPage() {
                       </Typography>
                       <Typography sx={{ flex: 1.2, fontSize: 11, fontFamily: "monospace", color: palette.text.tertiary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {log.matched_text || "—"}
+                      </Typography>
+                      <Typography
+                        title={log.requester || log.virtual_key_name || ""}
+                        sx={{ flex: 1.1, fontSize: 12, color: palette.text.tertiary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                      >
+                        {log.requester || log.virtual_key_name || "—"}
                       </Typography>
                       <Typography sx={{ flex: 0.8, fontSize: 12, color: palette.text.tertiary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {log.endpoint_name || "—"}

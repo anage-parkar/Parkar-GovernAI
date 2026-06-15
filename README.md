@@ -6,8 +6,6 @@
 ![](https://img.shields.io/github/issues/bluewave-labs/verifywise)
 ![](https://img.shields.io/github/issues-pr/bluewave-labs/verifywise)
 
-<img width="3182" height="2570" alt="github" src="https://github.com/user-attachments/assets/6feb9d3d-19c1-42c2-a9f5-908db8694f8f" />
-
 [VerifyWise](https://verifywise.ai) is a source available AI governance platform designed to help businesses use the power of AI safely and responsibly. Our platform ensures compliance and robust AI management without compromising on security.
 
 We are democratizing AI best practices with a solution that can be hosted on-premises, giving you complete control over your AI governance.
@@ -18,41 +16,7 @@ We are democratizing AI best practices with a solution that can be hosted on-pre
 - [Need to talk to someone](https://verifywise.ai/contact)? Get with us to see the latest demo, or [click here](https://app.verifywise.ai) to experience the demo yourself.
 - [Read our documentation](https://verifywise.ai/user-guide/) to understand features and capabilities
 
-## Screenshots
-
-
-| The main dashboard                                                                                                                  | LLM Evals                                                                                                                           |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="1615" height="942" alt="image" src="https://github.com/user-attachments/assets/32dd22f8-3e9b-40d8-96e5-ba64f4c03f5e" /> | <img width="1600" height="923" alt="image" src="https://github.com/user-attachments/assets/dc598a33-486f-4424-988d-4cca5e9420c2" /> |
-|                                                                                                                                     |
-
-| EU AI Act project view                                                                                                              | AI Use case risks                                                                                                                   |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="1647" height="860" alt="image" src="https://github.com/user-attachments/assets/07b8f0e8-6358-4094-b17e-69cb347d622f" /> | <img width="1653" height="914" alt="image" src="https://github.com/user-attachments/assets/f399b206-f928-454a-a432-e7e5e343d7ce" /> |
-
-| AI Risk management                                                                                                                  | AI Model inventory                                                                                                                  |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="1637" height="864" alt="image" src="https://github.com/user-attachments/assets/45c16d83-0e3b-4a71-814e-d7bdeaa492fd" /> | <img width="1637" height="861" alt="image" src="https://github.com/user-attachments/assets/225e10d1-845a-4437-b90f-ce97106c3688" /> |
-
-| AI Model risks                                                                                                                      | AI Policy manager and policy templates                                                                                              |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="1647" height="860" alt="image" src="https://github.com/user-attachments/assets/cf67a9ae-c9f6-4eff-a0c3-5fc1dbe4b994" /> | <img width="1633" height="861" alt="image" src="https://github.com/user-attachments/assets/2ef1bcc8-e6e6-47de-9291-2157ff1ed35c" /> |
-
-| AI vendors and vendor risks                                                                                                         | AI Incident management (with filter example)                                                                                        |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="1662" height="914" alt="image" src="https://github.com/user-attachments/assets/26e8d3d3-6e79-4c5a-8058-f63e49a9e239" /> | <img width="1727" height="900" alt="image" src="https://github.com/user-attachments/assets/4b0929f5-d7f1-4998-b8b5-acf62c4051a0" /> |
-
-| AI Trust Center                                                                                                                     | Automations                                                                                                                         |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="1726" height="895" alt="image" src="https://github.com/user-attachments/assets/0359f312-c61c-4c01-b66b-97ec035e74c5" /> | <img width="1740" height="897" alt="image" src="https://github.com/user-attachments/assets/3d9c6d75-d1ff-41c3-aa81-1213c363d64a" /> |
-
-| Reporting                                                                                                                           |     |
-| ----------------------------------------------------------------------------------------------------------------------------------- | --- |
-| <img width="1735" height="898" alt="image" src="https://github.com/user-attachments/assets/5849beee-1639-45f5-94e8-4b5f156b455d" /> |     |
-
 ## Features
-
-![VerifyWise platform](https://github.com/user-attachments/assets/2d05cd1f-f67b-45d2-aca4-1fdcde287a44)
 
 - Option to host the application on-premises or in a private cloud
 - Source available license (BSL 1.1). Dual licensing is also available for enterprises
