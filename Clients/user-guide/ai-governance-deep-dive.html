@@ -291,6 +291,17 @@ code{background:var(--primary-l);color:var(--primary);padding:1px 6px;border-rad
     <a href="#incidents" class="sb-item"><span class="ic">🚨</span>Incident Management</a>
   </div>
   <div class="sb-sec">
+    <div class="sb-sec-title">Clarity &amp; Concepts</div>
+    <a href="#just-docs" class="sb-item"><span class="ic">💡</span>Is This Just Documentation?</a>
+    <a href="#connected-flow" class="sb-item"><span class="ic">🔗</span>Complete Connected Flow</a>
+    <a href="#governance-score" class="sb-item"><span class="ic">📈</span>Governance Score Explained</a>
+    <a href="#dataset-clarity" class="sb-item"><span class="ic">🗄️</span>What Datasets Actually Are</a>
+    <a href="#evidence-clarity" class="sb-item"><span class="ic">📁</span>Where Evidence Is Used</a>
+    <a href="#risk-clarity" class="sb-item"><span class="ic">⚠️</span>Where Risks Are Used</a>
+    <a href="#model-vs-vendor-risk" class="sb-item"><span class="ic">🆚</span>Model Risk vs Vendor Risk</a>
+    <a href="#training-clarity" class="sb-item"><span class="ic">🎓</span>Why Training Registry Exists</a>
+  </div>
+  <div class="sb-sec">
     <div class="sb-sec-title">Reference</div>
     <a href="#demo-script" class="sb-item"><span class="ic">🎬</span>Demo Script</a>
     <a href="#glossary" class="sb-item"><span class="ic">📖</span>Glossary</a>
@@ -1180,6 +1191,462 @@ code{background:var(--primary-l);color:var(--primary);padding:1px 6px;border-rad
     <li><strong>Section 4 — Approval:</strong> Approval status, approver, notes, interim report toggle for ongoing multi-phase incidents</li>
   </ul>
   <p>Every incident gets an auto-generated <code>INC-XXXX</code> ID — the immutable reference for regulatory submissions.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ IS THIS JUST DOCUMENTATION ═══════════════════════════ -->
+<section class="sec" id="just-docs">
+  <div class="sec-label">Clarity &amp; Concepts — Section 1</div>
+  <h2>Your Biggest Question: Is AI Governance Just Documentation?</h2>
+  <p class="sec-intro">YES — and that is exactly the point. Understanding this one thing will make everything else click instantly.</p>
+
+  <div class="box box-green">
+    <p><strong>Short answer:</strong> Parkar GovernAI is a <strong>Management and Documentation System</strong>, NOT a deployment or execution system. You do not run AI through it, connect AI models to it, or integrate it with production systems via API keys. It is where you RECORD and PROVE that you are governing your AI responsibly.</p>
+  </div>
+
+  <h3>The Perfect Analogy: Financial Accounting</h3>
+  <p>Think of it this way. A company earns revenue, pays employees, buys equipment — all of that happens in their actual business systems (POS terminals, payroll software, bank accounts). But they also maintain an accounting system where they <strong>record, document, and prove</strong> every financial transaction — not to run the business, but to prove to auditors, tax authorities, and investors that the money is being managed correctly.</p>
+  <p>Parkar GovernAI is the <strong>accounting system for your AI</strong>. Your AI runs in your actual systems (your servers, OpenAI's API, AWS). Parkar GovernAI is where you record, document, and prove that your AI is being governed correctly.</p>
+
+  <div class="flow-wrap">
+    <div class="flow-title">What Parkar GovernAI IS vs IS NOT</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">✅ What It IS</div>
+        <ul style="padding-left:16px">
+          <li style="margin-bottom:8px">A <strong>registry</strong> of all your AI systems</li>
+          <li style="margin-bottom:8px">A <strong>documentation vault</strong> for compliance evidence</li>
+          <li style="margin-bottom:8px">A <strong>risk register</strong> tracking what could go wrong</li>
+          <li style="margin-bottom:8px">A <strong>compliance tracker</strong> for ISO/EU AI Act controls</li>
+          <li style="margin-bottom:8px">A <strong>policy library</strong> for written governance rules</li>
+          <li style="margin-bottom:8px">An <strong>incident log</strong> for when things go wrong</li>
+          <li style="margin-bottom:8px">A <strong>report generator</strong> for regulators and boards</li>
+          <li style="margin-bottom:8px">A <strong>transparency portal</strong> for public trust</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">❌ What It IS NOT</div>
+        <ul style="padding-left:16px">
+          <li style="margin-bottom:8px">A platform that <strong>runs</strong> your AI models</li>
+          <li style="margin-bottom:8px">A place to enter <strong>API keys to connect</strong> to OpenAI (that's AI Gateway)</li>
+          <li style="margin-bottom:8px">A system that <strong>trains</strong> your machine learning models</li>
+          <li style="margin-bottom:8px">A tool that <strong>monitors AI performance</strong> in real time</li>
+          <li style="margin-bottom:8px">A <strong>deployment pipeline</strong> for AI systems</li>
+          <li style="margin-bottom:8px">A system that <strong>stores your actual datasets</strong> (the CSVs)</li>
+          <li style="margin-bottom:8px">An AI model <strong>testing or evaluation</strong> environment</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h3>The Regulator Analogy</h3>
+  <p>When a regulator (e.g., the EU AI Act enforcement authority) audits your organisation, they don't plug into your servers to check your AI. They ask you to <strong>show them documents:</strong></p>
+  <ul>
+    <li>"Show me the list of AI systems you operate" → <strong>Use Cases page</strong></li>
+    <li>"Show me the risk assessment for your loan approval AI" → <strong>Risk Management page</strong></li>
+    <li>"Show me the training data governance documentation" → <strong>Datasets page</strong></li>
+    <li>"Show me evidence that you assessed the model's security" → <strong>Evidence Hub</strong></li>
+    <li>"Show me the incident you reported last month" → <strong>Incident Management</strong></li>
+    <li>"Show me your AI governance policy" → <strong>Policy Manager</strong></li>
+  </ul>
+  <p>Parkar GovernAI is the system that holds ALL of those documents, organised, versioned, linked together, and ready to export as a PDF in 30 seconds.</p>
+
+  <div class="box box-blue">
+    <p><strong>The ONE exception — Agent Discovery:</strong> This is the only module that actually connects to an external system (Azure AI Foundry, AWS Bedrock) to pull a live inventory of AI agents. Everything else is manual documentation and record-keeping.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ CONNECTED FLOW ═══════════════════════════ -->
+<section class="sec" id="connected-flow">
+  <div class="sec-label">Clarity &amp; Concepts — Section 2</div>
+  <h2>The Complete Connected Flow — "Loan Approval AI" Example</h2>
+  <p class="sec-intro">Let's trace one real AI system through every module to show exactly how they all connect and why each piece matters.</p>
+
+  <div class="box box-primary">
+    <p><strong>The scenario:</strong> Your bank uses GPT-4o to evaluate loan applications. It was trained on 5 years of customer loan history. A vendor (OpenAI) provides the API. The system is High Risk under EU AI Act. Something goes wrong one day — it starts rejecting applications incorrectly. Here is how Parkar GovernAI handles the entire lifecycle.</p>
+  </div>
+
+  <h3>Step 1 — Use Case: Register the AI System</h3>
+  <p>You create a Use Case called <strong>"Loan Approval AI"</strong> (auto-gets UC-1). You classify it as <strong>High Risk</strong> under EU AI Act. This single record becomes the anchor for everything else.</p>
+  <div class="box box-green"><p>Why: EU AI Act requires you to enumerate every High-Risk AI system. UC-1 is your regulatory reference number. If a regulator asks "what AI systems do you have?" — you show this list.</p></div>
+
+  <h3>Step 2 — Model Inventory: Register GPT-4o</h3>
+  <p>You add GPT-4o to the Model Inventory. Provider: OpenAI. You upload a security assessment PDF. Status changes from Pending → <strong>Approved</strong>. You link it to UC-1 (Loan Approval AI).</p>
+  <div class="box box-green"><p>Why: EU AI Act Article 13 requires technical documentation for High-Risk AI models. The security assessment PDF is the evidence. The approval status is the governance gate — no unapproved model should be in production. The link to UC-1 means "this model powers that use case".</p></div>
+
+  <h3>Step 3 — Datasets: Document the Training Data</h3>
+  <p>You add a Dataset record: <strong>"Customer Loan History 2019–2024"</strong>. You do NOT upload the actual 500GB CSV file. You record: Type = Training, Classification = Restricted, Contains PII = Yes, Known Biases = historical demographic disparities, Bias Mitigation = stratified sampling applied. You link it to GPT-4o.</p>
+  <div class="box box-green"><p>Why: EU AI Act Article 10 requires data governance documentation for High-Risk AI. You're proving to a regulator "we know what data trained this model, we know it contains PII, we know the biases, and we took steps to mitigate them." The link to GPT-4o creates the chain: Training Data → Model → Use Case.</p></div>
+
+  <h3>Step 4 — Vendors: Assess OpenAI as a Supplier</h3>
+  <p>You add OpenAI as a vendor. Data Sensitivity = PII (loan data goes to their API). Business Criticality = High. Regulatory Exposure = EU AI Act + GDPR. The scorecard auto-calculates a high risk score. You add a Vendor Risk: "EU customer data processed on US servers — GDPR transfer risk."</p>
+  <div class="box box-green"><p>Why: EU AI Act Article 28 says if you deploy a third-party AI, you're responsible for documenting that relationship. You can't just say "OpenAI handles it." You must document: what data they receive, how critical they are, what risks that creates, and what you're doing about it.</p></div>
+
+  <h3>Step 5 — Risk Management: Import and Assess Risks</h3>
+  <p>From the IBM database you import "Biased decision outputs" (linked to UC-1) and "Hallucinatory incorrect output" (what actually happens in the incident). You assign owners, set mitigation plans, add deadlines.</p>
+  <div class="box box-green"><p>Why: EU AI Act Article 9 requires a risk management system with documented risks and treatments. These risks are now linked to UC-1 (Loan Approval AI) — when a regulator asks "did you assess the risks for this system?", you show this register with owners, statuses, and mitigation plans.</p></div>
+
+  <h3>Step 6 — Frameworks: Map to ISO 42001 Controls</h3>
+  <p>In the Frameworks page, you open Clause 8.2 (AI Risk Assessment) and mark it <strong>Implemented</strong>. You attach the Risk Assessment as evidence. Clause 7.2 (Competence) is marked Implemented because you added training records.</p>
+  <div class="box box-green"><p>Why: ISO 42001 certification requires you to demonstrate that specific controls are in place. Each control you mark as Implemented, backed by evidence, is a checkbox ticked toward certification. The evidence you attached is what an auditor would review during a certification audit.</p></div>
+
+  <h3>Step 7 — Training Registry: Prove Your Team Is Trained</h3>
+  <p>You add a training record: "EU AI Act Compliance for Financial Services Teams — 24 people — Completed." Certificate PDF uploaded to Evidence Hub and linked.</p>
+  <div class="box box-green"><p>Why: EU AI Act Article 4 says your organisation must ensure AI literacy. ISO 42001 Clause 7.2 says you need documented evidence of competence. This record, with the certificate, IS that evidence. It links back to ISO 42001 Clause 7.2 (Competence) being Implemented.</p></div>
+
+  <h3>Step 8 — Evidence Hub: Collect All Proof Documents</h3>
+  <p>You upload: Security Assessment Report (linked to GPT-4o model), Model Card (linked to GPT-4o), Bias and Fairness Report (linked to GPT-4o and UC-1). Each links to the specific framework controls it satisfies.</p>
+  <div class="box box-green"><p>Why: Evidence is the PROOF behind every claim. When you mark "ISO 42001 Clause 8.2 = Implemented", an auditor asks "prove it." The linked Risk Assessment Report IS the proof. Without evidence, a compliance control is just a checkbox with no backing.</p></div>
+
+  <h3>Step 9 — Policy Manager: Write the Governance Rule</h3>
+  <p>You write an "AI Risk Management Policy" using a template. It goes through Draft → Under Review → Approved. You link it to the risk "Biased decision outputs" and to ISO 42001 Clause 5.2 (AI Policy).</p>
+  <div class="box box-green"><p>Why: Compliance frameworks require WRITTEN policies. "We manage AI risk" is not enough — you need a documented, approved policy that says HOW. The link to the risk means "this policy addresses that risk." The link to the framework control means "this policy satisfies that control."</p></div>
+
+  <h3>Step 10 — Incident Management: Log the Failure</h3>
+  <p>The model starts incorrectly rejecting 340 applications. You create Incident INC-0001: Type = Unexpected behavior, Severity = Serious, Harm = Fundamental Rights + Financial Impact. You document the mitigation (rollback to v2.2) and corrective actions.</p>
+  <div class="box box-green"><p>Why: EU AI Act Article 73 requires MANDATORY reporting of serious incidents to the regulator. INC-0001 is the regulatory filing. Without this record, you have no proof you discovered, investigated, and reported the incident — that itself is a violation.</p></div>
+
+  <h3>Step 11 — Reporting: Generate the Proof Package</h3>
+  <p>You click Generate Report → Scope: Loan Approval AI → Framework: EU AI Act → All sections → PDF. In 30 seconds, a branded document compiles everything above into a single regulator-ready file.</p>
+  <div class="box box-green"><p>Why: This is the deliverable. Every audit, board meeting, or regulatory submission needs a document. The report is a snapshot of everything you've done — all in one place, formatted professionally, under your organisation's branding.</p></div>
+
+  <h3>The Full Connection Map</h3>
+  <div class="flow-wrap">
+    <div class="flow-title">How Every Module Connects — Loan Approval AI</div>
+    <table class="tbl" style="font-size:12px">
+      <thead><tr><th>Module</th><th>Records</th><th>Links To</th><th>Satisfies</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Use Case</strong></td><td>Loan Approval AI (UC-1)</td><td>Everything below</td><td>EU AI Act — system enumeration</td></tr>
+        <tr><td><strong>Model Inventory</strong></td><td>GPT-4o — Approved</td><td>UC-1, Datasets, Evidence</td><td>EU AI Act Art. 13 — technical docs</td></tr>
+        <tr><td><strong>Datasets</strong></td><td>Customer Loan History</td><td>GPT-4o, UC-1</td><td>EU AI Act Art. 10 — data governance</td></tr>
+        <tr><td><strong>Vendors</strong></td><td>OpenAI — High Risk scorecard</td><td>UC-1, Vendor Risks</td><td>EU AI Act Art. 28 — 3rd party</td></tr>
+        <tr><td><strong>Risk Management</strong></td><td>8 risks with mitigation plans</td><td>UC-1, Frameworks, Policies</td><td>EU AI Act Art. 9 — risk system</td></tr>
+        <tr><td><strong>Frameworks</strong></td><td>ISO 42001 Clause 8.2 — Implemented</td><td>Evidence (proof), Risks</td><td>ISO 42001 certification</td></tr>
+        <tr><td><strong>Training Registry</strong></td><td>24 people trained</td><td>ISO 42001 Clause 7.2, Evidence</td><td>EU AI Act Art. 4 — AI literacy</td></tr>
+        <tr><td><strong>Evidence Hub</strong></td><td>Security Assessment, Model Card, Bias Report</td><td>GPT-4o, Framework controls</td><td>EU AI Act Annex IV — tech docs</td></tr>
+        <tr><td><strong>Policy Manager</strong></td><td>AI Risk Management Policy — Approved</td><td>Risks, ISO 42001 Clause 5.2</td><td>ISO 42001 — written policy</td></tr>
+        <tr><td><strong>Incidents</strong></td><td>INC-0001 — 340 wrong rejections</td><td>UC-1</td><td>EU AI Act Art. 73 — reporting</td></tr>
+        <tr><td><strong>Reporting</strong></td><td>EU AI Act Compliance Report PDF</td><td>All of the above</td><td>Regulator submission</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ GOVERNANCE SCORE ═══════════════════════════ -->
+<section class="sec" id="governance-score">
+  <div class="sec-label">Clarity &amp; Concepts — Section 3</div>
+  <h2>The Governance Score — How It Is Calculated</h2>
+  <p class="sec-intro">The 0–100 score on the Dashboard is a composite measurement of how mature your AI governance program is. Here is exactly what goes into it.</p>
+
+  <div class="box box-blue">
+    <p><strong>Think of it like a credit score for your AI governance.</strong> Just as a credit score (300–850) tells a bank how financially responsible you are based on multiple factors, the Governance Score (0–100) tells a regulator or board how responsibly you govern your AI — based on multiple governance dimensions.</p>
+  </div>
+
+  <h3>What Contributes to the Score</h3>
+  <div class="flow-grid">
+    <div class="fgrid-item" style="border-color:var(--green)">
+      <div class="fi-ic">🏛️</div>
+      <div class="fi-t">Framework Controls</div>
+      <div class="fi-s">% of ISO 42001 / NIST AI RMF controls marked Implemented or Awaiting Approval</div>
+    </div>
+    <div class="fgrid-item" style="border-color:var(--orange)">
+      <div class="fi-ic">⚠️</div>
+      <div class="fi-t">Risk Mitigation</div>
+      <div class="fi-s">% of risks with mitigation status = In Progress, Completed, or On Hold (not "Not Started")</div>
+    </div>
+    <div class="fgrid-item" style="border-color:#1565C0">
+      <div class="fi-ic">📁</div>
+      <div class="fi-t">Evidence Coverage</div>
+      <div class="fi-s">% of registered AI models that have at least one evidence document attached</div>
+    </div>
+    <div class="fgrid-item" style="border-color:#7B1FA2">
+      <div class="fi-ic">📝</div>
+      <div class="fi-t">Policy Status</div>
+      <div class="fi-s">% of policies that are Approved or Published (not Draft or Under Review)</div>
+    </div>
+    <div class="fgrid-item" style="border-color:var(--green)">
+      <div class="fi-ic">🎓</div>
+      <div class="fi-t">Training Completion</div>
+      <div class="fi-s">% of training records with status = Completed</div>
+    </div>
+    <div class="fgrid-item" style="border-color:var(--red)">
+      <div class="fi-ic">🚨</div>
+      <div class="fi-t">Incident Resolution</div>
+      <div class="fi-s">% of logged incidents with status = Mitigated or Closed</div>
+    </div>
+  </div>
+
+  <h3>How the Score Moves</h3>
+  <table class="tbl">
+    <thead><tr><th>Action You Take</th><th>Score Impact</th></tr></thead>
+    <tbody>
+      <tr><td>Mark an ISO 42001 control as <span class="b b-green">Implemented</span></td><td>↑ Score increases</td></tr>
+      <tr><td>Import and assign a risk from IBM database</td><td>Slight ↓ initially (new unmitigated risks added) then ↑ when you set mitigation plan</td></tr>
+      <tr><td>Upload evidence linked to a model</td><td>↑ Score increases (evidence coverage improves)</td></tr>
+      <tr><td>Approve a policy</td><td>↑ Score increases</td></tr>
+      <tr><td>Mark a training as Completed</td><td>↑ Score increases</td></tr>
+      <tr><td>Close an incident</td><td>↑ Score increases</td></tr>
+      <tr><td>Register a new Use Case with no controls/risks yet</td><td>Slight ↓ (new ungoverned system added)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box box-warn">
+    <p><strong>Demo tip:</strong> During the demo, watch the Governance Score on the Dashboard increase in real time as you mark framework controls as Implemented and upload evidence. This is a powerful visual — the number literally moves as you work through the platform.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ DATASET CLARITY ═══════════════════════════ -->
+<section class="sec" id="dataset-clarity">
+  <div class="sec-label">Clarity &amp; Concepts — Section 4</div>
+  <h2>Datasets — What You Are Actually Adding</h2>
+  <p class="sec-intro">This is the most confusing module for new users. You are NOT uploading the actual data files. You are documenting metadata about the data.</p>
+
+  <h3>The Library Catalogue Analogy</h3>
+  <p>A library has thousands of books. The librarian doesn't store the full text of every book in the catalogue system — they record the title, author, genre, location, and condition. The actual books are on the shelves. The catalogue is how you prove the library exists and how you find what you need.</p>
+  <p>Parkar GovernAI's Datasets module is the <strong>catalogue for your AI training data</strong>. Your actual dataset (a 500GB CSV of loan applications) lives on your data warehouse, S3 bucket, or database. In Parkar GovernAI, you record the catalogue entry: what the dataset is, where it comes from, how sensitive it is, and what biases it contains.</p>
+
+  <div class="flow-wrap">
+    <div class="flow-title">What You ARE and ARE NOT Adding</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:var(--tip-bg);border:1px solid #b8dcd5;border-radius:8px;padding:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:10px">✅ What You ARE Adding</div>
+        <ul style="padding-left:16px;margin:0">
+          <li style="margin-bottom:6px;font-size:13px">The <strong>name</strong> of the dataset</li>
+          <li style="margin-bottom:6px;font-size:13px">The <strong>type</strong> (Training / Validation / Testing)</li>
+          <li style="margin-bottom:6px;font-size:13px">The <strong>source</strong> (which system it came from)</li>
+          <li style="margin-bottom:6px;font-size:13px">The <strong>classification</strong> (Restricted/Confidential/Public)</li>
+          <li style="margin-bottom:6px;font-size:13px">Whether it <strong>contains PII</strong> and what types</li>
+          <li style="margin-bottom:6px;font-size:13px">Known <strong>biases</strong> in the data</li>
+          <li style="margin-bottom:6px;font-size:13px"><strong>Bias mitigation</strong> steps taken</li>
+          <li style="margin-bottom:6px;font-size:13px">The <strong>function</strong> (what it was used for)</li>
+        </ul>
+      </div>
+      <div style="background:var(--red-bg);border:1px solid #ffb3b3;border-radius:8px;padding:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:10px">❌ What You ARE NOT Adding</div>
+        <ul style="padding-left:16px;margin:0">
+          <li style="margin-bottom:6px;font-size:13px">The actual <strong>CSV/Excel/JSON file</strong></li>
+          <li style="margin-bottom:6px;font-size:13px">The actual <strong>rows of data</strong></li>
+          <li style="margin-bottom:6px;font-size:13px">A <strong>database connection string</strong></li>
+          <li style="margin-bottom:6px;font-size:13px">The <strong>data itself</strong> for analysis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h3>Why This Matters for Compliance</h3>
+  <p><strong>EU AI Act Article 10</strong> requires you to document your training, validation, and testing data — not upload it. The regulator wants to know:</p>
+  <ul>
+    <li>Did you know what data trained your model? → <strong>Source and Name fields</strong></li>
+    <li>Was the data sensitive? → <strong>Classification and PII fields</strong></li>
+    <li>Were there known biases? → <strong>Known Biases field</strong></li>
+    <li>What did you do about those biases? → <strong>Bias Mitigation field</strong></li>
+    <li>How does this data link to which model? → <strong>Linked Models field</strong></li>
+  </ul>
+  <div class="box box-blue">
+    <p><strong>Real example of what you enter:</strong><br/>
+    Name: "Customer Loan Applications 2019–2024"<br/>
+    Type: Training<br/>
+    Contains PII: Yes — National ID, Income, Address, Credit Score<br/>
+    Known Biases: "Historical approval rate disparities between demographic groups 2019–2021"<br/>
+    Bias Mitigation: "Applied stratified sampling. Removed direct demographic identifiers from feature set."<br/>
+    Linked to: GPT-4o model, Loan Approval AI use case</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ EVIDENCE CLARITY ═══════════════════════════ -->
+<section class="sec" id="evidence-clarity">
+  <div class="sec-label">Clarity &amp; Concepts — Section 5</div>
+  <h2>Evidence — Where It Gets Used After You Upload It</h2>
+  <p class="sec-intro">Evidence is not just storage. Every document you upload links to something specific and serves a specific purpose. Here is exactly where evidence flows after upload.</p>
+
+  <div class="box box-blue">
+    <p><strong>Core concept:</strong> Evidence is the PROOF behind every claim. When you say "we assessed the model's security" — the Security Assessment Report PDF is the evidence. When you say "ISO 42001 Clause 8.2 is Implemented" — the Risk Assessment Report attached to that control is the evidence. Without evidence, compliance controls are just checkbox theatre.</p>
+  </div>
+
+  <h3>The 4 Places Evidence Gets Linked</h3>
+
+  <h4>1. Linked to a Model (in Model Inventory → Evidence Hub tab)</h4>
+  <p>When you upload a Security Assessment Report and link it to GPT-4o, it proves that GPT-4o specifically was assessed. The model's Evidence Hub tab becomes its compliance dossier — everything you need to justify that model being Approved.</p>
+  <p><strong>Used when:</strong> Auditor asks "show me the security documentation for this model." → Click GPT-4o → Evidence Hub tab → all documents are there.</p>
+
+  <h4>2. Linked to a Framework Control (in Frameworks → Requirements and Controls)</h4>
+  <p>When you open ISO 42001 Clause 8.2 (AI Risk Assessment) and mark it Implemented, you attach the Risk Assessment Report as evidence. This is the most critical link — it's the proof that the control is genuinely implemented, not just ticked.</p>
+  <p><strong>Used when:</strong> ISO 42001 certification auditor asks "prove Clause 8.2 is implemented." → You show the attached Risk Assessment Report.</p>
+
+  <h4>3. Linked to a Policy (in Policy Manager)</h4>
+  <p>A policy like "AI Risk Management Policy" can link to evidence documents that support it — e.g., a third-party audit report that validates the policy is being followed.</p>
+
+  <h4>4. Linked to a Training Program (in Training Registry → Evidence Hub tab)</h4>
+  <p>Training completion certificates, attendance records, and assessment results upload here, linked to the training program. This is the proof that your employees actually attended and passed training — not just that the training was scheduled.</p>
+
+  <h3>Evidence Lifecycle</h3>
+  <div class="flow-wrap">
+    <div class="flow-title">Evidence Flow</div>
+    <div class="flow-v">
+      <div class="fbox-v fbox-blue"><div class="ft">Upload Document</div><div class="fs">PDF, Word, Excel, Images — up to 30MB. Set expiry date.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v fbox-primary"><div class="ft">Link It</div><div class="fs">Link to Model, Framework Control, Policy, or Training Program.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v fbox-green"><div class="ft">Review Workflow</div><div class="fs">Status: Draft → Pending Review → Approved. Only Approved evidence counts.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v" style="border-color:var(--orange);background:var(--orange-bg)"><div class="ft">Monitor Expiry</div><div class="fs">Dashboard flags documents nearing expiry. Renewals are tracked.</div></div>
+      <div class="farrow-v">↓</div>
+      <div class="fbox-v fbox-blue"><div class="ft">Export in Reports</div><div class="fs">Referenced in generated PDF/DOCX compliance reports automatically.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ RISK CLARITY ═══════════════════════════ -->
+<section class="sec" id="risk-clarity">
+  <div class="sec-label">Clarity &amp; Concepts — Section 6</div>
+  <h2>Risks — Where They Are Used After You Add Them</h2>
+  <p class="sec-intro">A risk in the register is not a standalone record. It links to use cases, framework controls, and policies — creating a traceable governance chain.</p>
+
+  <h3>Where a Risk Links To</h3>
+  <table class="tbl">
+    <thead><tr><th>Links To</th><th>How It Works</th><th>Why It Matters</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Use Case (AI System)</strong></td><td>Risk is tagged to a specific AI system (e.g., Loan Approval AI)</td><td>Shows which AI system carries this risk. When viewing UC-1, you see all 8 risks scoped to that system.</td></tr>
+      <tr><td><strong>Framework Controls</strong></td><td>Risk is mapped to a specific control (e.g., ISO 42001 Annex A.6)</td><td>"This control exists because of this risk." Creates audit trail: risk → control → evidence.</td></tr>
+      <tr><td><strong>Policies</strong></td><td>Policy is linked to the risk it addresses</td><td>"This policy mitigates this risk." Auditor can see the chain: Risk → Policy → Evidence.</td></tr>
+      <tr><td><strong>Dashboard</strong></td><td>Risk level (Very High/High/Medium/Low/Very Low) appears in risk distribution charts</td><td>CISO can see at a glance: "3 Very High risks open, 2 being mitigated."</td></tr>
+      <tr><td><strong>Reports</strong></td><td>All risks with mitigation plans appear in the Risk Analysis section of generated reports</td><td>Regulator sees: risk name, severity, likelihood, mitigation plan, owner, deadline.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The Risk-to-Compliance Chain</h3>
+  <div class="flow-wrap">
+    <div class="flow-title">How a Risk Flows Through the System</div>
+    <div class="flow-h">
+      <div class="fbox fbox-red"><div class="ft">Identify Risk</div><div class="fs">"Biased loan decisions" — imported from IBM DB</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-orange"><div class="ft">Assess &amp; Score</div><div class="fs">Severity: Major. Likelihood: Likely. Auto-score: Very High (16/20)</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-blue"><div class="ft">Assign &amp; Plan</div><div class="fs">Owner: you. Mitigation: stratified sampling. Deadline: 30 days.</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-green"><div class="ft">Link to Controls</div><div class="fs">ISO 42001 Annex A.7 (Data governance) — marked In Progress because of this risk.</div></div>
+      <div class="farrow">→</div>
+      <div class="fbox fbox-primary"><div class="ft">Appear in Report</div><div class="fs">Risk name, score, owner, plan appear in the generated compliance PDF.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ MODEL VS VENDOR RISK ═══════════════════════════ -->
+<section class="sec" id="model-vs-vendor-risk">
+  <div class="sec-label">Clarity &amp; Concepts — Section 7</div>
+  <h2>Model Risk vs Vendor Risk — The Clear Difference</h2>
+  <p class="sec-intro">These two types of risk look similar but come from fundamentally different sources. One is about what the AI does. The other is about who supplies it.</p>
+
+  <div class="flow-wrap">
+    <div class="flow-title">Side-by-Side Comparison</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:var(--bg);border:2px solid #FFF8E1;border-radius:8px;padding:18px">
+        <div style="font-size:14px;font-weight:700;color:#795548;margin-bottom:12px">⚠️ Model Risk</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:10px"><strong>Definition:</strong> A risk that comes from the AI model itself — how it behaves, what it gets wrong, what it can be tricked into doing.</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px"><strong>Source:</strong> The model's design, training, or behaviour</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px"><strong>Location:</strong> Model Inventory → Model Risks tab</p>
+        <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px">Examples for GPT-4o:</p>
+        <ul style="padding-left:16px;margin:0">
+          <li style="font-size:13px;margin-bottom:5px">Demographic bias in outputs (the model discriminates)</li>
+          <li style="font-size:13px;margin-bottom:5px">Hallucinations (invents false information)</li>
+          <li style="font-size:13px;margin-bottom:5px">Prompt injection (can be manipulated by malicious input)</li>
+          <li style="font-size:13px;margin-bottom:5px">Model drift (degrades over time as data distribution shifts)</li>
+          <li style="font-size:13px;margin-bottom:5px">Context window limits causing incomplete analysis</li>
+        </ul>
+      </div>
+      <div style="background:var(--bg);border:2px solid #E3F2FD;border-radius:8px;padding:18px">
+        <div style="font-size:14px;font-weight:700;color:#1565C0;margin-bottom:12px">🏢 Vendor Risk</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:10px"><strong>Definition:</strong> A risk that comes from your RELATIONSHIP with the vendor supplying the model — not the model itself but the business, legal, and operational relationship.</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px"><strong>Source:</strong> The vendor's business practices, legal status, or reliability</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px"><strong>Location:</strong> Vendors → Vendor Risks tab</p>
+        <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px">Examples for OpenAI as vendor:</p>
+        <ul style="padding-left:16px;margin:0">
+          <li style="font-size:13px;margin-bottom:5px">EU customer data processed on US servers (GDPR transfer risk)</li>
+          <li style="font-size:13px;margin-bottom:5px">OpenAI service outage → your loan system goes down (operational risk)</li>
+          <li style="font-size:13px;margin-bottom:5px">OpenAI changes pricing → your costs spike unexpectedly (financial risk)</li>
+          <li style="font-size:13px;margin-bottom:5px">OpenAI deprecates the API version you use (vendor lock-in risk)</li>
+          <li style="font-size:13px;margin-bottom:5px">OpenAI suffers a data breach (security risk from vendor)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h3>The One-Line Difference</h3>
+  <div class="box box-green">
+    <p><strong>Model Risk:</strong> "What could the AI model itself do wrong?" — focuses on the model's technical behaviour.<br/>
+    <strong>Vendor Risk:</strong> "What could go wrong with the company that provides the model?" — focuses on the business relationship.</p>
+  </div>
+
+  <h3>A Simple Test to Tell Them Apart</h3>
+  <p>Ask yourself: <em>"If we switched to a different AI model from the same vendor, would this risk still exist?"</em></p>
+  <ul>
+    <li><strong>YES</strong> → It is a <strong>Vendor Risk</strong> (e.g., data transfer to US servers exists regardless of which OpenAI model you use)</li>
+    <li><strong>NO</strong> → It is a <strong>Model Risk</strong> (e.g., GPT-4o's hallucination behaviour is specific to that model — a different model might not have the same issue)</li>
+  </ul>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════ TRAINING CLARITY ═══════════════════════════ -->
+<section class="sec" id="training-clarity">
+  <div class="sec-label">Clarity &amp; Concepts — Section 8</div>
+  <h2>Training Registry — Why It Exists and What "Training" Means Here</h2>
+  <p class="sec-intro">Important: "Training" in this module means training YOUR PEOPLE — not training your AI model. This is completely separate from machine learning model training.</p>
+
+  <h3>What the Training Registry Tracks</h3>
+  <p>It tracks <strong>educational and awareness programs</strong> for your employees — courses, workshops, certifications, and awareness sessions that teach your team how to use AI responsibly and comply with AI regulations.</p>
+
+  <div class="flow-wrap">
+    <div class="flow-title">Two Completely Different Things Called "Training"</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:var(--tip-bg);border:1px solid #b8dcd5;border-radius:8px;padding:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">📚 Training Registry (People)</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Teaching employees how to govern and use AI responsibly.</p>
+        <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px">Examples:</p>
+        <ul style="padding-left:16px;margin:0;font-size:13px">
+          <li>EU AI Act Compliance course for Legal team</li>
+          <li>AI Ethics workshop for all employees</li>
+          <li>ISO 42001 certification training for governance team</li>
+          <li>Bias awareness training for data scientists</li>
+        </ul>
+      </div>
+      <div style="background:var(--red-bg);border:1px solid #ffb3b3;border-radius:8px;padding:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px">🤖 ML Model Training (NOT this)</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Teaching an AI algorithm to make predictions using data.</p>
+        <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px">Examples (NOT in this platform):</p>
+        <ul style="padding-left:16px;margin:0;font-size:13px">
+          <li>Fine-tuning GPT-4o on your loan data</li>
+          <li>Training a classifier on customer records</li>
+          <li>Running gradient descent on a neural network</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h3>Why It Is a Legal Requirement</h3>
+  <p><strong>EU AI Act Article 4</strong> states: <em>"Providers and deployers of AI systems shall take measures to ensure, to their best extent, a sufficient level of AI literacy of their staff."</em></p>
+  <p>This means you must be able to PROVE your employees received AI literacy training. The Training Registry is that proof. When an auditor asks "how do you ensure your staff understands AI risks?" — you show the training log: 24 people in Legal attended a full-day EU AI Act compliance course, here is the attendance certificate, it is linked as evidence.</p>
+
+  <h3>How It Links to Everything Else</h3>
+  <ul>
+    <li>Training record → linked to <strong>ISO 42001 Clause 7.2 (Competence)</strong> as evidence that the control is Implemented</li>
+    <li>Training certificate PDF → uploaded to <strong>Evidence Hub</strong> under type "Training Registry Report"</li>
+    <li>Training completion → contributes to <strong>Governance Score</strong> (% of programs completed)</li>
+    <li>Expiry on certificates → appears in <strong>Dashboard</strong> "Files needing attention" section before lapsing</li>
+  </ul>
 </section>
 
 <div class="divider"></div>
