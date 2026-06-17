@@ -115,16 +115,21 @@ async def proxy_chat(request: Request, body: ProxyChatRequest):
     endpoint_slug = body.model  # "model" field is the endpoint slug
 
     # ── FlowTrace: open the trace for this request (agent hop) ──────────────
+    # Agent identity is the APP/AGENT (stable, shared by many users) — the `agent`
+    # or `app` x-vw-metadata tag, else the virtual-key name. The end user (`user`
+    # tag) is per-request attribution (requester), NOT a separate agent. This is
+    # how it works in prod: one agent, many users pointing at the gateway.
     _t_req = time.time()
-    _requester = (vk.get("_extra_metadata") or {}).get("user")
-    _agent_id = _requester or vk.get("name") or f"vk:{vk.get('id')}"
+    _meta = vk.get("_extra_metadata") or {}
+    _requester = _meta.get("user")
+    _agent_id = _meta.get("agent") or _meta.get("app") or vk.get("name") or f"vk:{vk.get('id')}"
     _trace = start_trace(
         trace_id=read_trace_header(request.headers),
         org_id=org_id, agent_key=_agent_id, requester=_requester,
     )
     _trace["t0"] = _t_req
     _agent_span = emit_span(type="agent", name=_agent_id, status="ok", latency_ms=0,
-                            attrs={"source": "llm"})
+                            attrs={"source": "llm", "requester": _requester})
     set_parent(_agent_span)
 
     try:

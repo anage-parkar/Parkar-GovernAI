@@ -38,7 +38,9 @@ async def get_agents(org_id: int, limit: int = 50) -> list[dict]:
                     agent_key,
                     MAX(ts_start) AS last_ts,
                     COUNT(DISTINCT trace_id) AS traces,
-                    MAX(name) FILTER (WHERE type = 'llm') AS model
+                    MAX(name) FILTER (WHERE type = 'llm') AS model,
+                    COUNT(DISTINCT attrs->>'requester')
+                        FILTER (WHERE attrs->>'requester' IS NOT NULL) AS users
                 FROM ai_gateway_trace_spans
                 WHERE organization_id = :org AND agent_key IS NOT NULL
                 GROUP BY agent_key
@@ -55,6 +57,7 @@ async def get_agents(org_id: int, limit: int = 50) -> list[dict]:
                 "name": r["agent_key"],
                 "model": r["model"],
                 "traces": int(r["traces"] or 0),
+                "users": int(r["users"] or 0),
                 "last_ts": r["last_ts"].isoformat() if r["last_ts"] else None,
             }
             for r in rows
@@ -131,6 +134,7 @@ async def get_recent_traces(org_id: int, agent: Optional[str] = None, limit: int
                 SELECT
                     trace_id,
                     MAX(agent_key) AS agent_key,
+                    MAX(attrs->>'requester') AS requester,
                     MIN(ts_start) AS started_at,
                     SUM(latency_ms) AS total_latency,
                     array_agg(DISTINCT type) AS types,
@@ -157,6 +161,7 @@ async def get_recent_traces(org_id: int, agent: Optional[str] = None, limit: int
             {
                 "trace_id": r["trace_id"],
                 "agent_key": r["agent_key"],
+                "requester": r["requester"],
                 "started_at": r["started_at"].isoformat() if r["started_at"] else None,
                 "status": _status_from_flags(r["has_error"], r["has_block"], r["has_mask"]),
                 "path": [t for t in _PATH_ORDER if t in types],

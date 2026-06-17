@@ -57,19 +57,18 @@ def _jsonrpc_result(id, result: dict) -> dict:
     return {"jsonrpc": "2.0", "id": id, "result": result}
 
 
-def _mcp_requester(request: Request) -> str | None:
-    """Pull the requester (end-user) from x-vw-metadata so MCP tool calls can be
-    attributed and stitched to the LLM turn that triggered them."""
+def _mcp_meta(request: Request) -> dict:
+    """Parse x-vw-metadata from an MCP call (agent/app/user tags) so tool calls
+    can be attributed to the agent and stitched to the LLM turn that triggered
+    them."""
     raw = request.headers.get("x-vw-metadata")
     if not raw:
-        return None
+        return {}
     try:
         d = json.loads(raw)
-        if isinstance(d, dict) and d.get("user"):
-            return str(d["user"])
+        return d if isinstance(d, dict) else {}
     except Exception:
-        return None
-    return None
+        return {}
 
 
 async def _extract_agent_key(request: Request) -> dict:
@@ -160,9 +159,11 @@ async def mcp_jsonrpc(request: Request):
             )
 
         # ── FlowTrace: stitch this tool call into the agent's trace ──────────
+        # Agent identity = the app/agent tag (stable across users), not the user.
         _t0 = time.time()
-        _requester = _mcp_requester(request)
-        _agent_id = _requester or agent_key.get("name") or f"mcp:{agent_key['id']}"
+        _meta = _mcp_meta(request)
+        _requester = _meta.get("user")
+        _agent_id = _meta.get("agent") or _meta.get("app") or agent_key.get("name") or f"mcp:{agent_key['id']}"
         _hdr_trace = read_trace_header(request.headers)
         _stitch_tid, _stitch_gw = (None, None)
         if not _hdr_trace:
@@ -176,7 +177,7 @@ async def mcp_jsonrpc(request: Request):
         if not (_hdr_trace or _stitch_tid):
             # Standalone tool call (no LLM turn to attach to) — emit agent+gateway hops.
             _ag = emit_span(type="agent", name=_agent_id, status="ok", latency_ms=0,
-                            attrs={"source": "mcp"})
+                            attrs={"source": "mcp", "requester": _requester})
             _gw = emit_span(type="gateway", name="gateway", status="ok", latency_ms=0,
                             parent_span_id=_ag, attrs={})
             set_parent(_gw)

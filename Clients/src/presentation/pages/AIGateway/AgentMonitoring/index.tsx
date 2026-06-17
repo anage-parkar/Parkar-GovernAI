@@ -19,11 +19,13 @@ interface AgentRow {
   name: string;
   model: string | null;
   traces: number;
+  users: number;
   last_ts: string | null;
 }
 interface TraceRow {
   trace_id: string;
   agent_key: string;
+  requester?: string | null;
   status: string;
   path: string[];
   totals: { latency_ms: number; tokens: number; cost_usd: number };
@@ -50,7 +52,7 @@ function spanLog(span: Span): { tag: string; msg: string } {
   const a = span.attrs || {};
   switch (span.type) {
     case "agent":
-      return { tag: "agent", msg: `<b>${span.name}</b> issued request` };
+      return { tag: "agent", msg: `<b>${a.requester || span.name}</b> issued request` };
     case "gateway":
       return { tag: "gateway", msg: `routed · <b>${a.endpoint || a.model || "endpoint"}</b>` };
     case "guardrail":
@@ -90,6 +92,7 @@ export default function AgentMonitoring() {
   const [hops, setHops] = useState<Record<string, number>>({});
   const [totals, setTotals] = useState<{ latency_ms: number; tokens: number; cost_usd: number } | null>(null);
   const [insight, setInsight] = useState<string>("Waiting for the next request through this agent…");
+  const [reqUser, setReqUser] = useState<string | null>(null);
   // Anomaly callout is populated by the Phase 4 insight layer; null for now.
   const [anomaly] = useState<string | null>(null);
 
@@ -139,6 +142,7 @@ export default function AgentMonitoring() {
           setTraceId(latest.trace_id);
           setBadge(latest.status);
           setTotals(latest.totals);
+          setReqUser(latest.requester || null);
           setInsight(localInsight(latest));
           // populate waterfall from the latest trace detail
           try {
@@ -169,6 +173,7 @@ export default function AgentMonitoring() {
       if (selected && d.agent_key && d.agent_key !== selected) return;
       if (curTrace.current && d.trace_id !== curTrace.current) return;
       setBadge(d.status || "ok");
+      if (d.requester) setReqUser(d.requester);
       if (d.totals) setTotals(d.totals);
       setInsight(localInsight({ trace_id: d.trace_id, agent_key: d.agent_key, status: d.status, path: d.path || [], totals: d.totals || { latency_ms: 0, tokens: 0, cost_usd: 0 } }));
       // refresh recent list
@@ -193,6 +198,7 @@ export default function AgentMonitoring() {
       setHops({});
       graphRef.current?.reset();
     }
+    if (span.type === "agent" && span.attrs?.requester) setReqUser(span.attrs.requester);
     graphRef.current?.applySpan(span);
     setHops((prev) => ({ ...prev, [span.type]: span.latency_ms || prev[span.type] || 0 }));
     const l = spanLog(span);
@@ -252,7 +258,7 @@ export default function AgentMonitoring() {
                 <div
                   key={a.key}
                   className={`ft-agent ${a.key === selected ? "sel" : ""} ${anomaly && a.key === selected ? "warn" : ""}`}
-                  onClick={() => { curTrace.current = null; setLog([]); setSelected(a.key); }}
+                  onClick={() => { curTrace.current = null; setLog([]); setReqUser(null); setSelected(a.key); }}
                 >
                   <div className="row1">
                     <span className="dot" />
@@ -261,6 +267,7 @@ export default function AgentMonitoring() {
                   {a.model ? <div className="model">{a.model}</div> : null}
                   <div className="meta">
                     <span>traces <span className="v">{a.traces}</span></span>
+                    <span>users <span className="v">{a.users}</span></span>
                   </div>
                 </div>
               ))
@@ -272,7 +279,7 @@ export default function AgentMonitoring() {
             <section className="ft-canvas">
               <div className="ft-chead">
                 <div className="ft-chl">
-                  <span className="eyebrow">Live trace · {selected || "—"}</span>
+                  <span className="eyebrow">Live trace · {selected || "—"}{reqUser ? ` · ${reqUser}` : ""}</span>
                   <div className="ft-traceline">
                     <span className="ft-tid">{traceId}</span>
                     <span className={`ft-badge ${badge}`}>{badge === "ok" ? "completed" : badge}</span>
