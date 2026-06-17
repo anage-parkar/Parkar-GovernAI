@@ -63,7 +63,13 @@ def _make_agent(user_email: str) -> Agent:
             MCPToolset(
                 connection_params=StreamableHTTPConnectionParams(
                     url=MCP_URL,
-                    headers={"Authorization": f"Bearer {MCP_KEY}"},
+                    # Carry the same identity tag on MCP tool calls so FlowTrace can
+                    # attribute them and stitch them to the LLM turn that triggered
+                    # them (requester-based correlation in the gateway).
+                    headers={
+                        "Authorization": f"Bearer {MCP_KEY}",
+                        "x-vw-metadata": tags,
+                    },
                 )
             )
         )

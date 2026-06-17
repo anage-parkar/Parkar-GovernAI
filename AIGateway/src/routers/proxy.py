@@ -13,6 +13,7 @@ These endpoints handle the full request lifecycle:
     6. Log spend + reconcile budget
 """
 
+import asyncio
 import json
 import logging
 import time
@@ -21,6 +22,16 @@ from typing import Optional
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import StreamingResponse, JSONResponse
 from pydantic import BaseModel, Field
+
+from services.trace_service import (
+    start_trace,
+    emit_span,
+    complete_trace,
+    read_trace_header,
+    mark_active_trace,
+    set_parent,
+    current as current_trace,
+)
 
 from services.proxy_service import (
     authenticate_virtual_key,
@@ -103,6 +114,19 @@ async def proxy_chat(request: Request, body: ProxyChatRequest):
     org_id = vk["organization_id"]
     endpoint_slug = body.model  # "model" field is the endpoint slug
 
+    # ── FlowTrace: open the trace for this request (agent hop) ──────────────
+    _t_req = time.time()
+    _requester = (vk.get("_extra_metadata") or {}).get("user")
+    _agent_id = _requester or vk.get("name") or f"vk:{vk.get('id')}"
+    _trace = start_trace(
+        trace_id=read_trace_header(request.headers),
+        org_id=org_id, agent_key=_agent_id, requester=_requester,
+    )
+    _trace["t0"] = _t_req
+    _agent_span = emit_span(type="agent", name=_agent_id, status="ok", latency_ms=0,
+                            attrs={"source": "llm"})
+    set_parent(_agent_span)
+
     try:
         endpoint = await resolve_endpoint_for_key(
             org_id, endpoint_slug, vk.get("allowed_endpoint_ids") or [],
@@ -115,6 +139,17 @@ async def proxy_chat(request: Request, body: ProxyChatRequest):
         enforce_model_provider_acls(vk, endpoint)
     except ValueError as e:
         raise HTTPException(status_code=403, detail=str(e))
+
+    # FlowTrace: gateway hop (auth + routing + ACLs done). Mark this requester as
+    # mid-trace so the client-driven MCP tool calls that follow stitch into it.
+    _gw_span = emit_span(
+        type="gateway", name="gateway", status="ok",
+        latency_ms=int((time.time() - _t_req) * 1000), parent_span_id=_agent_span,
+        attrs={"model": endpoint["model"], "provider": endpoint["provider"],
+               "endpoint": endpoint.get("slug")},
+    )
+    set_parent(_gw_span)
+    asyncio.create_task(mark_active_trace(org_id, _requester, _trace["trace_id"], _gw_span))
 
     _reject_meta = {"virtual_key_id": str(vk["id"]), **vk.get("_extra_metadata", {})}
 
@@ -146,8 +181,26 @@ async def proxy_chat(request: Request, body: ProxyChatRequest):
         )
         raise HTTPException(status_code=402, detail="Organization budget limit exceeded")
 
-    # Guardrails
-    scanned_messages = await run_guardrails(org_id, body.messages, endpoint["id"], vk=vk)
+    # Guardrails (FlowTrace: guardrail hop — the ring inspects every request)
+    _t_gr = time.time()
+    try:
+        scanned_messages = await run_guardrails(org_id, body.messages, endpoint["id"], vk=vk)
+    except HTTPException as gr_exc:
+        if gr_exc.status_code == 400:
+            emit_span(type="guardrail", name="input-check", status="block",
+                      latency_ms=int((time.time() - _t_gr) * 1000), parent_span_id=_gw_span,
+                      attrs={"action": "block"})
+            complete_trace(
+                status="block",
+                totals={"latency_ms": int((time.time() - _t_req) * 1000), "tokens": 0, "cost_usd": 0.0},
+                path=["agent", "gateway", "guardrail"],
+            )
+        raise
+    _gr_masked = scanned_messages != body.messages
+    emit_span(type="guardrail", name="input-check",
+              status="mask" if _gr_masked else "ok",
+              latency_ms=int((time.time() - _t_gr) * 1000), parent_span_id=_gw_span,
+              attrs={"action": "mask" if _gr_masked else "clean"})
 
     # --- Cache check (exact match, after guardrails for security) ---
     prompt_hash = None
@@ -263,6 +316,30 @@ async def _handle_completion(
         )
         await reconcile_budget(org_id, estimated_cost, cost)
 
+        # FlowTrace: llm hop + completion (parent = gateway, via context)
+        _has_tools = bool((choices[0].get("message") or {}).get("tool_calls"))
+        emit_span(
+            type="llm", name=result.get("model", endpoint["model"]), status="ok",
+            latency_ms=latency_ms,
+            attrs={
+                "tokens": usage.get("total_tokens", 0),
+                "prompt_tokens": usage.get("prompt_tokens", 0),
+                "completion_tokens": usage.get("completion_tokens", 0),
+                "cost_usd": round(float(cost or 0), 6),
+                "tool_calls": _has_tools,
+            },
+        )
+        _tc = current_trace()
+        complete_trace(
+            status="ok",
+            totals={
+                "latency_ms": int((time.time() - (_tc or {}).get("t0", start_time)) * 1000),
+                "tokens": usage.get("total_tokens", 0),
+                "cost_usd": round(float(cost or 0), 6),
+            },
+            path=["agent", "gateway", "guardrail", "llm"],
+        )
+
         # Store in cache if caching enabled
         if _prompt_hash:
             await store_in_cache(
@@ -293,7 +370,8 @@ async def _handle_completion(
         )
         await reconcile_budget(org_id, estimated_cost, 0)
 
-        # Fallback — don't cache fallback responses against original endpoint
+        # Fallback — don't cache fallback responses against original endpoint.
+        # The recursive call emits its own llm span + completion, so don't here.
         if endpoint.get("fallback_endpoint_id") and _depth < MAX_FALLBACK_DEPTH:
             fallback = await resolve_endpoint_by_id(org_id, endpoint["fallback_endpoint_id"])
             if fallback:
@@ -303,6 +381,16 @@ async def _handle_completion(
                     _prompt_hash=None, _scanned_messages=None,
                 )
 
+        # FlowTrace: llm hop errored, no fallback left
+        emit_span(type="llm", name=endpoint["model"], status="error", latency_ms=latency_ms,
+                  attrs={"error": "provider_error"})
+        _tc = current_trace()
+        complete_trace(
+            status="error",
+            totals={"latency_ms": int((time.time() - (_tc or {}).get("t0", start_time)) * 1000),
+                    "tokens": 0, "cost_usd": 0.0},
+            path=["agent", "gateway", "guardrail", "llm"],
+        )
         logger.error(f"LLM provider error: {e}")
         raise HTTPException(status_code=502, detail="LLM provider request failed")
 
@@ -365,6 +453,26 @@ async def _handle_stream(
             )
             await reconcile_budget(org_id, estimated_cost, total_cost)
 
+            # FlowTrace: llm hop + completion for the streamed response
+            emit_span(
+                type="llm", name=final_model, status="ok", latency_ms=latency_ms,
+                attrs={"tokens": total_prompt + total_completion,
+                       "prompt_tokens": total_prompt, "completion_tokens": total_completion,
+                       "cost_usd": round(float(total_cost or 0), 6), "stream": True},
+                trace=_trace_ctx,
+            )
+            complete_trace(
+                status="ok",
+                totals={"latency_ms": int((time.time() - (_trace_ctx or {}).get("t0", start_time)) * 1000) if _trace_ctx else latency_ms,
+                        "tokens": total_prompt + total_completion,
+                        "cost_usd": round(float(total_cost or 0), 6)},
+                path=["agent", "gateway", "guardrail", "llm"],
+                trace=_trace_ctx,
+            )
+
+    # Capture the trace context now — the generator runs as a separate task where
+    # the contextvar would otherwise be lost.
+    _trace_ctx = current_trace()
     return StreamingResponse(_stream_generator(), media_type="text/event-stream")
 
 

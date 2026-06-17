@@ -20,6 +20,7 @@ import {
   ClipboardList,
   CheckCircle,
   Shield,
+  Activity,
 } from "lucide-react";
 import SidebarShell, {
   SidebarMenuItem,
@@ -84,6 +85,12 @@ export default function AIGatewaySidebar({
       label: "Logs",
       value: "logs",
       icon: <FileText size={16} strokeWidth={1.5} />,
+    },
+    {
+      id: "agent-monitor",
+      label: "Agent Monitor",
+      value: "agent-monitor",
+      icon: <Activity size={16} strokeWidth={1.5} />,
     },
     {
       id: "settings",

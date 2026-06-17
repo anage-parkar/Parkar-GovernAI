@@ -15,6 +15,20 @@ const AI_GATEWAY_KEY = process.env.AI_GATEWAY_INTERNAL_KEY || "";
 
 const jsonParser = express.json({ limit: "50mb" });
 
+// Inject the internal key + tenant context headers onto every proxied request.
+function injectGatewayHeaders(proxyReq: any, req: Request) {
+  proxyReq.setHeader("x-internal-key", AI_GATEWAY_KEY);
+  if (req.organizationId) {
+    proxyReq.setHeader("x-organization-id", req.organizationId.toString());
+  }
+  if (req.userId) {
+    proxyReq.setHeader("x-user-id", req.userId.toString());
+  }
+  if (req.role) {
+    proxyReq.setHeader("x-role", req.role);
+  }
+}
+
 function aiGatewayRoutes() {
   const router = Router();
 
@@ -27,22 +41,7 @@ function aiGatewayRoutes() {
     pathRewrite: { "^/": "/internal/" },
     on: {
       proxyReq: (proxyReq, req) => {
-        const expressReq = req as Request;
-
-        // Forward internal API key
-        proxyReq.setHeader("x-internal-key", AI_GATEWAY_KEY);
-
-        // Forward tenant context from JWT
-        if (expressReq.organizationId) {
-          proxyReq.setHeader("x-organization-id", expressReq.organizationId.toString());
-        }
-        if (expressReq.userId) {
-          proxyReq.setHeader("x-user-id", expressReq.userId.toString());
-        }
-        if (expressReq.role) {
-          proxyReq.setHeader("x-role", expressReq.role);
-        }
-
+        injectGatewayHeaders(proxyReq, req as Request);
         // Re-stream parsed body to proxy target
         fixRequestBody(proxyReq, req as Request);
       },
@@ -75,7 +74,30 @@ function aiGatewayRoutes() {
     },
   });
 
-  // All routes: authenticate JWT, parse body, forward to AIGateway
+  // FlowTrace live stream (SSE) — long-lived, so it gets its own proxy with no
+  // timeout and no body parser. Must be registered BEFORE the catch-all.
+  const streamProxy = createProxyMiddleware({
+    target: AI_GATEWAY_URL,
+    changeOrigin: true,
+    timeout: 0, // SSE: never time out the upstream connection
+    proxyTimeout: 0,
+    pathRewrite: { "^/": "/internal/" },
+    on: {
+      proxyReq: (proxyReq, req) => {
+        injectGatewayHeaders(proxyReq, req as Request);
+      },
+      error: (err, _req, res) => {
+        const e = err as any;
+        if (res && "writeHead" in res && !(res as any).headersSent) {
+          (res as any).writeHead(502, { "Content-Type": "application/json" });
+          (res as any).end(JSON.stringify({ error: "AI Gateway stream error", message: e.message || e.code }));
+        }
+      },
+    },
+  });
+  router.get("/flowtrace/traces/stream", authenticateJWT, streamProxy);
+
+  // All other routes: authenticate JWT, parse body, forward to AIGateway
   router.use("/", authenticateJWT, jsonParser, proxy);
 
   return router;

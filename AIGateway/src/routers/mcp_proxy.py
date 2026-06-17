@@ -10,6 +10,7 @@ enforcing ACLs, rate limits, guardrails, and approval requirements.
 """
 
 import asyncio
+import json
 import logging
 import time
 from datetime import datetime, timezone, timedelta
@@ -18,6 +19,14 @@ from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from config import settings
+from services.trace_service import (
+    start_trace,
+    emit_span,
+    complete_trace,
+    read_trace_header,
+    lookup_active_trace,
+    set_parent,
+)
 from crud.mcp_approvals import create_approval_request, get_approval_status, get_approved_request, get_pending_request
 from crud.mcp_tools import get_all_tools
 from services.mcp_audit_service import log_tool_call
@@ -46,6 +55,21 @@ def _jsonrpc_error(id, code: int, message: str, data: dict | None = None) -> dic
 
 def _jsonrpc_result(id, result: dict) -> dict:
     return {"jsonrpc": "2.0", "id": id, "result": result}
+
+
+def _mcp_requester(request: Request) -> str | None:
+    """Pull the requester (end-user) from x-vw-metadata so MCP tool calls can be
+    attributed and stitched to the LLM turn that triggered them."""
+    raw = request.headers.get("x-vw-metadata")
+    if not raw:
+        return None
+    try:
+        d = json.loads(raw)
+        if isinstance(d, dict) and d.get("user"):
+            return str(d["user"])
+    except Exception:
+        return None
+    return None
 
 
 async def _extract_agent_key(request: Request) -> dict:
@@ -135,6 +159,28 @@ async def mcp_jsonrpc(request: Request):
                 latency_ms=int((time.time() - start_time) * 1000),
             )
 
+        # ── FlowTrace: stitch this tool call into the agent's trace ──────────
+        _t0 = time.time()
+        _requester = _mcp_requester(request)
+        _agent_id = _requester or agent_key.get("name") or f"mcp:{agent_key['id']}"
+        _hdr_trace = read_trace_header(request.headers)
+        _stitch_tid, _stitch_gw = (None, None)
+        if not _hdr_trace:
+            _stitch_tid, _stitch_gw = await lookup_active_trace(org_id, _requester)
+        _trace = start_trace(
+            trace_id=_hdr_trace or _stitch_tid, org_id=org_id,
+            agent_key=_agent_id, requester=_requester, root_span_id=_stitch_gw,
+        )
+        _trace["t0"] = _t0
+        _mcp_span = None
+        if not (_hdr_trace or _stitch_tid):
+            # Standalone tool call (no LLM turn to attach to) — emit agent+gateway hops.
+            _ag = emit_span(type="agent", name=_agent_id, status="ok", latency_ms=0,
+                            attrs={"source": "mcp"})
+            _gw = emit_span(type="gateway", name="gateway", status="ok", latency_ms=0,
+                            parent_span_id=_ag, attrs={})
+            set_parent(_gw)
+
         try:
             tool = await resolve_tool(org_id, tool_name)
             enforce_tool_acls(agent_key, tool_name)
@@ -164,11 +210,27 @@ async def mcp_jsonrpc(request: Request):
                         "expires_at": approval["expires_at"].isoformat() if hasattr(approval["expires_at"], "isoformat") else str(approval["expires_at"]),
                     }), status_code=200)
 
+            _t_gr = time.time()
             scan_result = await scan_tool_input(org_id, tool_name, arguments)
             if scan_result and scan_result.blocked:
                 reason = scan_result.block_reason or "policy violation"
                 await _audit("blocked", f"Guardrail: {reason}", False)
+                emit_span(type="guardrail", name="tool-input-check", status="block",
+                          latency_ms=int((time.time() - _t_gr) * 1000),
+                          attrs={"action": "block", "tool": tool_name})
+                complete_trace(
+                    status="block",
+                    totals={"latency_ms": int((time.time() - _t0) * 1000), "tokens": 0, "cost_usd": 0.0},
+                    path=["agent", "gateway", "guardrail"],
+                )
                 return JSONResponse(content=_jsonrpc_error(msg_id, -32003, f"Blocked by guardrail: {reason}"), status_code=200)
+            emit_span(type="guardrail", name="tool-input-check", status="ok",
+                      latency_ms=int((time.time() - _t_gr) * 1000),
+                      attrs={"action": "clean", "tool": tool_name})
+            # FlowTrace: mcp hop — server authorized for this tool
+            _mcp_span = emit_span(type="mcp", name=f"server-{tool.get('server_id')}", status="ok",
+                                  latency_ms=0, attrs={"server_id": tool.get("server_id"), "tool": tool_name})
+            set_parent(_mcp_span)
 
             # Look up cached backend session
             gateway_session = request.headers.get("mcp-session-id")
@@ -194,15 +256,37 @@ async def mcp_jsonrpc(request: Request):
                 content_text = str(result["content"][0].get("text", ""))
             await _audit("success", content_text, False)
 
+            # FlowTrace: tool hop + completion
+            emit_span(type="tool", name=tool_name, status="ok",
+                      latency_ms=int((time.time() - start_time) * 1000), parent_span_id=_mcp_span,
+                      attrs={"server_id": tool.get("server_id"), "tool": tool_name, "status_code": 200})
+            complete_trace(
+                status="ok",
+                totals={"latency_ms": int((time.time() - _t0) * 1000), "tokens": 0, "cost_usd": 0.0},
+                path=["agent", "gateway", "guardrail", "mcp", "tool"],
+            )
+
             return JSONResponse(content=_jsonrpc_result(msg_id, result))
 
         except ValueError as e:
             await _audit("error", str(e), True)
+            emit_span(type="tool", name=tool_name, status="error",
+                      latency_ms=int((time.time() - start_time) * 1000), parent_span_id=_mcp_span,
+                      attrs={"tool": tool_name, "error": "bad_request"})
+            complete_trace(status="error",
+                           totals={"latency_ms": int((time.time() - _t0) * 1000), "tokens": 0, "cost_usd": 0.0},
+                           path=["agent", "gateway", "guardrail", "mcp", "tool"])
             return JSONResponse(content=_jsonrpc_error(msg_id, -32602, str(e)), status_code=200)
         except HTTPException:
             raise
         except Exception as e:
             await _audit("error", str(e), True)
+            emit_span(type="tool", name=tool_name, status="error",
+                      latency_ms=int((time.time() - start_time) * 1000), parent_span_id=_mcp_span,
+                      attrs={"tool": tool_name, "error": "internal"})
+            complete_trace(status="error",
+                           totals={"latency_ms": int((time.time() - _t0) * 1000), "tokens": 0, "cost_usd": 0.0},
+                           path=["agent", "gateway", "guardrail", "mcp", "tool"])
             logger.error("MCP tool call failed: tool=%s org=%s error=%s", tool_name, org_id, e, exc_info=True)
             return JSONResponse(content=_jsonrpc_error(msg_id, -32603, "Internal error"), status_code=200)
 

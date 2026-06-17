@@ -24,5 +24,17 @@ class Settings(BaseSettings):
     mcp_approval_expiry_seconds: int = 900
     mcp_audit_retention_days: int = 30
 
+    # FlowTrace (request tracing / live agent graph)
+    flowtrace_enabled: bool = True
+    flowtrace_retention_days: int = 7
+    # Window (seconds) the LLM->tool heuristic stitch pointer stays open.
+    flowtrace_stitch_ttl_seconds: int = 90
+    # Phase 4 AI insight — summarise a completed trace via our own gateway.
+    flowtrace_ai_insight_enabled: bool = False
+    # Endpoint slug (a cheap/fast model) used to generate the insight.
+    flowtrace_insight_endpoint: str = ""
+    # A virtual key (sk-vw-...) the gateway uses to call itself for the insight.
+    flowtrace_insight_vk: str = ""
+
 
 settings = Settings()

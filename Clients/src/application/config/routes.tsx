@@ -112,6 +112,9 @@ const AIGatewayGuardrailsPage = lazyRoute(
   () => import("../../presentation/pages/AIGateway/Guardrails"),
 );
 const AIGatewayLogsPage = lazyRoute(() => import("../../presentation/pages/AIGateway/Logs"));
+const AIGatewayAgentMonitorPage = lazyRoute(
+  () => import("../../presentation/pages/AIGateway/AgentMonitoring"),
+);
 const AIGatewayModelsPage = lazyRoute(() => import("../../presentation/pages/AIGateway/Models"));
 const AIGatewaySettingsPage = lazyRoute(
   () => import("../../presentation/pages/AIGateway/Settings"),
@@ -757,6 +760,14 @@ export const createRoutes = (
       element={
         <Suspense fallback={<LazyFallback />}>
           <AIGatewayLogsPage />
+        </Suspense>
+      }
+    />
+    <Route
+      path="/ai-gateway/agent-monitor"
+      element={
+        <Suspense fallback={<LazyFallback />}>
+          <AIGatewayAgentMonitorPage />
         </Suspense>
       }
     />

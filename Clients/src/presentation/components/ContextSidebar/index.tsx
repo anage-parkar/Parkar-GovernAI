@@ -172,6 +172,7 @@ export function ContextSidebar({
         if (p.includes("/ai-gateway/prompts")) return "prompts";
         if (p.includes("/ai-gateway/models")) return "models";
         if (p.includes("/ai-gateway/logs")) return "logs";
+        if (p.includes("/ai-gateway/agent-monitor")) return "agent-monitor";
         if (p.includes("/ai-gateway/virtual-keys")) return "virtual-keys";
         if (p.includes("/ai-gateway/settings")) return "settings";
         return "dashboard";
