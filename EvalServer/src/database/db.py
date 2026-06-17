@@ -8,7 +8,7 @@ from .config import settings
 
 engine = create_async_engine(
     settings.sqlalchemy_database_url,
-    connect_args={"server_settings": {"search_path": "verifywise"}},
+    connect_args=settings.connect_args,
 )
 
 from sqlalchemy.ext.asyncio import async_sessionmaker

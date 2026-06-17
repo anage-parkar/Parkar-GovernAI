@@ -10,6 +10,18 @@ module.exports = {
     dialect: "postgres",
     schema: "verifywise",
     migrationStorageTableSchema: "verifywise",
+    // TLS for managed PostgreSQL (Aiven). DB_SSL=true enables SSL for sequelize-cli
+    // migrations; REJECT_UNAUTHORIZED=false skips CA verification (no ca.pem needed).
+    ...(process.env.DB_SSL === "true"
+      ? {
+          dialectOptions: {
+            ssl: {
+              require: true,
+              rejectUnauthorized: process.env.REJECT_UNAUTHORIZED === "true",
+            },
+          },
+        }
+      : {}),
   },
   test: {
     username: process.env.DB_USER,

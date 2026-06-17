@@ -110,6 +110,19 @@ const sequelize = new Sequelize(conf.database!, conf.username!, conf.password, {
   dialect: conf.dialect! as Dialect,
   schema: "verifywise",
   logging: false,
+  // TLS for managed PostgreSQL (e.g. Aiven, which requires SSL). DB_SSL=true turns
+  // it on; REJECT_UNAUTHORIZED=false encrypts without verifying the CA (no ca.pem
+  // needed). Provide a CA + set REJECT_UNAUTHORIZED=true for strict verification.
+  ...(process.env.DB_SSL === "true"
+    ? {
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: process.env.REJECT_UNAUTHORIZED === "true",
+          },
+        },
+      }
+    : {}),
   define: {
     schema: "verifywise",
   },

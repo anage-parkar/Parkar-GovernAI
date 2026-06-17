@@ -9,8 +9,28 @@ services:
     build:
       context: ./Servers
       dockerfile: Dockerfile.dev
+    # Build locally and never re-pull the upstream image over our tag (it lacks the
+    # db.ts SSL changes and would break the Aiven connection).
+    pull_policy: build
     # volumes:
     #   - ./Servers/:/app
+    env_file:
+      - ./.env.dev
+
+  worker:
+    # Build from local source (same Dockerfile.dev as backend) so the worker gets
+    # our edited db.ts (SSL for Aiven). Without a build section, compose falls back
+    # to pull_policy:always and pulls the upstream image (no SSL) — which Aiven
+    # rejects with "no pg_hba.conf entry ... no encryption". pull_policy:build
+    # prevents that re-pull on a plain `up`.
+    build:
+      context: ./Servers
+      dockerfile: Dockerfile.dev
+    pull_policy: build
+    # The dev image compiles TS at runtime via `npm run watch`. The base compose
+    # runs `node dist/jobs/worker.js` directly, which fails because dist/ isn't
+    # precompiled. Build first, then run the worker.
+    command: ["sh", "-c", "npm run build && node dist/jobs/worker.js"]
     env_file:
       - ./.env.dev
 

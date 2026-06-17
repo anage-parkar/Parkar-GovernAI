@@ -29,8 +29,6 @@ services:
       retries: 5
   backend:
     depends_on:
-      postgresdb:
-        condition: service_healthy
       redis:
         condition: service_healthy
     image: ghcr.io/verifywise-ai/verifywise-backend:latest
@@ -39,11 +37,13 @@ services:
       - $BACKEND_PORT:$BACKEND_PORT
     environment:
       - PORT=$BACKEND_PORT
-      - DB_HOST=postgresdb
+      - DB_HOST=$DB_HOST
       - DB_USER=$DB_USER
       - DB_PORT=$DB_PORT
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=$DB_NAME
+      - DB_SSL=$DB_SSL
+      - REJECT_UNAUTHORIZED=$REJECT_UNAUTHORIZED
       - MOCK_DATA_ON=$MOCK_DATA_ON
       - JWT_SECRET=$JWT_SECRET
       - SMTP_HOST=smtp.gmail.com
@@ -62,19 +62,19 @@ services:
     pull_policy: always
   worker:
     depends_on:
-      postgresdb:
-        condition: service_healthy
       redis:
         condition: service_healthy
     image: ghcr.io/verifywise-ai/verifywise-backend:latest
     pull_policy: always
     command: ["node", "dist/jobs/worker.js"]
     environment:
-      - DB_HOST=postgresdb
+      - DB_HOST=$DB_HOST
       - DB_USER=$DB_USER
       - DB_PORT=$DB_PORT
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=$DB_NAME
+      - DB_SSL=$DB_SSL
+      - REJECT_UNAUTHORIZED=$REJECT_UNAUTHORIZED
       - JWT_SECRET=$JWT_SECRET
       - REDIS_URL=redis://redis:6379/0
       - ENCRYPTION_KEY=$ENCRYPTION_KEY
@@ -90,11 +90,12 @@ services:
     volumes:
       - eval_uploads:/app/data/uploads
     environment:
-      - DB_HOST=postgresdb
+      - DB_HOST=$DB_HOST
       - DB_USER=$DB_USER
       - DB_PORT=$DB_PORT
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=$DB_NAME
+      - DB_SSL=$DB_SSL
       - BACKEND_URL=http://backend:$BACKEND_PORT
       - REDIS_URL=redis://redis:6379/0
       - ENCRYPTION_KEY=$ENCRYPTION_KEY
@@ -102,19 +103,18 @@ services:
       - AI_GATEWAY_INTERNAL_KEY=$AI_GATEWAY_INTERNAL_KEY
   ai_gateway:
     depends_on:
-      postgresdb:
-        condition: service_healthy
       redis:
         condition: service_healthy
     image: ghcr.io/verifywise-ai/verifywise-ai-gateway:latest
     expose:
       - "8100"
     environment:
-      - DB_HOST=postgresdb
+      - DB_HOST=$DB_HOST
       - DB_PORT=$DB_PORT
       - DB_USER=$DB_USER
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=$DB_NAME
+      - DB_SSL=$DB_SSL
       - AI_GATEWAY_INTERNAL_KEY=$AI_GATEWAY_INTERNAL_KEY
       - AI_GATEWAY_PORT=8100
     restart: unless-stopped

@@ -88,6 +88,9 @@ async def run_async_migrations():
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
+        # SSL/search_path for managed PostgreSQL (Aiven) — asyncpg needs SSL via
+        # connect_args, not the URL. Same settings the runtime engine uses.
+        connect_args=settings.connect_args,
     )
 
     async with connectable.connect() as connection:

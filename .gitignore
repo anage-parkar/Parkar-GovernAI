@@ -152,3 +152,4 @@ nul
 *.zip
 .dfmt/
 **/inventory.ini
+_local_db_backup.sql
