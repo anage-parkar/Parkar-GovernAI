@@ -12,8 +12,10 @@ Then open http://localhost:8200
 Google Cloud Console: add http://localhost:8200 as an Authorized JavaScript origin.
 """
 
+import asyncio
 import json
 import os
+import time
 from pathlib import Path
 
 import google.auth.transport.requests
@@ -49,6 +51,12 @@ app = FastAPI(title="AIONIQ Agent Chat")
 # Per-user runner + session, keyed by verified email.
 _runners: dict[str, InMemoryRunner] = {}
 _sessions: dict[str, str] = {}
+# Per-user lock so concurrent first-requests don't build duplicate runners.
+_runner_locks: dict[str, asyncio.Lock] = {}
+# Verified-token cache: token -> (claims, expiry_epoch). A user's ID token is
+# valid ~1h, so we verify once and reuse it across their messages instead of
+# re-fetching Google's certs (a blocking network call) on every request.
+_token_cache: dict[str, tuple[dict, float]] = {}
 
 
 def _make_agent(user_email: str) -> Agent:
@@ -91,46 +99,66 @@ def _make_agent(user_email: str) -> Agent:
     )
 
 
-def _verify_token(request: Request) -> dict:
-    """Verify the Google ID token from the Authorization header."""
+def _verify_token_sync(token: str) -> dict:
+    """Blocking Google ID-token verification (fetches Google's signing certs)."""
+    return google.oauth2.id_token.verify_oauth2_token(
+        token,
+        google.auth.transport.requests.Request(),
+        GOOGLE_CLIENT_ID,
+        # Tolerate small clock drift (avoids "Token used too early/late").
+        clock_skew_in_seconds=60,
+    )
+
+
+async def _verify_token(request: Request) -> dict:
+    """Verify the Google ID token — cached per token, and the (rare) real
+    verification runs in a threadpool so it never blocks the event loop. This is
+    what lets many users run concurrently without queueing behind each other."""
     auth = request.headers.get("authorization", "")
     if not auth.startswith("Bearer "):
-        print("[auth] 401: no Bearer token on request")
         raise HTTPException(status_code=401, detail="Missing Google ID token")
     token = auth[7:].strip()
     if not GOOGLE_CLIENT_ID:
-        print("[auth] 401: GOOGLE_CLIENT_ID is empty in the server env")
         raise HTTPException(status_code=401, detail="Server missing GOOGLE_CLIENT_ID")
+
+    now = time.time()
+    cached = _token_cache.get(token)
+    if cached and cached[1] > now + 30:
+        return cached[0]
+
     try:
-        claims = google.oauth2.id_token.verify_oauth2_token(
-            token,
-            google.auth.transport.requests.Request(),
-            GOOGLE_CLIENT_ID,
-            # Tolerate small clock drift between this machine and Google
-            # (avoids "Token used too early/late" on a slightly-off clock).
-            clock_skew_in_seconds=60,
-        )
+        claims = await asyncio.to_thread(_verify_token_sync, token)
     except Exception as e:
-        # Print the real reason so it shows in the uvicorn console.
         print(f"[auth] 401: token verification failed -> {type(e).__name__}: {e}")
         raise HTTPException(status_code=401, detail=f"Invalid Google token: {e}")
+
     if not claims.get("email"):
-        print("[auth] 401: token has no email claim")
         raise HTTPException(status_code=401, detail="Google token has no email")
+
+    _token_cache[token] = (claims, float(claims.get("exp", now + 300)))
+    if len(_token_cache) > 512:  # opportunistic cleanup of expired entries
+        for k, (_, exp) in list(_token_cache.items()):
+            if exp <= now:
+                _token_cache.pop(k, None)
     print(f"[auth] OK: {claims.get('email')}")
     return claims
 
 
 async def _get_runner(email: str) -> tuple[InMemoryRunner, str]:
-    if email not in _runners:
-        _runners[email] = InMemoryRunner(agent=_make_agent(email), app_name=APP_NAME)
-    runner = _runners[email]
-    if email not in _sessions:
-        session = await runner.session_service.create_session(
-            app_name=APP_NAME, user_id=email
-        )
-        _sessions[email] = session.id
-    return runner, _sessions[email]
+    # Fast path — already built.
+    if email in _runners and email in _sessions:
+        return _runners[email], _sessions[email]
+    # Build under a per-user lock so concurrent first-requests don't race.
+    lock = _runner_locks.setdefault(email, asyncio.Lock())
+    async with lock:
+        if email not in _runners:
+            _runners[email] = InMemoryRunner(agent=_make_agent(email), app_name=APP_NAME)
+        if email not in _sessions:
+            session = await _runners[email].session_service.create_session(
+                app_name=APP_NAME, user_id=email
+            )
+            _sessions[email] = session.id
+    return _runners[email], _sessions[email]
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -141,7 +169,7 @@ async def index():
 
 @app.post("/api/chat")
 async def chat(request: Request):
-    claims = _verify_token(request)
+    claims = await _verify_token(request)
     email = claims["email"]
     body = await request.json()
     message = (body.get("message") or "").strip()
@@ -183,7 +211,7 @@ async def chat(request: Request):
 
 @app.post("/api/reset")
 async def reset(request: Request):
-    claims = _verify_token(request)
+    claims = await _verify_token(request)
     _sessions.pop(claims["email"], None)
     return {"status": "ok"}
 

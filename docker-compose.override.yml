@@ -73,7 +73,10 @@ services:
       - ./AIGateway/src:/app
     # The prebuilt image's entrypoint is ./start.sh, which the src mount hides.
     # Run alembic + uvicorn directly from the mounted source instead.
-    entrypoint: ["sh", "-c", "alembic upgrade head && uvicorn app:app --host 0.0.0.0 --port 8100 --reload"]
+    # NOTE: no --reload — the reloader wedges on long-lived SSE connections (the
+    # FlowTrace live stream), which takes the whole gateway down. Code edits now
+    # need a manual `docker compose restart ai_gateway` to take effect.
+    entrypoint: ["sh", "-c", "alembic upgrade head && uvicorn app:app --host 0.0.0.0 --port 8100"]
     ports:
       - "8100:8100"
     env_file:
