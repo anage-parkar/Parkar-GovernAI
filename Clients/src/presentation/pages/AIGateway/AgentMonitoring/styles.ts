@@ -158,4 +158,25 @@ export const FLOWTRACE_CSS = `
 
 @media (max-width:1080px){ .ft-root .ft-layout{grid-template-columns:1fr;height:auto} .ft-root .ft-rail,.ft-root .ft-panel{border:0;border-bottom:1px solid var(--border-soft)} }
 @media (prefers-reduced-motion: reduce){ .ft-root *{animation:none !important;transition:none !important} }
+
+/* Light theme — follows the OS/system color scheme. Default (above) is dark;
+   these overrides kick in on a light system so the page matches the rest of the
+   (light) app. Node/semantic colors are deepened slightly for contrast on white. */
+@media (prefers-color-scheme: light){
+  .ft-root{
+    --bg:#F6F8FC; --panel:#FFFFFF; --panel-2:#F1F4FA; --elevated:#FFFFFF;
+    --border:#D7DEEA; --border-soft:#E7EBF3;
+    --text:#1B2233; --dim:#475467; --faint:#8A93A6;
+    --agent:#7C3AED; --gateway:#4F46E5; --guardrail:#D97706; --llm:#0891B2;
+    --mcp:#0D9488; --tool:#16A34A; --block:#E11D48; --accent:#4F46E5;
+    background:radial-gradient(1100px 520px at 78% -10%,rgba(79,70,229,.07),transparent 60%),radial-gradient(900px 460px at 12% 110%,rgba(13,148,136,.06),transparent 60%),var(--bg);
+  }
+  .ft-root ::-webkit-scrollbar-thumb{background:#C7CEDC;border:2px solid var(--bg)}
+  .ft-root .log-row{border-bottom:1px solid rgba(0,0,0,.06)}
+  .ft-root .wf .track{background:rgba(0,0,0,.06)}
+  .ft-root .insight p{color:#3a4256}
+  .ft-root .anomaly span{color:#8a6420}
+  .ft-root .ft-badge.running{color:#3949AB}
+  .ft-root .log-row .t{color:#8a93a6}
+}
 `;
