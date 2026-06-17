@@ -89,16 +89,29 @@ def _verify_token(request: Request) -> dict:
     """Verify the Google ID token from the Authorization header."""
     auth = request.headers.get("authorization", "")
     if not auth.startswith("Bearer "):
+        print("[auth] 401: no Bearer token on request")
         raise HTTPException(status_code=401, detail="Missing Google ID token")
     token = auth[7:].strip()
+    if not GOOGLE_CLIENT_ID:
+        print("[auth] 401: GOOGLE_CLIENT_ID is empty in the server env")
+        raise HTTPException(status_code=401, detail="Server missing GOOGLE_CLIENT_ID")
     try:
         claims = google.oauth2.id_token.verify_oauth2_token(
-            token, google.auth.transport.requests.Request(), GOOGLE_CLIENT_ID
+            token,
+            google.auth.transport.requests.Request(),
+            GOOGLE_CLIENT_ID,
+            # Tolerate small clock drift between this machine and Google
+            # (avoids "Token used too early/late" on a slightly-off clock).
+            clock_skew_in_seconds=60,
         )
     except Exception as e:
+        # Print the real reason so it shows in the uvicorn console.
+        print(f"[auth] 401: token verification failed -> {type(e).__name__}: {e}")
         raise HTTPException(status_code=401, detail=f"Invalid Google token: {e}")
     if not claims.get("email"):
+        print("[auth] 401: token has no email claim")
         raise HTTPException(status_code=401, detail="Google token has no email")
+    print(f"[auth] OK: {claims.get('email')}")
     return claims
 
 
