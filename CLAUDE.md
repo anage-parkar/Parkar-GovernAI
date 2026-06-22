@@ -1,6 +1,6 @@
 # VerifyWise - Development Guide
 
-> **Last Updated:** 2026-06-17
+> **Last Updated:** 2026-06-22
 
 This document contains cross-cutting rules for the VerifyWise codebase. Directory-scoped guides load automatically when working in each area:
 
@@ -189,6 +189,7 @@ Read the relevant file BEFORE implementing changes in that area:
 | Dashboard | `docs/technical/domains/dashboard.md` |
 | Post-market monitoring | `docs/technical/domains/post-market-monitoring.md` |
 | Agent monitoring / FlowTrace (live agent graph + request tracing) | `docs/technical/domains/flowtrace.md` |
+| Wiring an external app (Vector) via Microsoft SSO to view GovernAI data | `docs/technical/integrations/vector-app-integration.md` |
 | FRIA (Fundamental Rights Impact Assessment) | `docs/technical/domains/fria.md` |
 | Compliance frameworks | `docs/technical/domains/compliance-frameworks.md` |
 | Docker & deployment | `docs/deployment/PRODUCTION_DEPLOYMENT_GUIDE.md` |
