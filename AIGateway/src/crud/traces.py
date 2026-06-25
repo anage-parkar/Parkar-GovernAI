@@ -252,3 +252,55 @@ async def delete_expired_trace_spans(retention_days: int = 7) -> int:
         )
         await db.commit()
         return result.rowcount or 0
+
+
+# ─── Response Analysis quality rollups ────────────────────────────────────────
+
+async def _quality_rows(org_id: int, agent_key: Optional[str], period_days: int) -> list:
+    where = "organization_id = :org AND created_at > NOW() - make_interval(days => :days)"
+    params = {"org": org_id, "days": period_days}
+    if agent_key:
+        where += " AND agent_key = :ak"
+        params["ak"] = agent_key
+    async with get_db() as db:
+        result = await db.execute(
+            sql_text(
+                f"""
+                SELECT metric,
+                       AVG(score)                                  AS avg_score,
+                       COUNT(*)                                    AS scored,
+                       SUM(CASE WHEN verdict = 'fail' THEN 1 ELSE 0 END) AS failed
+                FROM ai_gateway_response_scores
+                WHERE {where}
+                GROUP BY metric
+                """
+            ),
+            params,
+        )
+        return result.mappings().fetchall()
+
+
+def _shape_quality(rows: list) -> dict:
+    metrics = {
+        r["metric"]: {
+            "avg": round(float(r["avg_score"]), 4) if r["avg_score"] is not None else None,
+            "scored": int(r["scored"] or 0),
+            "failed": int(r["failed"] or 0),
+        }
+        for r in rows
+    }
+    total = max((m["scored"] for m in metrics.values()), default=0)
+    return {"metrics": metrics, "scored": total}
+
+
+async def get_agent_quality(org_id: int, agent_key: str, period_days: int = 7) -> dict:
+    """Per-metric quality rollup (accuracy/faithfulness/hallucination/bias) for one
+    agent over the window. Reads ai_gateway_response_scores (async-scored)."""
+    rows = await _quality_rows(org_id, agent_key, period_days)
+    return {"agent_key": agent_key, "period_days": period_days, **_shape_quality(rows)}
+
+
+async def get_quality_summary(org_id: int, period_days: int = 7) -> dict:
+    """Org-wide quality rollup across all agents over the window."""
+    rows = await _quality_rows(org_id, None, period_days)
+    return {"period_days": period_days, **_shape_quality(rows)}

@@ -50,6 +50,15 @@ app = FastAPI(
     redirect_slashes=False,
 )
 
+
+@app.on_event("startup")
+async def _start_response_analysis_worker():
+    """Drain & score captured responses off the hot path. No-op unless
+    settings.response_analysis_enabled."""
+    import asyncio
+    from services.response_analysis_service import run_worker
+    asyncio.create_task(run_worker())
+
 # CORS: allow Express backend + any employee SDK origin
 origins = [
     os.environ.get("BACKEND_URL", "http://localhost:3000"),

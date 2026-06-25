@@ -32,6 +32,7 @@ from services.trace_service import (
     set_parent,
     current as current_trace,
 )
+from services.response_analysis_service import capture_response
 
 from services.proxy_service import (
     authenticate_virtual_key,
@@ -345,6 +346,20 @@ async def _handle_completion(
             path=["agent", "gateway", "guardrail", "llm"],
         )
 
+        # Response Analysis: sampled, opt-in capture for out-of-band quality
+        # scoring. Fire-and-forget — never blocks the response.
+        capture_response(
+            org_id=org_id,
+            trace_id=(_tc or {}).get("trace_id"),
+            agent_key=(_tc or {}).get("agent_key"),
+            requester=(_tc or {}).get("requester"),
+            model=result.get("model", endpoint["model"]),
+            prompt_messages=messages,
+            response_text=(choices[0].get("message") or {}).get("content"),
+            total_tokens=usage.get("total_tokens", 0),
+            cost_usd=cost,
+        )
+
         # Store in cache if caching enabled
         if _prompt_hash:
             await store_in_cache(
@@ -473,6 +488,19 @@ async def _handle_stream(
                         "cost_usd": round(float(total_cost or 0), 6)},
                 path=["agent", "gateway", "guardrail", "llm"],
                 trace=_trace_ctx,
+            )
+
+            # Response Analysis: capture the assembled streamed response (off path).
+            capture_response(
+                org_id=org_id,
+                trace_id=(_trace_ctx or {}).get("trace_id"),
+                agent_key=(_trace_ctx or {}).get("agent_key"),
+                requester=(_trace_ctx or {}).get("requester"),
+                model=final_model,
+                prompt_messages=messages,
+                response_text="".join(response_parts) or None,
+                total_tokens=total_prompt + total_completion,
+                cost_usd=total_cost,
             )
 
     # Capture the trace context now — the generator runs as a separate task where

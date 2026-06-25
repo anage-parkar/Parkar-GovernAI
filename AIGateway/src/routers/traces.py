@@ -20,6 +20,8 @@ from crud.traces import (
     get_recent_traces,
     get_trace,
     delete_expired_trace_spans,
+    get_agent_quality,
+    get_quality_summary,
 )
 from config import settings
 from utils.auth import get_org_id, require_admin
@@ -40,6 +42,22 @@ async def list_agents(request: Request):
 async def agent_graph(request: Request, agent_key: str):
     org_id = get_org_id(request)
     return await get_agent_graph(org_id, agent_key)
+
+
+@router.get("/agents/{agent_key}/quality", summary="Agent quality metrics rollup")
+async def agent_quality(request: Request, agent_key: str, period: int = 7):
+    """Accuracy / faithfulness / hallucination / bias rollup for one agent (async
+    Response Analysis). Empty until the response-analysis worker has scored traffic."""
+    org_id = get_org_id(request)
+    period = max(1, min(period, 90))
+    return await get_agent_quality(org_id, agent_key, period)
+
+
+@router.get("/quality", summary="Org-wide agent quality summary")
+async def quality_summary(request: Request, period: int = 7):
+    org_id = get_org_id(request)
+    period = max(1, min(period, 90))
+    return await get_quality_summary(org_id, period)
 
 
 @router.get("/traces/stream", summary="Live span / trace.completed SSE stream")

@@ -95,6 +95,9 @@ export default function AgentMonitoring() {
   const [reqUser, setReqUser] = useState<string | null>(null);
   // Anomaly callout is populated by the Phase 4 insight layer; null for now.
   const [anomaly] = useState<string | null>(null);
+  const [quality, setQuality] = useState<
+    Record<string, { avg: number | null; scored: number; failed: number }>
+  >({});
 
   const graphRef = useRef<FlowGraphHandle>(null);
   const curTrace = useRef<string | null>(null);
@@ -124,6 +127,25 @@ export default function AgentMonitoring() {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Response Analysis quality rollup for the selected agent (independent of the
+  // graph load so a missing/empty scores table never breaks the topology view).
+  useEffect(() => {
+    if (!selected) {
+      setQuality({});
+      return;
+    }
+    (async () => {
+      try {
+        const q = await apiServices.get<any>(
+          `/ai-gateway/flowtrace/agents/${encodeURIComponent(selected)}/quality?period=7`,
+        );
+        setQuality(q?.data?.metrics || {});
+      } catch {
+        setQuality({});
+      }
+    })();
+  }, [selected]);
 
   // Load topology + recent traces for the selected agent.
   useEffect(() => {
@@ -362,6 +384,34 @@ export default function AgentMonitoring() {
                 <div className="tot"><div className="tn">{totals ? totals.tokens.toLocaleString() : "—"}</div><div className="tl">tokens</div></div>
                 <div className="tot"><div className="tn">{totals ? `$${totals.cost_usd.toFixed(3)}` : "—"}</div><div className="tl">cost</div></div>
               </div>
+            </div>
+
+            <div>
+              <div className="section-l" style={{ marginBottom: 9 }}>
+                Agent quality <span className="qhint">7d avg</span>
+              </div>
+              <div className="quality">
+                {[
+                  { k: "accuracy", label: "accuracy", lowerBetter: false },
+                  { k: "faithfulness", label: "faithful", lowerBetter: false },
+                  { k: "hallucination", label: "hallucin.", lowerBetter: true },
+                  { k: "bias", label: "bias", lowerBetter: true },
+                ].map((m) => {
+                  const q = quality[m.k];
+                  const avg = q && q.avg != null ? q.avg : null;
+                  const pct = avg != null ? Math.round(avg * 100) : null;
+                  const good = avg == null ? null : m.lowerBetter ? avg <= 0.3 : avg >= 0.7;
+                  return (
+                    <div key={m.k} className={`qcard ${good == null ? "" : good ? "ok" : "bad"}`}>
+                      <div className="qv">{pct != null ? `${pct}%` : "—"}</div>
+                      <div className="ql">{m.label}</div>
+                    </div>
+                  );
+                })}
+              </div>
+              {!Object.keys(quality).length && (
+                <div className="qempty">No scored responses yet — enable Response Analysis to populate.</div>
+              )}
             </div>
           </aside>
         </div>

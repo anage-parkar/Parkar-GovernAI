@@ -1,9 +1,32 @@
 # Response Analysis Pipeline — Agent Quality Metrics
 
-> **Status:** Design / future work — NOT yet implemented.
-> **Last Updated:** 2026-06-24
+> **Status:** Implemented (Phases 1–4), OFF by default. EvalServer scorer wiring is
+> the remaining operator config; the gateway LLM-judge is the working default scorer.
+> **Last Updated:** 2026-06-25
 > **Audience:** Engineers building out-of-band quality analysis for agent responses
 > (Accuracy, Hallucination, Faithfulness, Bias) surfaced per-agent in FlowTrace.
+
+## Implementation status
+
+| Piece | State | Where |
+|---|---|---|
+| Config flags (`response_analysis_*`, off by default) | ✅ | `AIGateway/src/config.py` |
+| Tables `ai_gateway_response_captures` + `ai_gateway_response_scores` | ✅ | migration `a0007_create_response_analysis.py` |
+| Sampled, fire-and-forget capture (non-stream + stream) | ✅ | `routers/proxy.py` → `capture_response()` |
+| Capture + scoring + in-process worker | ✅ | `services/response_analysis_service.py` |
+| LLM-judge scorer (default) | ✅ | `_score_via_judge` (self-call via judge VK) |
+| EvalServer scorer (preferred) | ⚙️ stub — operator wires scorers | `_score_via_evalserver` |
+| Quality endpoints (`/flowtrace/agents/{k}/quality`, `/flowtrace/quality`) | ✅ | `routers/traces.py`, `crud/traces.py` |
+| FlowTrace UI quality cards (Accuracy/Faithful/Hallucination/Bias) | ✅ | `Clients/.../AgentMonitoring/index.tsx` |
+
+**To turn it on:** set `RESPONSE_ANALYSIS_ENABLED=true`, run the `a0007` migration, and
+set `RESPONSE_ANALYSIS_JUDGE_ENDPOINT` + `RESPONSE_ANALYSIS_JUDGE_VK` (a cheap endpoint
+slug + a virtual key the gateway uses to call itself). Optionally set
+`RESPONSE_ANALYSIS_EVALSERVER_URL` + configure EvalServer scorers to use EvalServer
+instead of the judge. The worker starts automatically (in-process background task);
+it can be split into its own process later. Capture is sampled
+(`RESPONSE_ANALYSIS_SAMPLE_RATE`, default 0.25) and stores only post-guardrail
+(PII-masked) prompt text.
 
 ---
 

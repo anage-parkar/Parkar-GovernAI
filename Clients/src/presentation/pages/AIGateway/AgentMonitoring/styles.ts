@@ -152,6 +152,16 @@ export const FLOWTRACE_CSS = `
 .ft-root .tot{border:1px solid var(--border-soft);border-radius:11px;padding:10px 9px;background:var(--panel)}
 .ft-root .tot .tn{font-family:var(--mono);font-size:14px;color:var(--text)}
 .ft-root .tot .tl{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin-top:5px}
+.ft-root .qhint{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--faint);text-transform:none;margin-left:6px}
+.ft-root .quality{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.ft-root .qcard{border:1px solid var(--border-soft);border-radius:11px;padding:10px 11px;background:var(--panel)}
+.ft-root .qcard.ok{border-color:color-mix(in srgb,var(--tool) 45%,var(--border-soft))}
+.ft-root .qcard.bad{border-color:color-mix(in srgb,var(--block) 55%,var(--border-soft))}
+.ft-root .qcard .qv{font-family:var(--mono);font-size:16px;color:var(--text)}
+.ft-root .qcard.ok .qv{color:var(--tool)}
+.ft-root .qcard.bad .qv{color:var(--block)}
+.ft-root .qcard .ql{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin-top:5px}
+.ft-root .qempty{font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:9px;line-height:1.5}
 
 .ft-root ::-webkit-scrollbar{width:9px;height:9px}
 .ft-root ::-webkit-scrollbar-thumb{background:#222a42;border-radius:6px;border:2px solid var(--bg)}
