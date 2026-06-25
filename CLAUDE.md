@@ -1,6 +1,6 @@
 # VerifyWise - Development Guide
 
-> **Last Updated:** 2026-06-22
+> **Last Updated:** 2026-06-24
 
 This document contains cross-cutting rules for the VerifyWise codebase. Directory-scoped guides load automatically when working in each area:
 
@@ -189,6 +189,8 @@ Read the relevant file BEFORE implementing changes in that area:
 | Dashboard | `docs/technical/domains/dashboard.md` |
 | Post-market monitoring | `docs/technical/domains/post-market-monitoring.md` |
 | Agent monitoring / FlowTrace (live agent graph + request tracing) | `docs/technical/domains/flowtrace.md` |
+| Response analysis pipeline (async agent quality metrics: accuracy, hallucination, bias) | `docs/technical/domains/response-analysis.md` |
+| Onboarding an agent (CrewAI, LangChain, AutoGen, ADK, OpenAI Agents SDK…) to the gateway | `docs/technical/integrations/agent-onboarding.md` |
 | Wiring an external app (Vector) via Microsoft SSO to view GovernAI data | `docs/technical/integrations/vector-app-integration.md` |
 | FRIA (Fundamental Rights Impact Assessment) | `docs/technical/domains/fria.md` |
 | Compliance frameworks | `docs/technical/domains/compliance-frameworks.md` |
