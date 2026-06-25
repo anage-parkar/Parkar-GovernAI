@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     # the URL, so SSL must be passed via connect_args (see connect_args below).
     db_ssl: str = "false"
     reject_unauthorized: str = "false"
+    # Path to the CA cert (Aiven's ca.pem). When set, the server cert is verified
+    # strictly against it — the production-correct setting.
+    db_ca_cert: str = ""
 
     @property
     def sqlalchemy_database_url(self):
@@ -27,14 +30,20 @@ class Settings(BaseSettings):
     @property
     def connect_args(self) -> dict:
         """asyncpg connect args: pin the search_path and, when DB_SSL=true, attach
-        an SSL context. With REJECT_UNAUTHORIZED=false the connection is encrypted
-        but the server cert is not verified (no ca.pem needed)."""
+        an SSL context. DB_CA_CERT enables strict verification against that CA
+        (production). Without a CA cert, REJECT_UNAUTHORIZED=false encrypts without
+        verifying the server cert (dev only)."""
         args: dict = {"server_settings": {"search_path": "verifywise"}}
         if str(self.db_ssl).lower() == "true":
-            ctx = ssl_module.create_default_context()
-            if str(self.reject_unauthorized).lower() != "true":
-                ctx.check_hostname = False
-                ctx.verify_mode = ssl_module.CERT_NONE
+            if self.db_ca_cert:
+                # Verify the server cert against the provided CA (check_hostname
+                # stays on — strict verify-full).
+                ctx = ssl_module.create_default_context(cafile=self.db_ca_cert)
+            else:
+                ctx = ssl_module.create_default_context()
+                if str(self.reject_unauthorized).lower() != "true":
+                    ctx.check_hostname = False
+                    ctx.verify_mode = ssl_module.CERT_NONE
             args["ssl"] = ctx
         return args
 

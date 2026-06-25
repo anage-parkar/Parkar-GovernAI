@@ -64,7 +64,9 @@ FRONTEND_URL=https://app.example.com
 | `DB_NAME` | Database name | `verifywise` | Yes |
 | `DB_USER` | Database username | - | Yes |
 | `DB_PASSWORD` | Database password | - | Yes |
-| `DB_SSL` | Enable SSL connection | `false` | No |
+| `DB_SSL` | Enable an encrypted (TLS) connection — required for managed PostgreSQL (e.g. Aiven) | `false` | No |
+| `DB_CA_CERT` | Path to the CA cert (Aiven's `ca.pem`). When set, the server cert is **verified strictly** against it (production-correct). | - | Prod (managed DB) |
+| `REJECT_UNAUTHORIZED` | Fallback verification toggle used **only when `DB_CA_CERT` is unset**. `false` encrypts without verifying the server cert (dev only). | `false` | No |
 | `LOCAL_DB_PORT` | Host port for Docker mapping | `5433` | No |
 
 ```bash
@@ -74,7 +76,16 @@ DB_NAME=verifywise
 DB_USER=verifywise_app
 DB_PASSWORD=secure_password_here
 DB_SSL=true
+# Production: verify the managed-DB server cert against the provider CA.
+# Download Aiven's ca.pem, mount it into each container, and point here:
+DB_CA_CERT=/certs/aiven-ca.pem
 ```
+
+> **TLS verification precedence:** when `DB_SSL=true`, if `DB_CA_CERT` is set the connection
+> verifies the server certificate against that CA (strict — the production setting). If it is
+> **not** set, the connection falls back to `REJECT_UNAUTHORIZED` (encrypt-without-verify when
+> `false`) — acceptable for dev only. Applies to the backend, worker, EvalServer, and AI Gateway.
+> Mount the cert into each container (e.g. a read-only bind/volume to `/certs/aiven-ca.pem`).
 
 ### Redis
 

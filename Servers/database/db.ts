@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import fs from "fs";
 import { Sequelize } from "sequelize-typescript";
 import { RoleModel } from "../domain.layer/models/role/role.model";
 import { AssessmentModel } from "../domain.layer/models/assessment/assessment.model";
@@ -104,22 +105,38 @@ dotenv.config();
 
 const conf = dbConfig.development;
 
+// TLS for managed PostgreSQL (e.g. Aiven, which requires SSL).
+//   DB_SSL=true            → encrypt the connection.
+//   DB_CA_CERT=<path>      → STRICT verification against that CA (Aiven's ca.pem).
+//                            This is the production-correct setting.
+//   (no CA cert)           → fall back to REJECT_UNAUTHORIZED: encrypt-without-verify
+//                            for dev. Set REJECT_UNAUTHORIZED=true only with a CA.
+function buildDbSslOptions(): false | Record<string, unknown> {
+  if (process.env.DB_SSL !== "true") return false;
+  const caPath = process.env.DB_CA_CERT;
+  if (caPath) {
+    return {
+      require: true,
+      rejectUnauthorized: true,
+      ca: fs.readFileSync(caPath, "utf8"),
+    };
+  }
+  return {
+    require: true,
+    rejectUnauthorized: process.env.REJECT_UNAUTHORIZED === "true",
+  };
+}
+
 const sequelize = new Sequelize(conf.database!, conf.username!, conf.password, {
   host: conf.host!,
   port: Number(conf.port!),
   dialect: conf.dialect! as Dialect,
   schema: "verifywise",
   logging: false,
-  // TLS for managed PostgreSQL (e.g. Aiven, which requires SSL). DB_SSL=true turns
-  // it on; REJECT_UNAUTHORIZED=false encrypts without verifying the CA (no ca.pem
-  // needed). Provide a CA + set REJECT_UNAUTHORIZED=true for strict verification.
   ...(process.env.DB_SSL === "true"
     ? {
         dialectOptions: {
-          ssl: {
-            require: true,
-            rejectUnauthorized: process.env.REJECT_UNAUTHORIZED === "true",
-          },
+          ssl: buildDbSslOptions(),
         },
       }
     : {}),

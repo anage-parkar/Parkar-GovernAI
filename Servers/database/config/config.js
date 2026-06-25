@@ -1,4 +1,24 @@
 require("dotenv").config();
+const fs = require("fs");
+
+// TLS options for managed PostgreSQL (Aiven) used by sequelize-cli migrations.
+//   DB_SSL=true        → encrypt.
+//   DB_CA_CERT=<path>  → STRICT verification against that CA (production-correct).
+//   (no CA cert)       → fall back to REJECT_UNAUTHORIZED (encrypt-without-verify, dev).
+function dbSslOptions() {
+  if (process.env.DB_SSL !== "true") return false;
+  if (process.env.DB_CA_CERT) {
+    return {
+      require: true,
+      rejectUnauthorized: true,
+      ca: fs.readFileSync(process.env.DB_CA_CERT, "utf8"),
+    };
+  }
+  return {
+    require: true,
+    rejectUnauthorized: process.env.REJECT_UNAUTHORIZED === "true",
+  };
+}
 
 module.exports = {
   development: {
@@ -10,17 +30,8 @@ module.exports = {
     dialect: "postgres",
     schema: "verifywise",
     migrationStorageTableSchema: "verifywise",
-    // TLS for managed PostgreSQL (Aiven). DB_SSL=true enables SSL for sequelize-cli
-    // migrations; REJECT_UNAUTHORIZED=false skips CA verification (no ca.pem needed).
     ...(process.env.DB_SSL === "true"
-      ? {
-          dialectOptions: {
-            ssl: {
-              require: true,
-              rejectUnauthorized: process.env.REJECT_UNAUTHORIZED === "true",
-            },
-          },
-        }
+      ? { dialectOptions: { ssl: dbSslOptions() } }
       : {}),
   },
   test: {
@@ -43,18 +54,7 @@ module.exports = {
     schema: "verifywise",
     migrationStorageTableSchema: "verifywise",
     ...(process.env.DB_SSL === "true"
-      ? {
-          dialectOptions: {
-            ssl: {
-              require: true,
-              rejectUnauthorized: process.env.REJECT_UNAUTHORIZED === "true",
-            },
-          },
-        }
-      : {
-          dialectOptions: {
-            ssl: false,
-          },
-        }),
+      ? { dialectOptions: { ssl: dbSslOptions() } }
+      : { dialectOptions: { ssl: false } }),
   },
 };

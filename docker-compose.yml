@@ -44,6 +44,7 @@ services:
       - DB_NAME=$DB_NAME
       - DB_SSL=$DB_SSL
       - REJECT_UNAUTHORIZED=$REJECT_UNAUTHORIZED
+      - DB_CA_CERT=$DB_CA_CERT
       - MOCK_DATA_ON=$MOCK_DATA_ON
       - JWT_SECRET=$JWT_SECRET
       - SMTP_HOST=smtp.gmail.com
@@ -75,6 +76,7 @@ services:
       - DB_NAME=$DB_NAME
       - DB_SSL=$DB_SSL
       - REJECT_UNAUTHORIZED=$REJECT_UNAUTHORIZED
+      - DB_CA_CERT=$DB_CA_CERT
       - JWT_SECRET=$JWT_SECRET
       - REDIS_URL=redis://redis:6379/0
       - ENCRYPTION_KEY=$ENCRYPTION_KEY
@@ -96,6 +98,8 @@ services:
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=$DB_NAME
       - DB_SSL=$DB_SSL
+      - REJECT_UNAUTHORIZED=$REJECT_UNAUTHORIZED
+      - DB_CA_CERT=$DB_CA_CERT
       - BACKEND_URL=http://backend:$BACKEND_PORT
       - REDIS_URL=redis://redis:6379/0
       - ENCRYPTION_KEY=$ENCRYPTION_KEY
@@ -115,6 +119,8 @@ services:
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=$DB_NAME
       - DB_SSL=$DB_SSL
+      - REJECT_UNAUTHORIZED=$REJECT_UNAUTHORIZED
+      - DB_CA_CERT=$DB_CA_CERT
       - AI_GATEWAY_INTERNAL_KEY=$AI_GATEWAY_INTERNAL_KEY
       - AI_GATEWAY_PORT=8100
     restart: unless-stopped
